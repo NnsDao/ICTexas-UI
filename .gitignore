@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.idea
+.*.lock
+.*.log
+.dfx
+package-lock.json

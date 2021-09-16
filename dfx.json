@@ -1,0 +1,48 @@
+{
+  "canisters": {
+    "texas_token_event_logger": {
+      "main": "src/Texas/Logger/TokenEventLogger.mo",
+      "type": "motoko"
+    },
+    "texas_token": {
+      "main": "src/Texas/Token/Token.mo",
+      "type": "motoko"
+    },
+    "texas_event_logger": {
+      "main": "src/Texas/Logger/TexasGameEventLogger.mo",
+      "type": "motoko"
+    },
+    "texas": {
+      "main": "src/Texas/Texas.mo",
+      "type": "motoko"
+    },
+    "texas_assets": {
+      "dependencies": [
+        "texas",
+        "texas_token",
+        "texas_token_event_logger"
+      ],
+      "frontend": {
+        "entrypoint": "src/Texas_assets/src/index.html"
+      },
+      "source": [
+        "src/Texas_assets/assets",
+        "dist/texas_assets/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": ""
+    }
+  },
+  "dfx": "0.8.0",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  },
+  "version": 1
+}
