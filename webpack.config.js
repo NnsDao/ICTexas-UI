@@ -22,7 +22,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
 
     return {
       ...acc,
-      ["dfx-generated/" + name]: path.join(outputRoot, name + ".js"),
+      ["dfx-generated/" + name]: path.join(outputRoot,   "index.js"),
     };
   },
   {}
@@ -47,6 +47,11 @@ function generateWebpackConfigForCanister(name, info) {
     optimization: {
       minimize: true,
       minimizer: [new TerserPlugin()],
+    },
+    devServer: {
+      contentBase: path.join(__dirname, 'dist'),
+      compress: true,
+      port: 9000
     },
     resolve: {
       alias: aliases,
