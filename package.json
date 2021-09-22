@@ -1,8 +1,15 @@
 {
   "name": "texas_assets",
   "version": "0.1.0",
-  "description": "",
-  "keywords": [],
+  "description": "Texas is completely built on IC and controls all settlements through Motoko Actor smart contract, all codes, contracts, and algorithms are publicly visible, it features decentralization and opens up a new game of life.",
+  "keywords": [
+    "vue3",
+    "internet computer protocol",
+    "icp",
+    "nnsdao",
+    "dfinity",
+    "daos"
+  ],
   "scripts": {
     "build": "webpack",
     "serve": "webpack serve"
