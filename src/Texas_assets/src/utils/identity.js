@@ -1,5 +1,8 @@
 import { AuthClient } from "@dfinity/auth-client";
 import { HttpAgent } from '@dfinity/agent';
+import { getHttpAgent as getStoicAgent, 
+        isAgentExpiration as isStoicAgentExpiration,
+        tokenLogout as stoicLogout } from './StoicIdentity'
 
 // let identityProvider = "http://rwlgt-iiaaa-aaaaa-aaaaa-cai.localhost:8000/";
 let identityProvider = null;
@@ -7,7 +10,11 @@ let localhostProvider = !!identityProvider;
 let authClient;
 let inInitAuthClient = false;
 let agent = null;
-    
+
+function isStonic() {
+    return window.localStorage.getItem('identity') === "stoic"
+}
+
 async function getAuthClient() {
     while (inInitAuthClient) {
         await new Promise(resolve => {
@@ -31,6 +38,11 @@ async function getAuthClient() {
 
 async function isAgentExpiration() {
     return new Promise(async (resolve, reject) => {
+        if (isStonic()) {
+            resolve(await isStoicAgentExpiration())
+            return
+        }
+
         await getAuthClient()
         const identity = authClient.getIdentity()
         if (authClient.isAuthenticated() && identity.getDelegation) {
@@ -38,7 +50,9 @@ async function isAgentExpiration() {
                                     .map(d => d.delegation.expiration)
                                     .reduce((current, next) => next < current ? next : current);
             const expirationDuration  = nextExpiration - BigInt(Date.now()) * BigInt(1000_000);
-            resolve(expirationDuration < 0)
+
+            // 120 second
+            resolve(expirationDuration < BigInt(120000000000))
         }
 
         resolve(true)
@@ -47,8 +61,12 @@ async function isAgentExpiration() {
 
 async function getHttpAgent() {
     return new Promise(async (resolve, reject) => {
+        if (isStonic()) {
+            resolve(await getStoicAgent())
+            return
+        }
+
         await getAuthClient()
-        
         const isExpiration = await isAgentExpiration()
         if (!isExpiration) {
             if (agent) {
@@ -62,6 +80,7 @@ async function getHttpAgent() {
             resolve(agent)
             return
         }
+
         if (authClient) {
             authClient.login({
                 identityProvider,
@@ -85,6 +104,11 @@ async function getHttpAgent() {
 }
 
 async function tokenLogout() {
+    if (isStonic()) {
+        stoicLogout()
+        return
+    }
+
     authClient.logout()
 } 
 

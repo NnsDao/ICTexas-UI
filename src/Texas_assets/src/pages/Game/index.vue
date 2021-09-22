@@ -85,7 +85,9 @@
     </div>
 
     <div class="time-left">
-      <div style="color: lightgreen" v-if="gameInfo.tableNo !== -1">TABLE {{ gameInfo.tableNo }}</div>
+      <div style="color: lightgreen" v-if="gameInfo.tableNo !== -1">
+        TABLE {{ parseInt(gameInfo.tableNo) + 1 }}
+      </div>
       <div
         :class="{ warn: timeLeft < 10 }"
         v-if="tableStatus !== 'waitinguser' && timeLeft !== 0"
@@ -101,9 +103,7 @@
       </a-button>
 
       <a-avatar size="large" class="user-btn" @click.stop="showMyaccount()">
-        <template #icon
-          ><img src="../../assets/avatars/avatar_5.png"
-        /></template>
+        <template #icon><img :src="userInfo.avatorUrl" /></template>
       </a-avatar>
     </div>
 
@@ -130,10 +130,12 @@ import Operation from "./operation.vue";
 import store from "../../store";
 import Reward from "./reword.vue";
 import GameInfo from "../../utils/game";
+import TokenInfo from "../../utils/token";
 import router from "../../router";
 import { message } from "ant-design-vue";
 import { HistoryOutlined } from "@ant-design/icons-vue";
 import MyAccount from "../MyAccount/index.vue";
+import { isAgentExpiration } from '../../utils/identity'
 
 export default defineComponent({
   components: {
@@ -170,6 +172,14 @@ export default defineComponent({
 
     const readyLoading = ref(false);
     const userReady = async () => {
+      if (await !isAgentExpiration()) {
+        message.info("Login has expired！");
+        TokenInfo.Instance.logout();
+        GameInfo.Instance.logout();
+        router.push("/");
+        return;
+      }
+
       readyLoading.value = true;
       await GameInfo.Instance.userReadyPlay();
       readyLoading.value = false;
@@ -222,6 +232,11 @@ export default defineComponent({
       timeLeft,
     };
   },
+  data() {
+    return {
+      countDownInterval: null,
+    };
+  },
   watch: {
     tableStatus(to, from) {
       if (from == "waitinguser" && to == "ingame") {
@@ -231,6 +246,7 @@ export default defineComponent({
       }
 
       if (from == "ingame" && to == "waitinguser") {
+        clearInterval(this.countDownInterval);
         store.dispatch("game/setGameEnd");
         store.dispatch("game/setLastGameReward").then(() => {
           this.isShowReward = true;
@@ -250,7 +266,7 @@ export default defineComponent({
   },
   methods: {
     createInterval() {
-      const interval = setInterval(() => {
+      this.countDownInterval = setInterval(() => {
         if (!this.gameInfo.currentActionBefore) {
           return;
         }
@@ -258,8 +274,6 @@ export default defineComponent({
         let left = Math.floor(
           (this.gameInfo.currentActionBefore - new Date().getTime()) / 1000
         );
-
-        if (left < -5) clearInterval(interval);
 
         if (left < 0) {
           GameInfo.Instance.userHeartBeat();

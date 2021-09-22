@@ -110,17 +110,21 @@ const actions = {
 
     async setUserBalance({ state }) {
         if (state.tableStatus === 'waitinguser') {
-            state.waitingUser.forEach(async (userItem, index) => {
+            for (let index = 0; index < state.waitingUser.length; index++) {
+                const userItem = state.waitingUser[index]
                 const balance = await TokenInfo.Instance.getBalance(userItem.account)
-                state.waitingUser[index].balance = balance
-                // commit('setWaitUserBalance', index, balance)
-            })
+                if (state.waitingUser[index] && state.waitingUser[index].account === userItem.account) {
+                    state.waitingUser[index].balance = balance
+                }
+            }
         } else {
-            state.userList.forEach(async (userItem, index) => {
+            for (let index = 0; index < state.userList.length; index++) {
+                const userItem = state.userList[index]
                 const balance = await TokenInfo.Instance.getBalance(userItem.account)
-                state.userList[index].balance = balance
-                // commit('setGameUserBalance', index, balance)
-            })
+                if (state.userList[index] && state.userList[index].account === userItem.account) {
+                    state.userList[index].balance = balance
+                }
+            }
         }
     },
 
@@ -143,6 +147,9 @@ const actions = {
     setGameEnd({ state }) {
         state.userList.length = 0
         state.waitingUser.length = 0
+        state.tableStatus = "waitinguser"
+        state.currentActionBefore = null
+        state.boardCards.length = 0
     }
 }
 

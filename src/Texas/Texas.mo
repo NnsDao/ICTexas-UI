@@ -130,7 +130,7 @@ shared(msg) actor class Texas() {
         let users = tableOf(site,table).gameUsers();
         if (users.size() == 0) {return (false, 0, 0, "");};
         let gameStartTime = tableOf(site,table).gameStartTime();
-        if (Time.now()-gameStartTime <= _longTimeGameTime/10*users.size()) {return (false, 0, 0, "");};
+        if (Time.now()-gameStartTime <= _longTimeGameTime) {return (false, 0, 0, "");};
         return (true, site, table, users[0]);
     };
 

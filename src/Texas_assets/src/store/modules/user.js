@@ -6,7 +6,8 @@ const state = () => ({
   address: '',
   balance: 0,
   principal: '',
-  nickName: ''
+  nickName: '',
+  avatorUrl: ''
 })
 
 const getters = {
@@ -39,7 +40,8 @@ const actions = {
 
     const info =  await GameInfo.Instance.userInfo(state.address)
     commit('setNickname', info[state.address] ? info[state.address].alias : "")
-  }
+    commit('setAvator', info[state.address] ? info[state.address].avatar : "")
+  },
 }
 
 const mutations = {
@@ -57,6 +59,14 @@ const mutations = {
 
   setNickname(state, nickName) {
     state.nickName = nickName
+  },
+
+  setAvator(state, avator) {
+    if (!avator) {
+      state.avatorUrl = window.localStorage.getItem("avatar_5")
+      return
+    }
+    state.avatorUrl = avator
   }
 }
 

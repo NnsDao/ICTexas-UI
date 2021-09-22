@@ -30,7 +30,13 @@
             <a-button block class="menu-item" type="link" @click.stop="setName"
               >Set Nickname</a-button
             >
-
+            <a-button
+              block
+              class="menu-item"
+              type="link"
+              @click.stop="setAvator"
+              >Set Avator</a-button
+            >
             <a-button block class="menu-item" type="link" @click.stop="logout"
               >Logout</a-button
             >
@@ -83,6 +89,7 @@
     <record v-if="isShowRecord" ref="record" />
     <allow ref="allow" />
     <input-alias ref="alias" />
+    <set-avator ref="avator" />
   </div>
 </template>
 
@@ -97,10 +104,12 @@ import Translate from "./Translate.vue";
 import Record from "./Record.vue";
 import Allow from "./Allow.vue";
 import InputAlias from "./InputAlias.vue";
+import SetAvator from "./SetAvator.vue";
 import { mapGetters } from "vuex";
 import { message } from "ant-design-vue";
 import { defineComponent, ref, onMounted } from "vue";
 import TokenInfo from "../../utils/token";
+import GameInfo from "../../utils/game";
 import router from "../../router";
 import { isAgentExpiration } from "../../utils/identity";
 import store from "../../store";
@@ -115,6 +124,7 @@ export default defineComponent({
     Record,
     Allow,
     InputAlias,
+    SetAvator,
   },
   data() {
     return {
@@ -170,6 +180,7 @@ export default defineComponent({
     },
 
     goRecord() {
+      this.isShowMenu = false;
       this.isShowRecord = true;
       this.$nextTick(() => {
         this.$refs.record.showModal();
@@ -182,6 +193,7 @@ export default defineComponent({
 
     logout() {
       TokenInfo.Instance.logout();
+      GameInfo.Instance.logout();
       router.push("/");
     },
 
@@ -202,7 +214,13 @@ export default defineComponent({
     },
 
     setName() {
+      this.isShowMenu = false;
       this.$refs.alias.showModal();
+    },
+
+    setAvator() {
+      this.isShowMenu = false;
+      this.$refs.avator.showModal(this.userInfo.avatorUrl);
     },
   },
 });

@@ -3,7 +3,7 @@
 import TokenInfo from './token'
 import { Actor } from '@dfinity/agent';
 import { idlFactory as texas_idl, canisterId as texas_id } from 'dfx-generated/texas';
-import { getHttpAgent, getAuthClient } from "./identity";
+import { getHttpAgent } from "./identity";
 import { divisionBigInt, multipBigInt, diffArray } from './index'
 import { message } from 'ant-design-vue';
 
@@ -27,7 +27,6 @@ export default class GameInfo {
 
   async login() {
     if (!this.isLogin) {
-      this.authClient = await getAuthClient()
       this.agent = await getHttpAgent()
       this.isLogin = true
       this.game = Actor.createActor(texas_idl, { agent: this.agent, canisterId: texas_id })
@@ -323,7 +322,15 @@ export default class GameInfo {
     try {
       return await this.game.setAlias(name)
     } catch {
-      message.error("setAlias Error")
+      return [false, "setAlias Error"]
+    }
+  }
+
+  async setAvatar(url) {
+    try {
+      return await this.game.setAvatar(url)
+    } catch {
+      return [false, "setAvatar Error"]
     }
   }
 
@@ -339,9 +346,12 @@ export default class GameInfo {
   async userInfos(addressList) {
     const result = {}
     const infos = await this.game.userInfos(addressList)
-    infos.forEach(([info]) => {
-      result[info['address']] = info
-    })
+    if (infos.length !== 0) {
+      infos.forEach(([info]) => {
+        result[info['address']] = info
+      })
+    }
+  
     return result
   }
 
@@ -351,6 +361,10 @@ export default class GameInfo {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  async logout() {
+    this.isLogin = false
   }
 }
 

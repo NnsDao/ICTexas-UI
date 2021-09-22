@@ -1,10 +1,9 @@
 import { Actor } from '@dfinity/agent';
 import { idlFactory as texas_token_idl, canisterId as texas_token_id } from 'dfx-generated/texas_token';
 import { idlFactory as texas_event_idl, canisterId as texas_event_id } from 'dfx-generated/texas_token_event_logger';
-import { getHttpAgent, tokenLogout, getAuthClient } from "./identity";
+import { getHttpAgent, tokenLogout } from "./identity";
 import store from '../store'
 import { Modal } from "ant-design-vue";
-import router from '../router'
 import { divisionBigInt, multipBigInt } from './index'
 
 const ErrorHandle = () => {
@@ -30,7 +29,6 @@ export default class TokenInfo {
 
     async login() {
         if (!this.isLogin) {
-            this.authClient = await getAuthClient()
             this.agent = await getHttpAgent()
             this.token = Actor.createActor(texas_token_idl, { agent: this.agent, canisterId: texas_token_id });
             this.tokenEvent = Actor.createActor(texas_event_idl, { agent: this.agent, canisterId: texas_event_id });
@@ -125,6 +123,7 @@ export default class TokenInfo {
     }
 
     async logout() {
+        this.isLogin = false
         tokenLogout()
     }
 }

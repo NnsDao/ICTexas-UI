@@ -34,6 +34,7 @@ body {
   background-size: cover;
 
   background-color: #f2f3f4;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 1000px) {

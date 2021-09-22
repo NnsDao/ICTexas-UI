@@ -186,7 +186,7 @@ module {
             return _accounts;
         };
 
-        public func status(address : AID.Address, userSpeaks : [?Status.UserSpeak]) : Status.GameStatus {
+        public func status(address : AID.Address, userSpeaks : [?Status.UserSpeak], userActioning : Bool, gameSettlementing : Bool) : Status.GameStatus {
             var usersStatus : [?Status.UserGameStatus] = [];
             var boardCards : [Text] = [];
             var totalBets : Nat = 0;
@@ -237,6 +237,8 @@ module {
             };
             return {
                 users = usersStatus;
+                inUserActioning = userActioning;
+                inGameSettlementing = gameSettlementing;
                 boardCards = boardCards;
                 totalBets = totalBets;
                 currentRound = currentRound;

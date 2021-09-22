@@ -251,7 +251,7 @@ module {
                         }]);
                     };
                 };
-                return #ingame(Option.unwrap(_game).status(user, userSpeaks));
+                return #ingame(Option.unwrap(_game).status(user, userSpeaks, _userActioning, _gameSettlementing));
             };
             var accountsInfo : [?Status.UserWaitingStatus] = [];
             for (opAccount in _seatAccounts.vals()) {

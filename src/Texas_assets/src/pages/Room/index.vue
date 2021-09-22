@@ -3,9 +3,7 @@
     <div class="user-info">
       <div class="balance">Balance: {{ userInfo.balance }}</div>
       <a-avatar size="large" @click.stop="showMyaccount()">
-        <template #icon
-          ><img src="../../assets/avatars/avatar_5.png"
-        /></template>
+        <template #icon><img :src="userInfo.avatorUrl" /></template>
       </a-avatar>
     </div>
 
@@ -41,6 +39,7 @@ import TokenInfo from "../../utils/token";
 import router from "../../router";
 import MyAccount from "../MyAccount/index.vue";
 import InputAlias from "../MyAccount/InputAlias.vue";
+import { isAgentExpiration } from "../../utils/identity";
 
 export default defineComponent({
   components: {
@@ -60,6 +59,14 @@ export default defineComponent({
     };
 
     const siteDown = async (type) => {
+      if (await !isAgentExpiration()) {
+        message.info("Login has expired！");
+        TokenInfo.Instance.logout();
+        GameInfo.Instance.logout();
+        router.push("/");
+        return;
+      }
+
       spinning.value = true;
       const result = await GameInfo.Instance.userSitdown(type);
       if (result[0]) {
@@ -113,10 +120,10 @@ export default defineComponent({
     ]);
 
     if (!this.userInfo.nickName) {
-      this.$refs.alias.showModal()
+      this.$refs.alias.showModal();
     }
     this.spinning = false;
-    await store.dispatch("game/setUserStatus")
+    await store.dispatch("game/setUserStatus");
   },
 });
 </script>

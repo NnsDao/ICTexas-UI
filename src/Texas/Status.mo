@@ -37,6 +37,8 @@ module {
 
     public type GameStatus = {
         users : [?UserGameStatus];
+        inUserActioning : Bool;
+        inGameSettlementing : Bool;
         boardCards : [Text];
         totalBets : Nat;
         currentRound : RoundType.RoundType;

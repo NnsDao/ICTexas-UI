@@ -9,12 +9,7 @@
       />
 
       <img class="avatar-box" :src="avatarBox" alt="" srcset="" />
-      <img
-        class="avatar-icon"
-        :src="avatarMap.getItem(`avatar_${id}`)"
-        alt=""
-        srcset=""
-      />
+      <img class="avatar-icon" :src="avatorUrl" alt="" srcset="" />
       <img class="name-box" :src="nameBox" alt="" srcset="" />
       <img class="action-box" :src="actionBox" alt="" srcset="" />
       <div class="action-amout" v-if="currentRoundAction">
@@ -54,7 +49,7 @@
         color="green"
         :visible="message !== ''"
       >
-        <div class="text-box">
+        <div class="text-box" @click="copyAddress">
           <div class="name">
             {{
               gameInfo.userInfos[account]
@@ -77,6 +72,7 @@ import { defineComponent } from "vue";
 import Card from "./card.vue";
 import { mapGetters } from "vuex";
 import { HomeFilled } from "@ant-design/icons-vue";
+import { message } from "ant-design-vue";
 
 export default defineComponent({
   components: {
@@ -150,6 +146,17 @@ export default defineComponent({
       avatarMap: window.localStorage,
     };
   },
+  methods: {
+    copyAddress() {
+      var aux = document.createElement("input");
+      aux.setAttribute("value", this.account);
+      document.body.appendChild(aux);
+      aux.select();
+      document.execCommand("copy");
+      document.body.removeChild(aux);
+      message.info("The account address has been copied to the clipboard");
+    }
+  },
   computed: {
     ...mapGetters("game", ["gameInfo"]),
     ...mapGetters("user", ["userInfo"]),
@@ -164,6 +171,15 @@ export default defineComponent({
 
     isMe() {
       return this.userInfo.address == this.account;
+    },
+
+    avatorUrl() {
+      const url =
+        this.gameInfo.userInfos[this.account] &&
+        this.gameInfo.userInfos[this.account].avatar
+          ? this.gameInfo.userInfos[this.account].avatar
+          : this.avatarMap.getItem(`avatar_${this.id}`);
+      return url;
     },
 
     avatarBox() {
@@ -355,6 +371,7 @@ export default defineComponent({
 
 .text-box .name {
   width: 95px;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }

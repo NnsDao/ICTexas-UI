@@ -1,57 +1,55 @@
 <template>
   <div>
     <a-modal
-      title="Input Nickname"
+      title="Set Avator"
       v-model:visible="visible"
       :confirm-loading="confirmLoading"
       @ok="handleOk"
     >
-      <div>
-        <a-input placeholder="Nickname" size="large" v-model:value="alias">
-          <template #suffix>
-            <UserAddOutlined type="user" />
-          </template>
-        </a-input>
+      <div class="contanier">
+        <a-avatar :size="200"
+          :src="imageUrl"
+          :style="{ 'margin-bottom': '20px'}"
+          :loadError="loadError"
+        />
+
+        <a-input placeholder="avator url" size="large" v-model:value="imageUrl" />
       </div>
     </a-modal>
   </div>
 </template>
 <script>
-import { UserAddOutlined } from "@ant-design/icons-vue";
 import { ref, defineComponent } from "vue";
 import GameInfo from "../../utils/game";
 import { message } from "ant-design-vue";
 import store from "../../store";
 
 export default defineComponent({
-  components: {
-    UserAddOutlined,
-  },
   setup() {
     const visible = ref(false);
-    const alias = ref("");
     const confirmLoading = ref(false);
+    const imageUrl = ref("");
 
-    const showModal = () => {
+    const showModal = (url) => {
       visible.value = true;
+
+      if (url.indexOf("http") != -1) {
+        imageUrl.value = url;
+      }
     };
 
     const handleOk = async () => {
-      if (alias.value.length === 0) {
-        message.error("Nickname cannot be empty");
-        return;
-      }
-
-      if (alias.value.length > 18) {
-        message.error("Nickname cannot exceed 18 characters");
+      const AntAvatarImage = document.getElementsByClassName("ant-avatar-image")
+      if (!AntAvatarImage.length || !AntAvatarImage[0].children.length) {
+        message.error("Can't find the Image");
         return;
       }
 
       confirmLoading.value = true;
-      const res = await GameInfo.Instance.setAlias(alias.value);
+      const res = await GameInfo.Instance.setAvatar(imageUrl.value);
       if (!res[0]) {
         confirmLoading.value = false;
-        message.error(res[1])
+        message.error(res[1]);
         return;
       }
 
@@ -62,8 +60,8 @@ export default defineComponent({
     };
 
     return {
+      imageUrl,
       visible,
-      alias,
       confirmLoading,
       showModal,
       handleOk,
@@ -73,4 +71,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.contanier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>

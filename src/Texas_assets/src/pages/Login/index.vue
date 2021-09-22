@@ -3,7 +3,12 @@
     <div class="container">
       <img class="logo-img" src="../../assets/welcome.png" alt="" srcset="" />
       <h2 id="loginWelcome">Welcome to<br />Texas Holdem</h2>
-      <a-button class="login-btn" @click="Login">Login</a-button>
+      <a-button class="login-btn first" @click="Login"
+        >Internet Identity</a-button
+      >
+      <a-button class="login-btn" @click="LoginWithStoic"
+        >Stoic Identity</a-button
+      >
     </div>
   </div>
 </template>
@@ -17,12 +22,21 @@ import GameInfo from "../../utils/game";
 export default defineComponent({
   setup() {
     const Login = async () => {
+      window.localStorage.setItem("identity", "internet");
+      await TokenInfo.Instance.login();
+      await GameInfo.Instance.login();
+      router.push("/room");
+    };
+
+    const LoginWithStoic = async () => {
+      window.localStorage.setItem("identity", "stoic");
       await TokenInfo.Instance.login();
       await GameInfo.Instance.login();
       router.push("/room");
     };
     return {
       Login,
+      LoginWithStoic,
     };
   },
 });
@@ -77,6 +91,10 @@ h2 {
   box-shadow: 0 0 0 2px #ffffff, 0 0 3px 5px #29abe2;
   outline: 2px dotted transparent;
   outline-offset: 2px;
+}
+
+.login-btn.first {
+  margin-bottom: 10px;
 }
 
 #loginWelcome {
