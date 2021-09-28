@@ -51,6 +51,7 @@ shared(msg) actor class Texas() {
     private let _siteCount = 3;
     private let _tablePerSiteCount = [100, 200, 200];
     private let _longTimeGameTime = 30 * 60 * 1_000_000_000;
+    private let _longTimeReadyTime = 3 * 60 * 1_000_000_000;
     private let _gameEventLoggerCanisterId = "ll4dt-naaaa-aaaah-aafuq-cai";
     private let _tokenCanisterId = "ery6l-taaaa-aaaah-aaeqq-cai";
     private var _selfTokenAddress : AID.Address = "8ca93b50b3d080e0a18d1999c21596cf30b6823d0feb840107192aca972d7fe4";
@@ -70,6 +71,12 @@ shared(msg) actor class Texas() {
     private var _gameStartTablesMap : [HashMap.HashMap<Nat, Time.Time>] = Array.tabulate(_siteCount, func (i:Nat) : HashMap.HashMap<Nat, Time.Time> {
         return HashMap.HashMap<Nat, Time.Time>(1, Nat.equal, Hash.hash);
     });
+    private var _fullUserNotStartTables : [RBTree.RBTree<Time.Time, Nat>] = Array.tabulate(_siteCount, func (i:Nat) : RBTree.RBTree<Time.Time, Nat> {
+        return RBTree.RBTree<Time.Time, Nat>(Int.compare);
+    });
+    private var _fullUserNotStartTablesMap : [HashMap.HashMap<Nat, Time.Time>] = Array.tabulate(_siteCount, func (i:Nat) : HashMap.HashMap<Nat, Time.Time> {
+        return HashMap.HashMap<Nat, Time.Time>(1, Nat.equal, Hash.hash);
+    });
     private var _inSeatUsers = HashMap.HashMap<AID.Address, (Nat, Nat)>(1, AID.equal, AID.hash);
     
     private func tableOf(site: Nat, table: Nat) : Table.Table {
@@ -78,7 +85,7 @@ shared(msg) actor class Texas() {
         return Option.unwrap(_playground[site][table]);
     };
 
-    private func timeKeyOf(table: Nat, t: Time.Time, userCount: Nat) : Time.Time {
+    private func timeKeyOf(table: Nat, t: Time.Time) : Time.Time {
         return t*10000+Int64.toInt(Int64.fromNat64(Nat64.fromNat(table)));
     };
 
@@ -95,7 +102,7 @@ shared(msg) actor class Texas() {
 
         let opGameTimeKey = _gameStartTablesMap[site].get(table);
         if (tableOf(site,table).isGameStarted()) {
-            let currentTimeKey = timeKeyOf(table, tableOf(site,table).gameStartTime(), tableOf(site,table).gameUsers().size()); 
+            let currentTimeKey = timeKeyOf(table, tableOf(site,table).gameStartTime()); 
             if (Option.isNull(opGameTimeKey)) {
                 _gameStartTablesMap[site].put(table, currentTimeKey);
                 _gameStartTables[site].put(currentTimeKey, table);
@@ -107,6 +114,18 @@ shared(msg) actor class Texas() {
         } else if (Option.isSome(opGameTimeKey)) {
             _gameStartTablesMap[site].delete(table);
             _gameStartTables[site].delete(Option.unwrap(opGameTimeKey));
+        };
+
+        let opFullReadyTimeKey = _fullUserNotStartTablesMap[site].get(table);
+        if (not tableOf(site,table).isGameStarted() and not tableOf(site,table).canUserSitdown()) {
+            if (Option.isNull(opFullReadyTimeKey)) {
+                let currentTimeKey = timeKeyOf(table, Time.now()); 
+                _fullUserNotStartTablesMap[site].put(table, currentTimeKey);
+                _fullUserNotStartTables[site].put(currentTimeKey, table);
+            }
+        } else if (Option.isSome(opFullReadyTimeKey)) {
+            _fullUserNotStartTablesMap[site].delete(table);
+            _fullUserNotStartTables[site].delete(Option.unwrap(opFullReadyTimeKey));
         };
 
         if (tableOf(site,table).sitdownUsers().size() == 0) {_playground[site][table] := null;}
@@ -146,6 +165,27 @@ shared(msg) actor class Texas() {
             tableOf(site,table).gameOverSettlement();
             updateTableUsers(site, table, address);
         };
+    };
+
+    private func needSimulationHeartBeatForLongNotStartTable(site : Nat) : (Bool, Nat, Nat, Text) {
+        let t = _fullUserNotStartTables[site].entries().next();
+        if (Option.isNull(t)) {return (false, 0, 0, "");};
+        let (readyTime,table) = Option.unwrap(t);
+        if (tableOf(site,table).isGameStarted() or tableOf(site,table).canUserSitdown()) {
+            let users = tableOf(site,table).sitdownUsers();
+            if (users.size() == 0) {return (false, 0, 0, "");};
+            updateTableUsers(site, table, users[0]);
+            return (false, 0, 0, "");
+        };
+        if (Time.now()-readyTime/10000 <= _longTimeReadyTime) {return (false, 0, 0, "");};
+        let users = tableOf(site,table).sitdownUsers();
+        if (users.size() == 0) {return (false, 0, 0, "");};
+        return (true, site, table, users[0]);
+    };
+
+    private func simulationHeartBeatForLongNotStartTable(site : Nat, table: Nat, address: Text) : (){
+        tableOf(site,table).userHeartBeat(address);
+        updateTableUsers(site, table, address);
     };
 
     public shared(msg) func setOwner(_owner_ : Text) : async Bool {
@@ -210,6 +250,8 @@ shared(msg) actor class Texas() {
         var table = 0;
         let (needSim, simSit, simTable, simAddress) = needSimulationHeartBeatForLongTimeGame(site);
         if (needSim) {ignore simulationHeartBeatForLongTimeGame(simSit, simTable, simAddress)};
+        let (needSim1, simSit1, simTable1, simAddress1) = needSimulationHeartBeatForLongNotStartTable(site);
+        if (needSim1) {simulationHeartBeatForLongNotStartTable(simSit1, simTable1, simAddress1)};
         let balance = await _tokenActor.balanceOf(address);
         let allowed = await _tokenActor.allowance(address, _selfTokenAddress); 
         let (tmpDown, tmpSite, tmpTable) = isUserSitdown(address);
@@ -233,6 +275,34 @@ shared(msg) actor class Texas() {
             };
             break sitdown;
         };
+        tableOf(site,table).userSitdown(address);
+        updateTableUsers(site, table, address);
+        return (true, "");
+    };
+
+    public shared(msg) func userSitdownTable(siteType : SiteType.SiteType, table : Nat) : async (Bool, Text) {
+        let address = AID.fromPrincipal(msg.caller, null);
+        let site = SiteType.toNat(siteType);
+        let (needSim, simSit, simTable, simAddress) = needSimulationHeartBeatForLongTimeGame(site);
+        if (needSim) {ignore simulationHeartBeatForLongTimeGame(simSit, simTable, simAddress)};
+        let (needSim1, simSit1, simTable1, simAddress1) = needSimulationHeartBeatForLongNotStartTable(site);
+        if (needSim1) {simulationHeartBeatForLongNotStartTable(simSit1, simTable1, simAddress1)};
+        let balance = await _tokenActor.balanceOf(address);
+        let allowed = await _tokenActor.allowance(address, _selfTokenAddress); 
+        let (tmpDown, tmpSite, tmpTable) = isUserSitdown(address);
+        var tmpHasRemovedUser = false;
+        if (tmpDown) {tmpHasRemovedUser := tableOf(tmpSite,tmpTable).removeReadyTimeoutUsers();};
+        if (tmpHasRemovedUser) {updateTableUsers(tmpSite, tmpTable, address);};
+        let (down, cSite, _) = isUserSitdown(address);
+        if (down and site != cSite) {return (false, "has already in other site");};
+        if (down and site == cSite) {return (true, "");};
+        if (table >= _tablePerSiteCount[site]) { return (false, "table number is invalid");};
+        if (Nat64.toNat(balance) < SiteType.getMinimalBalance(siteType)) {return (false, "you balance is not enough");};
+        if (allowed == 0) { return (false, "you must allow canister to transfer you token");};
+        if (_needUpgrade) {return (false, "will upgrade, can not join")};
+        if (tableOf(site,table).removeReadyTimeoutUsers()) {updateTableUsers(site, table, address);};
+        if (tableOf(site,table).isGameStarted()) {return (false, "table is in gaming");};
+        if (not tableOf(site,table).canUserSitdown()) {return (false, "table is full sitdown")};
         tableOf(site,table).userSitdown(address);
         updateTableUsers(site, table, address);
         return (true, "");
@@ -371,8 +441,10 @@ shared(msg) actor class Texas() {
             tableOf(site,table).gameOverSettlement();
             updateTableUsers(site, table, address);
         };
-        let (needSim, simSit, simTable, simAddress) = needSimulationHeartBeatForLongTimeGame(site);
+        let  (needSim, simSit, simTable, simAddress) = needSimulationHeartBeatForLongTimeGame(site);
         if (needSim) {ignore simulationHeartBeatForLongTimeGame(simSit, simTable, simAddress)};
+        let (needSim1, simSit1, simTable1, simAddress1) = needSimulationHeartBeatForLongNotStartTable(site);
+        if (needSim1) {simulationHeartBeatForLongNotStartTable(simSit1, simTable1, simAddress1)};
         label tryStart loop {
             if (not tableOf(site,table).canGameStart()) {break tryStart;};
             let siteType = tableOf(site,table).tableSiteType();
@@ -489,7 +561,7 @@ shared(msg) actor class Texas() {
 
     public query func gamingSites() : async [SiteType.SiteInfo] {
         let sites : [SiteType.SiteType] = [#high, #mid, #low];
-        return Array.map<SiteType.SiteType, SiteType.SiteInfo>(sites, func(st:SiteType.SiteType): SiteType.SiteInfo{return (st, SiteType.getMinimalBalance(st), SiteType.getSmallBlind(st));});
+        return Array.map<SiteType.SiteType, SiteType.SiteInfo>(sites, func(st:SiteType.SiteType): SiteType.SiteInfo{return (st, SiteType.getMinimalBalance(st), SiteType.getSmallBlind(st), _tablePerSiteCount[SiteType.toNat(st)]);});
     };
 
     public query func lastGameRewardsOfTable(siteType : SiteType.SiteType, table : Nat) : async ?[Reward.RewardDetail] {

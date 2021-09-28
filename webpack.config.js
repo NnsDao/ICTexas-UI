@@ -28,9 +28,10 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
   {}
 );
 
-/**
- * Generate a webpack configuration for a canister.
- */
+/*
+  *
+  * Generate a webpack configuration for a canister.
+*/
 function generateWebpackConfigForCanister(name, info) {
   if (typeof info.frontend !== "object") {
     return;
@@ -97,7 +98,7 @@ function generateWebpackConfigForCanister(name, info) {
 }
 
 // If you have additional webpack configurations you want to build
-//  as part of this configuration, add them to the section below.
+// as part of this configuration, add them to the section below.
 module.exports = [
   ...Object.entries(dfxJson.canisters)
     .map(([name, info]) => {
