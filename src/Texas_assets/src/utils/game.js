@@ -6,6 +6,7 @@ import { idlFactory as texas_idl, canisterId as texas_id } from 'dfx-generated/t
 import { getHttpAgent } from "./identity";
 import { divisionBigInt, multipBigInt, diffArray } from './index'
 import { message } from 'ant-design-vue';
+import {Game} from '../mock'
 
 export default class GameInfo {
   static RoundMap = {
@@ -27,9 +28,10 @@ export default class GameInfo {
 
   async login() {
     if (!this.isLogin) {
-      this.agent = await getHttpAgent()
+      // this.agent = await getHttpAgent()
       this.isLogin = true
-      this.game = Actor.createActor(texas_idl, { agent: this.agent, canisterId: texas_id })
+      // this.game = Actor.createActor(texas_idl, { agent: this.agent, canisterId: texas_id })
+      this.game = new Game()
       this.selfAccount = await TokenInfo.Instance.getSelfAddress()
     }
   }

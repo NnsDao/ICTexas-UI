@@ -22,7 +22,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
 
     return {
       ...acc,
-      ["dfx-generated/" + name]: path.join(outputRoot,   "index.js"),
+      ["dfx-generated/" + name]: path.join(outputRoot, name + ".js"),
     };
   },
   {}
@@ -43,15 +43,26 @@ function generateWebpackConfigForCanister(name, info) {
       // to replace the extension to `.js`.
       index: path.join(__dirname, info.frontend.entrypoint).replace(/\.html$/, ".js"),
     },
-    devtool: "source-map",
+    devtool: "eval",
     optimization: {
       minimize: true,
       minimizer: [new TerserPlugin()],
     },
     devServer: {
+      proxy: {
+        "/api": {
+          target: "http://localhost:8000",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/api": "/api",
+          },
+        },
+      },
+      host: '0.0.0.0',
       contentBase: path.join(__dirname, 'dist'),
       compress: true,
-      port: 9000
+      port: 9000,
+      hot: true
     },
     resolve: {
       alias: aliases,
@@ -75,11 +86,11 @@ function generateWebpackConfigForCanister(name, info) {
     // modules and CSS as described in the "Adding a stylesheet"
     // tutorial, uncomment the following lines:
     module: {
-     rules: [
-       { test: /\.css$/, use: ['vue-style-loader','css-loader'] },
-       { test: /\.vue$/, use: ['vue-loader'] },
-       { test: /\.(png|jpg|gif)$/, use: ['file-loader']}
-     ]
+      rules: [
+        { test: /\.css$/, use: ['vue-style-loader', 'css-loader'] },
+        { test: /\.vue$/, use: ['vue-loader'] },
+        { test: /\.(png|jpg|gif)$/, use: ['file-loader'] }
+      ]
     },
     plugins: [
       new VueLoaderPlugin,
@@ -92,6 +103,7 @@ function generateWebpackConfigForCanister(name, info) {
         Buffer: [require.resolve('buffer/'), 'Buffer'],
         process: require.resolve('process/browser'),
       }),
+      new webpack.HotModuleReplacementPlugin(),
     ],
   };
 }

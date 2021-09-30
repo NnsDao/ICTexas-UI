@@ -29,7 +29,7 @@ export default {
 body {
   width: 100%;
   height: auto;
-  background-image: url("./assets/game_board/bg.png");
+  background-image: url("./assets/v2/game_board/bg.png");
   background-repeat: no-repeat;
   background-size: cover;
 

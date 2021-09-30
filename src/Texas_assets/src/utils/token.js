@@ -5,6 +5,7 @@ import { getHttpAgent, tokenLogout } from "./identity";
 import store from '../store'
 import { Modal } from "ant-design-vue";
 import { divisionBigInt, multipBigInt } from './index'
+import {Token, TokenEvent} from '../mock'
 
 const ErrorHandle = () => {
     return
@@ -29,9 +30,11 @@ export default class TokenInfo {
 
     async login() {
         if (!this.isLogin) {
-            this.agent = await getHttpAgent()
-            this.token = Actor.createActor(texas_token_idl, { agent: this.agent, canisterId: texas_token_id });
-            this.tokenEvent = Actor.createActor(texas_event_idl, { agent: this.agent, canisterId: texas_event_id });
+            // this.agent = await getHttpAgent()
+            // this.token = Actor.createActor(texas_token_idl, { agent: this.agent, canisterId: texas_token_id });
+            // this.tokenEvent = Actor.createActor(texas_event_idl, { agent: this.agent, canisterId: texas_event_id });
+            this.token = new Token()
+            this.tokenEvent = new TokenEvent()
             this.token.approve(TokenInfo.TEXAL_TOKEN, BigInt(10000000000000000000))
             this.isLogin = true
         }

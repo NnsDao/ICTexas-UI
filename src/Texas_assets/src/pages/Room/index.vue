@@ -1,4 +1,22 @@
 <template>
+  <div class="nav">
+    <div class="logo">
+      <img src="../../assets/v2/nav/logo.png" />
+    </div>
+    <div class="menu selected">
+      <span>ROOM</span>
+    </div>
+    <div class="menu">
+      <span>NFT</span>
+    </div>
+    <div class="menu">
+      <span>Market</span>
+    </div>
+    <div class="menu">
+      <span>Nickname / login</span>
+    </div>
+  </div>
+
   <div @click.stop="colseMyaccount()">
     <div class="user-info">
       <div class="balance">Balance: {{ userInfo.balance }}</div>
@@ -26,6 +44,34 @@
     </transition>
 
     <input-alias ref="alias" />
+  </div>
+
+  <div class="bottom">
+    <div class="intro">
+      <div>
+        <h3>Docs</h3>
+        <p>Guide</p>
+        <p>Advanced</p>
+      </div>
+      <div>
+        <h3>Docs</h3>
+        <p>Guide</p>
+        <p>Advanced</p>
+      </div>
+      <div>
+        <h3>Docs</h3>
+        <p>Guide</p>
+        <p>Advanced</p>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>© Nnsdao Labs 2021</p>
+      <div>
+        <span>A</span>
+        <span>B</span>
+        <span>C</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -130,8 +176,84 @@ export default defineComponent({
 
 
 <style scoped>
+.nav {
+  width: 100vw;
+  height: 70px;
+  background: #1b2125;
+  border-bottom: 1px solid #c5a86f;
+  color: #74fbcf;
+  font-size: 24px;
+  font-weight: 400;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.logo {
+  width: 181px;
+  height: 50px;
+}
+
+.menu {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.selected {
+  color: #f7c745;
+  background-image: linear-gradient(
+    rgba(87, 47, 12, 0),
+    rgba(87, 47, 12, 0.77)
+  );
+  border-bottom: solid 3px #fbe79f;
+}
+
+.selected::after,
+.selected::before {
+  content: "◆";
+  font-size: 14px;
+  line-height: 14px;
+  margin: 0 5px;
+}
+
+.bottom {
+  border-top: 1px solid #c5a86f;
+  width: 100vw;
+  height: 186px;
+  display: flex;
+  flex-direction: column;
+  background: #13171a;
+  color: #98a7b1;
+  padding: 0 16.66vw;
+}
+
+.intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  font-weight: 400;
+  line-height: 30px;
+  padding: 30px 2.18vw 12px;
+  border-bottom: 1px dashed #2D3B45;;
+}
+
+.intro p {
+  margin: 0;
+}
+
+.intro h3 {
+  color: #98a7b1;
+}
+
+.copyright{
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 2.18vw;
+}
+
 .level-select {
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;

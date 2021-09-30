@@ -4,8 +4,8 @@ import { getHttpAgent as getStoicAgent,
         isAgentExpiration as isStoicAgentExpiration,
         tokenLogout as stoicLogout } from './StoicIdentity'
 
-// let identityProvider = "http://rwlgt-iiaaa-aaaaa-aaaaa-cai.localhost:8000/";
-let identityProvider = null;
+let identityProvider = "http://rwlgt-iiaaa-aaaaa-aaaaa-cai.localhost:8000/";
+// let identityProvider = null;
 let localhostProvider = !!identityProvider;
 let authClient;
 let inInitAuthClient = false;
