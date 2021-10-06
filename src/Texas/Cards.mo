@@ -106,6 +106,9 @@ module {
                     faceCards := List.nil<Card.Card>();
                     faces := Array.init<Nat>(5, 0);
                     index := 0;
+                    faceCards := List.push(card, faceCards);
+                    faces[index] := face;
+                    index += 1;
                 };
             };
         };
@@ -134,7 +137,7 @@ module {
                         };
                     };
                 };
-            };            
+            };
             return sortFaceCards
         };
 
@@ -232,7 +235,7 @@ module {
             if (pair.size() >= 1) { return (#pair, formatCardsScore(CardsType.cardsTypeToNat(#pair), pair[0], pair[0], nopair[0], nopair[1], nopair[2]), getFiveCardsByFace([pair[0], pair[0], nopair[0], nopair[1], nopair[2]])); };
             return (#highcard, formatCardsScore(CardsType.cardsTypeToNat(#highcard), nopair[0], nopair[1], nopair[2], nopair[3], nopair[4]), getFiveCardsByFace([nopair[0], nopair[1], nopair[2], nopair[3], nopair[4]]));
         };
-    }; 
+    };
 
     public func randomCards(tmpSeeds : [Time.Time]) : Cards {
         func gen(a : Nat) : Nat { a };
