@@ -35,7 +35,7 @@ shared(msg) actor class Token() {
     private stable var _feePercent : Float = 0;
     private stable var _totalMint : Nat64 = 0;
     private stable var _mintCount : Nat64 = 1000 * Nat64.pow(10, _decimals);
-    private stable var _mintMaxNum : Nat = 10;
+    private stable var _mintMaxNum : Nat = 3;
     private stable var _lastMintTime : Time.Time = Time.now();
     private stable var _minMintIntervalGlobal : Time.Time = 3 * 1_000_000_000;
     private stable var _minMintIntervalAccount : Time.Time = 24 * 60 * 60 * 1_000_000_000;

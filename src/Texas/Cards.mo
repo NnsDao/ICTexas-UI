@@ -112,6 +112,14 @@ module {
                 };
             };
         };
+        if (index == 4 and faces[index-1] == 0) {
+            let (face, card) = Option.unwrap(cardTree.entriesRev().next());
+            if (face == 12) {
+                faceCards := List.push(card, faceCards);
+                faces[index] := face;
+                index += 1;
+            };
+        };
         if (index != 5) { return (false, 0, 0 ,0 ,0 ,0, List.nil<Card.Card>()); };
         return (true, faces[0], faces[1], faces[2], faces[3], faces[4], faceCards);
     };
