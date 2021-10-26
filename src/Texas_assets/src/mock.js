@@ -1,6 +1,42 @@
 export class Game {
     count = 0
-    gameStatus = {
+    userStatusT = {
+        "notinseat": {
+            "notinseat": {},
+        },
+        "inseat": {
+            "inseat": {
+                "site": {
+                    "low": null
+                },
+                "table": 1,
+                "sitdownAt": 1627193728201471991,
+                "needReadyBefore": 1627193728201471991,
+            },
+        },
+        "inseatready": {
+            "inseatready": {
+                "site": {
+                    "low": null
+                },
+                "table": 1,
+                "sitdownAt": 1627193728201471991,
+                "needReadyBefore": 1627193728201471991,
+            },
+        },
+        "ingame": {
+            "ingame": {
+                "site": {
+                    "low": null
+                },
+                "table": 1,
+                "sitdownAt": 1627193728201471991,
+                "needReadyBefore": 1627193728201471991,
+            }
+        }
+    }
+
+    tableStatusT = {
         "waitinguser": [
             {
                 "waitinguser": [
@@ -12,15 +48,72 @@ export class Game {
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    [],
-                    []
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": true,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562"
+                        }
+                    ],
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": true,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562"
+                        }
+                    ],
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": true,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562"
+                        }
+                    ],
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": true,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562"
+                        }
+                    ],
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": true,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562"
+                        }
+                    ],
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": true,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562"
+                        }
+                    ],
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": true,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562"
+                        }
+                    ],
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": false,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562"
+                        }
+                    ],
+                    [
+                    ]
                 ]
             }
         ],
@@ -30,6 +123,9 @@ export class Game {
                     "currentActionCan": [
                         {
                             "call": "2000000000"
+                        },
+                        {
+                            "check": "2000000000"
                         },
                         {
                             "bet": "4000000000"
@@ -115,7 +211,6 @@ export class Game {
                     "currentActionStart": "1629033131386288203"
                 }
             },
-
             {
                 "ingame": {
                     "currentActionCan": [
@@ -124,6 +219,9 @@ export class Game {
                         },
                         {
                             "raise": "3000000000"
+                        },
+                        {
+                            "check": "2000000000"
                         },
                         {
                             "bet": "3000000000"
@@ -473,21 +571,13 @@ export class Game {
 
     userStatus() {
         return new Promise((resolve) => {
-            resolve({
-                "inseat": [
-                    {
-                        "low": null
-                    },
-                    "1",
-                    "1627193728201471991"
-                ]
-            })
+            resolve(this.userStatusT['ingame'])
         })
     }
 
     tableStatus() {
         return new Promise((resolve) => {
-            resolve([this.gameStatus['ingame'][this.count]])
+            resolve([this.tableStatusT['ingame'][this.count]])
             // this.count += 1
         })
     }
@@ -513,6 +603,12 @@ export class Game {
     userInfo(address) {
         return new Promise(resovle => {
             resovle(this.gameReward[1])
+        })
+    }
+
+    userInfos(addresss) {
+        return new Promise(resovle => {
+            resovle(this.gameReward)
         })
     }
 }

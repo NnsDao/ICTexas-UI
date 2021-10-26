@@ -29,22 +29,22 @@ export default {
 body {
   width: 100%;
   height: auto;
-  background-image: url("./assets/v2/game_board/bg.png");
+  /* background-image: url("./assets/v2/game_board/bg.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */
 
   background-color: #f2f3f4;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 @media screen and (max-width: 1000px) {
-  body {
+  /* body {
     zoom: 0.55;
-  }
+  } */
 
-  #app {
+  /* #app {
     margin-top: 120px;
-  }
+  } */
 }
 
 </style>

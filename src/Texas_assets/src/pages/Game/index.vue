@@ -1,11 +1,13 @@
 <template>
-  <div class="game-board" @click.stop="colseMyaccount()">
-    <div class="game-table">
-      <div class="table">
-        <img class="beauty-img" src="../../assets/game_board/img_beauty.png" />
+  <i-nav></i-nav>
 
-        <template v-if="tableStatus === 'waitinguser'">
-          <div class="ready-actions">
+  <div class="game-board" @click.stop="colseMyaccount()">
+    <!-- <div class="game-table"> -->
+    <div class="game-table">
+      <img class="beauty-img" src="../../assets/v2/game_board/img_beauty.png" />
+
+      <template v-if="tableStatus === 'waitinguser'">
+        <!-- <div class="ready-actions">
             <a-button
               size="large"
               type="primary"
@@ -24,91 +26,123 @@
               @click="userGetOut"
               >Get Out</a-button
             >
-          </div>
+        </div>-->
 
-          <wait-user
+        <!-- <wait-user
             :class="'user-' + user.siteIndex"
             :id="user.siteIndex"
-            :account="user.account"
-            :isReady="user.isReady"
             v-for="user in waitingUser"
             :key="user.account"
+            :account="user.account"
+            :isReady="user.isReady"
+            :TimeEnd="user.needReadyBefore"
+            :balance="
+              typeof user.balance === 'undefined' ? '...' : user.balance
+            "
+            :message="user.message || ''"
+        />-->
+
+        <div :class="'user-' + user.siteIndex" v-for="user in waitingUser" :key="user.account">
+          <wait-user
+            :account="user.account"
+            :id="user.siteIndex"
+            :isReady="user.isReady"
             :TimeEnd="user.needReadyBefore"
             :balance="
               typeof user.balance === 'undefined' ? '...' : user.balance
             "
             :message="user.message || ''"
           />
-        </template>
+        </div>
+      </template>
 
-        <template v-else>
-          <div class="table-show">
-            <div class="round">{{ gameInfo.currentRound }}</div>
-            <div class="pot">POT {{ gameInfo.totalBets }}</div>
-            <div class="flop"></div>
-            <div class="public-cards">
-              <card
-                :type="type"
-                v-for="type in gameInfo.boardCards"
-                :key="type.index"
-              />
-            </div>
+      <template v-else>
+        <div class="table-show">
+          <div class="round">{{ gameInfo.currentRound }}</div>
+          <div class="pot">POT {{ gameInfo.totalBets }}</div>
+          <div class="flop"></div>
+          <div class="public-cards">
+            <card :type="type" v-for="type in gameInfo.boardCards" :key="type.index" />
           </div>
+        </div>
 
-          <operation
-            v-if="gameInfo.currentActionUser === userInfo.address"
-            class="operation-box"
-          />
+        <!-- <operation
+          v-if="gameInfo.currentActionUser === userInfo.address"
+          class="operation-box"
+        />-->
 
-          <user
-            :class="'user-' + user.siteIndex"
-            :id="user.siteIndex"
-            :account="user.account"
-            :holeCards="user.holeCards"
-            :bet="user.bet"
-            :isSmallblind="user.isSmallblind"
-            :isBigblind="user.isBigblind"
-            :currentRoundAction="user.currentRoundAction"
-            :currentRoundAmount="user.currentRoundAmount"
-            v-for="user in userList"
-            :key="user.account"
-            :balance="
-              typeof user.balance === 'undefined' ? '...' : user.balance
-            "
-            :isAllIn="user.isAllin"
-            :isFold="user.isFold"
-            :isOnline="user.isOnline"
-            :message="user.message || ''"
-          />
-        </template>
-      </div>
+        <user
+          :class="'user-' + user.siteIndex"
+          :id="user.siteIndex"
+          :account="user.account"
+          :holeCards="user.holeCards"
+          :bet="user.bet"
+          :isSmallblind="user.isSmallblind"
+          :isBigblind="user.isBigblind"
+          :currentRoundAction="user.currentRoundAction"
+          :currentRoundAmount="user.currentRoundAmount"
+          v-for="user in userList"
+          :key="user.account"
+          :balance="typeof user.balance === 'undefined' ? '...' : user.balance"
+          :isAllIn="user.isAllin"
+          :isFold="user.isFold"
+          :isOnline="user.isOnline"
+          :message="user.message || ''"
+        />
+      </template>
+      <!-- </div> -->
+    </div>
+
+    <div class="action">
+      <template v-if="tableStatus === 'waitinguser'">
+        <a-button
+          size="large"
+          type="primary"
+          class="ready-btn"
+          :class="{ disable: userStatus === 'inseatready' }"
+          :loading="readyLoading"
+          @click="userReady"
+          :disabled="userStatus === 'inseatready'"
+        >Ready</a-button>
+        <a-button
+          size="large"
+          type="primary"
+          class="getout-btn"
+          :loading="getOutLoading"
+          @click="userGetOut"
+        >Get Out</a-button>
+      </template>
     </div>
 
     <div class="time-left">
-      <div style="color: lightgreen" v-if="gameInfo.tableNo !== -1">
-        TABLE {{ parseInt(gameInfo.tableNo) + 1 }}
-      </div>
+      <div
+        style="color: lightgreen"
+        v-if="gameInfo.tableNo !== -1"
+      >TABLE {{ parseInt(gameInfo.tableNo) + 1 }}</div>
       <div
         :class="{ warn: timeLeft < 10 }"
         v-if="tableStatus !== 'waitinguser' && timeLeft !== 0"
-      >
-        Time Left: {{ timeLeft }}
-      </div>
+      >Time Left: {{ timeLeft }}</div>
     </div>
 
     <div class="user-info">
       <a-button type="primary" class="history-btn" @click="showReward()">
-        <template #icon><HistoryOutlined /></template>
+        <template #icon>
+          <HistoryOutlined />
+        </template>
         Last Game
       </a-button>
 
       <a-avatar size="large" class="user-btn" @click.stop="showMyaccount()">
-        <template #icon><img :src="userInfo.avatorUrl" /></template>
+        <template #icon>
+          <img :src="userInfo.avatorUrl" />
+        </template>
       </a-avatar>
     </div>
 
     <my-account class="my-account" v-if="isShowAccount" />
     <Reward v-if="isShowReward" @close="closeReward" />
+
     <a-input-search
       class="input-message"
       v-model:value="message"
@@ -118,6 +152,18 @@
       @search="sendMessage"
     />
   </div>
+
+  <div class="info">
+    <div class="message">
+      <i-message />
+    </div>
+
+    <div class="operation">
+      <operation v-if="gameInfo.currentActionUser === userInfo.address" />
+    </div>
+  </div>
+
+  <i-bottom></i-bottom>
 </template>
 
 <script>
@@ -127,6 +173,7 @@ import Card from "./card.vue";
 import User from "./user.vue";
 import WaitUser from "./waitUser.vue";
 import Operation from "./operation.vue";
+import IMessage from "./message.vue";
 import store from "../../store";
 import Reward from "./reword.vue";
 import GameInfo from "../../utils/game";
@@ -135,7 +182,9 @@ import router from "../../router";
 import { message } from "ant-design-vue";
 import { HistoryOutlined } from "@ant-design/icons-vue";
 import MyAccount from "../MyAccount/index.vue";
-import { isAgentExpiration } from '../../utils/identity'
+import { isAgentExpiration } from "../../utils/identity";
+import INav from "../../components/nav.vue";
+import IBottom from "../../components/bottom.vue";
 
 export default defineComponent({
   components: {
@@ -146,6 +195,9 @@ export default defineComponent({
     WaitUser,
     HistoryOutlined,
     MyAccount,
+    IMessage,
+    INav,
+    IBottom,
   },
   setup() {
     onMounted(async () => {
@@ -172,13 +224,13 @@ export default defineComponent({
 
     const readyLoading = ref(false);
     const userReady = async () => {
-      if (await !isAgentExpiration()) {
-        message.info("Login has expired！");
-        TokenInfo.Instance.logout();
-        GameInfo.Instance.logout();
-        router.push("/");
-        return;
-      }
+      // if (await !isAgentExpiration()) {
+      //   message.info("Login has expired！");
+      //   TokenInfo.Instance.logout();
+      //   GameInfo.Instance.logout();
+      //   router.push("/");
+      //   return;
+      // }
 
       readyLoading.value = true;
       await GameInfo.Instance.userReadyPlay();
@@ -305,46 +357,48 @@ export default defineComponent({
 <style scoped>
 .game-board {
   width: 100%;
-  height: 100vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.game-table {
-  width: 100%;
-  height: 100%;
-
+  height: 781px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../../assets/v2/game_board/bg.png");
 }
 
-@media screen and (max-width: 1000px) {
-  .game-table {
-    height: auto;
-  }
-}
-
-.table {
-  margin: 0 auto;
-  width: 1000px;
-  height: 500px;
-
-  background-image: url("../../assets/game_board/bg_table.png");
+.game-table {
+  width: 1126px;
+  height: 513px;
+  background-image: url("../../assets/v2/game_board/desk.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
   position: relative;
+}
+
+.action {
+  width: 197px;
+  height: 407px;
+  border-radius: 17px 0px 0px 0px;
+  position: absolute;
+  top: 165px;
+  right: 30px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../../assets/v2/game_board/action_bg.png");
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .beauty-img {
   position: absolute;
-  left: calc(50% - 90px);
-  top: -105px;
-  width: 200px;
-  border-radius: 50px;
+  left: calc(50% - 165px / 2);
+  top: -122px;
+  width: 165px;
+  height: 213px;
 }
 
 .table-show {
@@ -380,6 +434,12 @@ export default defineComponent({
   justify-content: space-between;
 }
 
+.user-0 {
+  position: absolute;
+  top: 401px;
+  right: calc(50%);
+}
+
 .user-1 {
   position: absolute;
   top: -100px;
@@ -388,87 +448,70 @@ export default defineComponent({
 
 .user-2 {
   position: absolute;
-  top: -20px;
-  right: 0px;
+  top: -14px;
+  right: -33px;
 }
 
 .user-3 {
   position: absolute;
-  top: 150px;
-  right: -20px;
+  top: 244px;
+  right: -46px;
 }
 
 .user-4 {
   position: absolute;
-  top: 320px;
-  right: 0px;
+  top: 401px;
+  right: 148px;
 }
 
 .user-5 {
   position: absolute;
-  top: 390px;
-  right: 250px;
+  top: 401px;
+  left: 148px;
 }
 
 .user-6 {
   position: absolute;
-  top: 390px;
-  left: 250px;
+  top: 244px;
+  left: -46px;
 }
 
 .user-7 {
   position: absolute;
-  top: 320px;
-  left: 0px;
+  top: -14px;
+  left: -33px;
 }
 
 .user-8 {
-  position: absolute;
-  top: 150px;
-  left: -20px;
-}
-
-.user-9 {
-  position: absolute;
-  top: -20px;
-  left: -20px;
-}
-
-.user-10 {
   position: absolute;
   top: -100px;
   left: 200px;
 }
 
-.operation-box {
-  position: absolute;
-  left: 300px;
-  top: 240px;
-  background: rgb(0, 0, 0, 0.4);
-  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
-  z-index: 100;
-  padding: 10px;
-}
-
-.ready-actions {
+/* .ready-actions {
   position: absolute;
   top: 200px;
   left: 400px;
-}
+} */
 
 .ready-btn.disable {
   color: rgba(0, 0, 0, 0.25);
+  background: #f5f5f5;
+  border-color: #d9d9d9;
+  text-shadow: none;
+  box-shadow: none;
 }
 
 .ready-btn,
 .getout-btn {
-  width: 100px;
-  font-weight: bolder;
+  background: linear-gradient(#f9dba7, #bc7d5c);
+  width: 148px;
+  height: 59px;
+  border: #ebceac;
+  font-size: 23px;
+  font-weight: 400;
   color: #fff;
-}
-
-.ready-btn {
-  margin-right: 20px;
+  text-shadow: 0px 2px 0px rgba(4, 0, 0, 0.35);
 }
 
 .history-btn {
@@ -511,4 +554,35 @@ export default defineComponent({
   bottom: 10px;
   width: 300px;
 }
+
+.info{
+  display: flex;
+  justify-content: space-between;
+  height: 176px;
+  background: #161b16;
+  border: 1px solid rgba(110, 196, 189, 0.6);
+}
+
+.message{
+  width: 1145px;
+  height: 100%;
+  padding: 17px 32px;
+}
+
+.operation {
+  width: 625px;
+  height: 100%;
+  padding: 17px 21px;
+  align-self: center;
+}
+
+/* .operation{
+  position: absolute;
+  left: 300px;
+  top: 240px;
+  background: rgb(0, 0, 0, 0.4);
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+  z-index: 100;
+  padding: 10px;
+} */
 </style>

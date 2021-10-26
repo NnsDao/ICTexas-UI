@@ -8,3 +8,5 @@ dist-ssr
 .*.log
 .dfx
 package-lock.json
+doc
+.vscode/

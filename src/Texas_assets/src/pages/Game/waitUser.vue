@@ -1,5 +1,5 @@
 <template>
-  <div :id="'user' + id" :class="{ left: isLeft, right: !isLeft }">
+  <!-- <div :id="'user' + id" :class="{ left: isLeft, right: !isLeft }">
     <div class="two-cards">
       <img class="avatar-box" :src="avatarBox" alt="" srcset="" />
       <img class="avatar-icon" :src="avatorUrl" alt="" srcset="" />
@@ -25,6 +25,33 @@
         </div>
       </a-tooltip>
     </div>
+  </div> -->
+  <div class="user">
+    <!-- <img class="avatar-box" :src="avatarBox" alt="" srcset="" /> -->
+    <div class="avatar">
+      <img :src="avatorUrl" alt="" srcset="" />
+    </div>
+    <div class="info" @click="copyAddress">
+      <span class="nickname">
+        {{
+          gameInfo.userInfos[account]
+            ? gameInfo.userInfos[account].alias
+            : account.substr(0, 5) + "..."
+        }}
+      </span>
+      <div class="score">
+        <img src="../../assets/v2/game_board/chip.png" class="chip" />
+        <span>${{ balance }}</span>
+      </div>
+    </div>
+
+    <a-tooltip
+      :title="message"
+      placement="topLeft"
+      color="green"
+      :visible="message !== ''"
+    >
+    </a-tooltip>
   </div>
 </template>
 
@@ -74,11 +101,15 @@ export default defineComponent({
     },
 
     avatorUrl() {
+      console.log(this.account)
+       console.log( this.gameInfo)
       const url =
         this.gameInfo.userInfos[this.account] &&
         this.gameInfo.userInfos[this.account].avatar
           ? this.gameInfo.userInfos[this.account].avatar
           : this.avatarMap.getItem(`avatar_${this.id}`);
+
+           console.log(url)
       return url;
     },
 
@@ -143,13 +174,55 @@ export default defineComponent({
       document.execCommand("copy");
       document.body.removeChild(aux);
       message.info("The account address has been copied to the clipboard");
-    }
+    },
   },
 });
 </script>
 
 <style scoped>
-.two-cards {
+.user {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+.avatar {
+  width: 114px;
+  height: 114px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-position: center;
+  background-image: url("../../assets/v2/game_board/avatar_bg.png");
+}
+.avatar > img {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: 9999px;
+}
+.info {
+  width: 143px;
+  height: 56px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  background-image: url("../../assets/v2/game_board/user_info.png");
+}
+.nickname {
+  font-size: 20px;
+  font-weight: 400;
+  color: #d48940;
+}
+.chip {
+  width: 24px;
+  height: 24px;
+}
+.score {
+  font-size: 18px;
+  font-weight: 400;
+  color: #c5ecf1;
+}
+/* .two-cards {
   position: relative;
   width: 200px;
 }
@@ -350,5 +423,5 @@ export default defineComponent({
 .right .blind {
   top: 135px;
   right: 0px;
-}
+} */
 </style>

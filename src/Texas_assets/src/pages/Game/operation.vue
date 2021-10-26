@@ -1,68 +1,84 @@
 <template>
-  <div>
-    <a-spin :spinning="spinning">
-      <div class="operation-group">
-        <img
-          :src="operationMap.getItem(callBtn)"
-          class="operation-btn call"
-          v-if="allowAction.indexOf('call') !== -1"
-          @click="doAction('call')"
-        />
-        <img
-          :src="operationMap.getItem(checkBtn)"
-          class="operation-btn check"
-          v-if="allowAction.indexOf('check') !== -1"
-          @click="doAction('check')"
-        />
-        <img
-          :src="operationMap.getItem('fold_button')"
-          class="operation-btn fold"
-          v-if="allowAction.indexOf('fold') !== -1"
-          @click="doAction('fold')"
-        />
-        <img
-          :src="operationMap.getItem(allinBtn)"
-          class="operation-btn allin"
-          v-if="allowAction.indexOf('allin') !== -1"
-          @click="doAction('allin')"
-        />
+  <a-spin :spinning="spinning" wrapperClassName="spin">
+    <div class="operation-group">
+      <div :class="['operation-btn', 'fold' , 'allow']" v-if="allowAction.indexOf('fold') !== -1">
+        <img src="../../assets/v2/game_board/btn_fold.png" @click="doAction('fold')" />
       </div>
 
-      <div class="operation-bet" v-if="allowAction.indexOf('bet') !== -1">
+      <div
+        :class="['operation-btn', 'check' , allowCheck ? 'allow': 'not-allow' ]"
+        v-if="allowAction.indexOf('check') !== -1"
+      >
+        <img src="../../assets/v2/game_board/btn_check.png" @click="doAction('check')" />
+      </div>
+
+      <div
+        :class="['operation-btn', 'call' , allowCall ? 'allow': 'not-allow' ]"
+        v-if="allowAction.indexOf('call') !== -1"
+      >
+        <img src="../../assets/v2/game_board/btn_call.png" @click="doAction('call')" />
+      </div>
+
+      <!-- <div class="operation-btn allin" v-if="allowAction.indexOf('allin') !== -1">
+        <img :src="operationMap.getItem(allinBtn)" @click="doAction('allin')" />
+      </div>-->
+
+      <div
+        :class="['operation-btn', 'bet' , allowBet ? 'allow': 'not-allow' ]"
+        v-if="allowAction.indexOf('bet') !== -1"
+      >
         <img
-          :src="operationMap.getItem(betBtn)"
+          src="../../assets/v2/game_board/btn_raise.png"
           class="operation-btn bet"
           @click="doAction('bet')"
         />
 
-        <a-slider
+        <!-- <a-slider
           class="bet-slider"
           :min="gameInfo.currentActionCan['bet']"
           :max="userInfo.balance"
           step="10"
           v-model:value="betValue"
           :tooltip-visible="true"
-        />
+        />-->
       </div>
 
-      <div class="operation-bet" v-if="allowAction.indexOf('raise') !== -1">
+      <div
+        :class="['operation-btn', 'raise' , allowRaise ? 'allow': 'not-allow' ]"
+        v-if="allowAction.indexOf('raise') !== -1"
+      >
         <img
-          :src="operationMap.getItem(raiseBtn)"
+          src="../../assets/v2/game_board/btn_raise.png"
           class="operation-btn raise"
           @click="doAction('raise')"
         />
 
-        <a-slider
+        <!-- <a-slider
           class="bet-slider"
           :min="gameInfo.currentActionCan['raise']"
           :max="userInfo.balance"
           step="10"
           v-model:value="raiseValue"
           :tooltip-visible="true"
-        />
+        />-->
       </div>
-    </a-spin>
-  </div>
+    </div>
+
+    <div class="operation-group">
+      <img
+        :src="operationMap.getItem('fold_button')"
+        class="operation-btn fold"
+        v-if="allowAction.indexOf('fold') !== -1"
+        @click="doAction('fold')"
+      />
+      <img
+        :src="operationMap.getItem(checkBtn)"
+        class="operation-btn check"
+        v-if="allowAction.indexOf('check') !== -1"
+        @click="doAction('check')"
+      />
+    </div>
+  </a-spin>
 </template>
 
 <script>
@@ -195,8 +211,43 @@ export default defineComponent({
 
 
 <style scoped>
+
+.spin{
+  height: 100%;
+}
+
+.spin >>> .ant-spin-container{
+      height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .operation-group {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.operation-btn {
+  display: block;
+  width: 139px;
+  height: 60px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.operation-btn > img {
+  width: 100%;
+  height: 100%;
+}
+
+.allow {
+  cursor: pointer;
+}
+
+.not-allow {
+  cursor: not-allowed;
 }
 
 .operation-bet {
@@ -206,16 +257,6 @@ export default defineComponent({
 
 .bet-slider {
   width: 240px;
-}
-
-.operation-btn {
-  display: block;
-  cursor: pointer;
-  width: 120px;
-  height: 60px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  margin-right: 10px;
 }
 
 .operation-group .operation-btn:nth-last-child(1) {

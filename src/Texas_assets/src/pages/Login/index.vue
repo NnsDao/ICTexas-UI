@@ -53,6 +53,9 @@ export default defineComponent({
   align-items: center;
   width: 100vw;
   height: 100vh;
+  background-image: url("../../assets/v2/login/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .logo-img {
