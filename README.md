@@ -23,11 +23,19 @@ To learn more before you start working with Texas, see the following documentati
 
 If you want to start working on your project right away, you might want to try the following commands:
 
-```bash
-cd Texas/
-dfx help
-dfx config --help
-```
+### Install DFX
+
+- DFX_VERSION=0.7.2 sh -ci "$(curl -fsSL https://sdk.dfinity.org/install.sh)"
+
+- cd ICTexas-UI
+
+- npm install
+
+- dfx start
+
+- dfx build
+
+- npm run serve
 
 ## About NnsDAO Protocol
 
@@ -42,3 +50,8 @@ Nnsdao is simply a boundaryless autonomous organization. that provides some basi
 [Telegram](https://t.me/NnsDaos)
 
 [Distrikt](https://az5sd-cqaaa-aaaae-aaarq-cai.ic0.app/u/nnsdaos)
+
+### Fix bug
+
++ [webpack-cli version fix](https://github.com/webpack/webpack-cli/issues/2990)
++ Update package.json , I am not using webpack-cli 4.9.0. I am using webpack-cli 4.8.0
