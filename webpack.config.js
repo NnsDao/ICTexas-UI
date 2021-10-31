@@ -87,7 +87,7 @@ function generateWebpackConfigForCanister(name, info) {
     // tutorial, uncomment the following lines:
     module: {
       rules: [
-        { test: /\.css$/, use: ['vue-style-loader', 'css-loader'] },
+        { test: /\.css$/, use: ['vue-style-loader', 'css-loader', 'postcss-loader'] },
         { test: /\.vue$/, use: ['vue-loader'] },
         { test: /\.(png|jpg|gif)$/, use: ['file-loader'] }
       ]

@@ -45,6 +45,15 @@ export class Game {
                             "sitdownAt": "1628774303828578562",
                             "isReady": false,
                             "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "needReadyBefore": "1628774483828578562",
+                            "message": "aaa"
+                        }
+                    ],
+                    [
+                        {
+                            "sitdownAt": "1628774303828578572",
+                            "isReady": true,
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234db2",
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
@@ -52,7 +61,7 @@ export class Game {
                         {
                             "sitdownAt": "1628774303828578572",
                             "isReady": true,
-                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234db3",
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
@@ -60,7 +69,7 @@ export class Game {
                         {
                             "sitdownAt": "1628774303828578572",
                             "isReady": true,
-                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234db4",
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
@@ -68,7 +77,7 @@ export class Game {
                         {
                             "sitdownAt": "1628774303828578572",
                             "isReady": true,
-                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234db5",
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
@@ -76,7 +85,7 @@ export class Game {
                         {
                             "sitdownAt": "1628774303828578572",
                             "isReady": true,
-                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234db6",
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
@@ -84,7 +93,7 @@ export class Game {
                         {
                             "sitdownAt": "1628774303828578572",
                             "isReady": true,
-                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234db7",
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
@@ -92,15 +101,7 @@ export class Game {
                         {
                             "sitdownAt": "1628774303828578572",
                             "isReady": true,
-                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
-                            "needReadyBefore": "1628774483828578562"
-                        }
-                    ],
-                    [
-                        {
-                            "sitdownAt": "1628774303828578572",
-                            "isReady": true,
-                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234db8",
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
@@ -108,7 +109,7 @@ export class Game {
                         {
                             "sitdownAt": "1628774303828578572",
                             "isReady": false,
-                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
+                            "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234db9",
                             "needReadyBefore": "1628774483828578562"
                         }
                     ],
@@ -129,6 +130,9 @@ export class Game {
                         },
                         {
                             "bet": "4000000000"
+                        },
+                        {
+                            "raise": "3000000000"
                         },
                         {
                             "allin": "0"
@@ -575,9 +579,15 @@ export class Game {
         })
     }
 
+    userSpeak(message){
+        return new Promise((resolve) => {
+            resolve(message)
+        })
+    }
+
     tableStatus() {
         return new Promise((resolve) => {
-            resolve([this.tableStatusT['ingame'][this.count]])
+            resolve([this.tableStatusT['waitinguser'][this.count]])
             // this.count += 1
         })
     }

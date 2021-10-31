@@ -23,7 +23,7 @@
         <img :src="operationMap.getItem(allinBtn)" @click="doAction('allin')" />
       </div>-->
 
-      <div
+      <!-- <div
         :class="['operation-btn', 'bet' , allowBet ? 'allow': 'not-allow' ]"
         v-if="allowAction.indexOf('bet') !== -1"
       >
@@ -33,25 +33,44 @@
           @click="doAction('bet')"
         />
 
-        <!-- <a-slider
+        <a-slider
           class="bet-slider"
           :min="gameInfo.currentActionCan['bet']"
           :max="userInfo.balance"
           step="10"
           v-model:value="betValue"
           :tooltip-visible="true"
-        />-->
-      </div>
+        />
+      </div>-->
 
       <div
         :class="['operation-btn', 'raise' , allowRaise ? 'allow': 'not-allow' ]"
         v-if="allowAction.indexOf('raise') !== -1"
+        @mouseover="showRaiseSlider"
+        @mouseleave="raiseSliderVisible = false"
       >
         <img
           src="../../assets/v2/game_board/btn_raise.png"
           class="operation-btn raise"
           @click="doAction('raise')"
         />
+
+        <div class="raise-op" v-show="raiseSliderVisible">
+          <div class="raise-buttons">
+            <span class="raise-btn" @click="doAction('allin')">ALL in</span>
+            <span class="raise-btn">bot</span>
+            <span class="raise-btn">1/2bot</span>
+            <span class="add" @click="addRaise">+</span>
+            <span class="sub" @click="subRaise">-</span>
+          </div>
+          <div class="raise-silder">
+            <span class="allin">ALL in</span>
+            <img class="bg" src="../../assets/v2/game_board/slider.png" />
+            <div class="raise-value-bg">
+              <span class="raise-value">{{raiseValue}}</span>
+            </div>
+          </div>
+        </div>
 
         <!-- <a-slider
           class="bet-slider"
@@ -90,14 +109,19 @@ import { message } from "ant-design-vue";
 export default defineComponent({
   setup() {
     const betValue = ref(0);
-    const raiseValue = ref(0);
     const spinning = ref(false);
 
+    const raiseValue = ref(0);
+    const raiseSliderVisible = ref(false);
+
+    console.log(raiseValue);
+    console.log(raiseValue);
     return {
       betValue,
-      raiseValue,
       operationMap: window.localStorage,
       spinning,
+      raiseValue,
+      raiseSliderVisible,
     };
   },
   methods: {
@@ -133,6 +157,28 @@ export default defineComponent({
       }
       message.info("action result: " + result.toString());
       this.spinning = false;
+    },
+    showRaiseSlider() {
+      this.raiseSliderVisible = true;
+      if (
+        this.raiseValue > this.userInfo.balance ||
+        this.raiseValue < this.gameInfo.currentActionCan["raise"]
+      ) {
+        this.raiseValue = this.gameInfo.currentActionCan["raise"];
+      }
+    },
+    addRaise() {
+      this.raiseValue += 10;
+      if (this.raiseValue > this.userInfo.balance) {
+        this.raiseValue = this.userInfo.balance;
+      }
+    },
+    subRaise() {
+      this.raiseValue -= 10;
+
+      if (this.raiseValue < this.gameInfo.currentActionCan["raise"]) {
+        this.raiseValue = this.gameInfo.currentActionCan["raise"];
+      }
     },
   },
   computed: {
@@ -211,16 +257,15 @@ export default defineComponent({
 
 
 <style scoped>
-
-.spin{
+.spin {
   height: 100%;
 }
 
-.spin >>> .ant-spin-container{
-      height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.spin >>> .ant-spin-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .operation-group {
@@ -264,6 +309,115 @@ export default defineComponent({
 }
 
 .operation-btn.raise {
-  margin-right: 0px;
+  position: relative;
+}
+
+/* .operation-btn.raise:hover .raise-op {
+  visibility: visible;
+} */
+
+.raise-op {
+  /* visibility: hidden; */
+  position: absolute;
+  right: 4px;
+  bottom: 53px;
+  display: flex;
+}
+
+.raise-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.raise-btn {
+  width: 90px;
+  height: 45px;
+  font-size: 23px;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 45px;
+  text-align: center;
+  background-image: url("../../assets/v2/game_board/raise-btn-bg.png");
+  background-size: contain;
+}
+
+.add,
+.sub {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(0deg, #3370c6, #7ba9e9);
+  box-shadow: 0px 4px 3px 1px rgb(4 0 0 / 22%);
+  border-radius: 5px;
+  font-size: 46px;
+  color: #ffff;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 56px;
+  user-select: none;
+}
+
+.add {
+  margin-right: 66px;
+}
+
+.sub {
+  margin-right: 42px;
+  margin-bottom: 84px;
+}
+
+.raise-btn:nth-child(1) {
+  margin: 56px 114px 0 0;
+}
+
+.raise-btn:nth-child(2) {
+  margin-right: 92px;
+}
+
+.raise-btn:nth-child(3) {
+  margin-right: 70px;
+}
+
+.raise-silder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.raise-silder .bg {
+  width: 93px;
+  height: 578px;
+}
+
+.raise-silder .bg-front {
+  width: 93px;
+  height: 578px;
+}
+
+.raise-silder .allin {
+  font-size: 26px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.raise-value-bg {
+  width: 120px;
+  height: 79px;
+  margin-top: -60px;
+  background-image: url("../../assets/v2/game_board/zhen.png");
+  background-size: contain;
+}
+
+.raise-value {
+  width: 40px;
+  height: 19px;
+  font-size: 25px;
+  font-family: SimHei;
+  font-weight: bold;
+  line-height: 79px;
+  color: #ffffff;
+  -webkit-text-stroke: 2px #031318;
+  text-stroke: 2px #031318;
 }
 </style>

@@ -5,11 +5,35 @@
     <div class="window">
       <div class="view-btn"></div>
       <div class="switch-btn"></div>
-      <input class="message-input" placeholder="Message text"/>
-      <div class="send-btn">SEND</div>
+      <input class="message-input" v-model="message" placeholder="Message text" />
+      <div class="send-btn" @click="sendMessage">SEND</div>
     </div>
   </div>
 </template>
+
+<script>
+import { ref } from "vue";
+import GameInfo from "../../utils/game";
+
+export default {
+  setup() {
+    const message = ref("");
+    const sendMessage = () => {
+      if (!message.value.length) {
+        return;
+      }
+
+      GameInfo.Instance.userSpeak(message.value);
+      message.value = "";
+    };
+
+    return {
+      message,
+      sendMessage,
+    };
+  },
+};
+</script>
 
 <style scoped>
 .message {
@@ -30,6 +54,7 @@
   width: 43px;
   height: 43px;
   background-image: url("../../assets/v2/game_board/history_message.png");
+  background-size: contain;
 }
 
 .switch-btn {
@@ -37,11 +62,12 @@
   height: 18px;
   margin: 0 10px;
   background-image: url("../../assets/v2/game_board/switch_btn_down.png");
+  background-size: contain;
 }
 
-.message-input{
-    width: 60%;
-    height: 32px;
+.message-input {
+  width: 982px;
+  height: 32px;
 }
 
 .send-btn {
@@ -55,8 +81,8 @@
   text-align: center;
   line-height: 32px;
 
-font-size: 20px;
-font-weight: 400;
-color: #FFFFFF;
+  font-size: 20px;
+  font-weight: 400;
+  color: #ffffff;
 }
 </style>

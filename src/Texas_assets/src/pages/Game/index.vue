@@ -143,22 +143,22 @@
     <my-account class="my-account" v-if="isShowAccount" />
     <Reward v-if="isShowReward" @close="closeReward" />
 
-    <a-input-search
+    <!-- <a-input-search
       class="input-message"
       v-model:value="message"
       placeholder="input message"
       enter-button="Send"
       size="large"
       @search="sendMessage"
-    />
+    />-->
   </div>
 
   <div class="info">
-    <div class="message">
+    <div class="left">
       <i-message />
     </div>
 
-    <div class="operation">
+    <div class="right">
       <operation v-if="gameInfo.currentActionUser === userInfo.address" />
     </div>
   </div>
@@ -224,13 +224,13 @@ export default defineComponent({
 
     const readyLoading = ref(false);
     const userReady = async () => {
-      // if (await !isAgentExpiration()) {
-      //   message.info("Login has expired！");
-      //   TokenInfo.Instance.logout();
-      //   GameInfo.Instance.logout();
-      //   router.push("/");
-      //   return;
-      // }
+      if (await !isAgentExpiration()) {
+        message.info("Login has expired！");
+        TokenInfo.Instance.logout();
+        GameInfo.Instance.logout();
+        router.push("/");
+        return;
+      }
 
       readyLoading.value = true;
       await GameInfo.Instance.userReadyPlay();
@@ -253,15 +253,15 @@ export default defineComponent({
       isShowAccount.value = false;
     };
 
-    const message = ref("");
-    const sendMessage = () => {
-      if (!message.value.length) {
-        return;
-      }
+    // const message = ref("");
+    // const sendMessage = () => {
+    //   if (!message.value.length) {
+    //     return;
+    //   }
 
-      GameInfo.Instance.userSpeak(message.value);
-      message.value = "";
-    };
+    //   GameInfo.Instance.userSpeak(message.value);
+    //   message.value = "";
+    // };
 
     return {
       isShowAccount,
@@ -278,8 +278,8 @@ export default defineComponent({
       closeReward,
       showReward,
 
-      message,
-      sendMessage,
+      // message,
+      // sendMessage,
 
       timeLeft,
     };
@@ -359,9 +359,8 @@ export default defineComponent({
   width: 100%;
   height: 781px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url("../../assets/v2/game_board/bg.png");
@@ -370,6 +369,7 @@ export default defineComponent({
 .game-table {
   width: 1126px;
   height: 513px;
+  margin: auto;
   background-image: url("../../assets/v2/game_board/desk.png");
   background-repeat: no-repeat;
   background-size: cover;
@@ -380,10 +380,8 @@ export default defineComponent({
 .action {
   width: 197px;
   height: 407px;
+  margin: 162px 25px 0 0;
   border-radius: 17px 0px 0px 0px;
-  position: absolute;
-  top: 165px;
-  right: 30px;
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url("../../assets/v2/game_board/action_bg.png");
@@ -437,7 +435,7 @@ export default defineComponent({
 .user-0 {
   position: absolute;
   top: 401px;
-  right: calc(50%);
+  right: calc(50% - 145px/2);
 }
 
 .user-1 {
@@ -555,7 +553,7 @@ export default defineComponent({
   width: 300px;
 }
 
-.info{
+.info {
   display: flex;
   justify-content: space-between;
   height: 176px;
@@ -563,13 +561,13 @@ export default defineComponent({
   border: 1px solid rgba(110, 196, 189, 0.6);
 }
 
-.message{
-  width: 1145px;
+.info > .left {
+  width: calc(1920px - 625px);
   height: 100%;
   padding: 17px 32px;
 }
 
-.operation {
+.info > .right {
   width: 625px;
   height: 100%;
   padding: 17px 21px;

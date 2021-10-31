@@ -185,7 +185,7 @@ export default class GameInfo {
       }
 
       const waitinguser = []
-      let selfIndex = 0
+      let siteIndex = 1
       // users.some(([user], index) => {
       //   if (user && user.account === this.selfAccount) {
       //     selfIndex = index
@@ -193,17 +193,28 @@ export default class GameInfo {
       //   }
       // })
 
-      this.getSiteMapIndex(selfIndex, users)
+      // this.getSiteMapIndex(selfIndex, users)
       users.forEach(([user], index) => {
         if (user) {
-          waitinguser.push({
-            siteIndex: index + 1,
-            account: user.account,
-            isReady: user.isReady,
-            needReadyBefore: divisionBigInt(user.needReadyBefore, 1000000),
-            sitdownAt: divisionBigInt(user.sitdownAt, 1000000),
-            message: this.getMessage(user.account, user.userSpeak)
-          })
+          if (user && user.account === this.selfAccount) {
+            waitinguser.push({
+              siteIndex: 0,
+              account: user.account,
+              isReady: user.isReady,
+              needReadyBefore: divisionBigInt(user.needReadyBefore, 1000000),
+              sitdownAt: divisionBigInt(user.sitdownAt, 1000000),
+              message: this.getMessage(user.account, user.userSpeak)
+            })
+          }else{
+            waitinguser.push({
+              siteIndex: siteIndex++,
+              account: user.account,
+              isReady: user.isReady,
+              needReadyBefore: divisionBigInt(user.needReadyBefore, 1000000),
+              sitdownAt: divisionBigInt(user.sitdownAt, 1000000),
+              message: this.getMessage(user.account, user.userSpeak)
+            })
+          }
         }
       })
       tableResult.data = {

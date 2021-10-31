@@ -25,18 +25,20 @@
         </div>
       </a-tooltip>
     </div>
-  </div> -->
+  </div>-->
   <div class="user">
     <!-- <img class="avatar-box" :src="avatarBox" alt="" srcset="" /> -->
-    <div class="avatar">
-      <img :src="avatorUrl" alt="" srcset="" />
+    <div :class="[ !waitingAction  ? '': 'avatar-acting']">
+      <div class="avatar">
+        <img :src="avatorUrl" alt srcset />
+      </div>
     </div>
     <div class="info" @click="copyAddress">
       <span class="nickname">
         {{
-          gameInfo.userInfos[account]
-            ? gameInfo.userInfos[account].alias
-            : account.substr(0, 5) + "..."
+        gameInfo.userInfos[account]
+        ? gameInfo.userInfos[account].alias
+        : account.substr(0, 5) + "..."
         }}
       </span>
       <div class="score">
@@ -45,13 +47,7 @@
       </div>
     </div>
 
-    <a-tooltip
-      :title="message"
-      placement="topLeft"
-      color="green"
-      :visible="message !== ''"
-    >
-    </a-tooltip>
+    <a-tooltip :title="message" placement="topLeft" color="green" :visible="message !== ''"></a-tooltip>
   </div>
 </template>
 
@@ -101,15 +97,11 @@ export default defineComponent({
     },
 
     avatorUrl() {
-      console.log(this.account)
-       console.log( this.gameInfo)
       const url =
         this.gameInfo.userInfos[this.account] &&
         this.gameInfo.userInfos[this.account].avatar
           ? this.gameInfo.userInfos[this.account].avatar
           : this.avatarMap.getItem(`avatar_${this.id}`);
-
-           console.log(url)
       return url;
     },
 
@@ -139,6 +131,9 @@ export default defineComponent({
           `action_ready_${this.isLeft ? "left" : "right"}`
         );
       }
+    },
+    waitingAction() {
+      return !this.isReady;
     },
   },
   mounted() {
@@ -185,6 +180,17 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
 }
+.avatar-acting {
+  width: 138px;
+  height: 138px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-position: left;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("../../assets/v2/game_board/guang.png");
+}
 .avatar {
   width: 114px;
   height: 114px;
@@ -193,6 +199,7 @@ export default defineComponent({
   justify-content: center;
   border-radius: 9999px;
   background-position: center;
+  background-size: contain;
   background-image: url("../../assets/v2/game_board/avatar_bg.png");
 }
 .avatar > img {
@@ -201,12 +208,15 @@ export default defineComponent({
   border-radius: 9999px;
 }
 .info {
-  width: 143px;
-  height: 56px;
+  width: 145px;
+  height: 58px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   background-image: url("../../assets/v2/game_board/user_info.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-top: -4px;
 }
 .nickname {
   font-size: 20px;
