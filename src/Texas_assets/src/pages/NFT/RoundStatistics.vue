@@ -3,41 +3,71 @@
   <div class="dialog-wrapper">
     <div class="dialog-bg">
       <div class="table-wrapper">
-        <div class="table-header">
-          <div class="header-first">BET</div>
-          <div class="header-second">COMBINATION</div>
-          <div class="header-third">WINNINGS</div>
-          <div class="header-four">POT 1</div>
-          <div class="header-four">POT 2</div>
-          <div class="header-four">POT 3</div>
-          <div class="header-four">POT 4</div>
-        </div>
-        <div class="table-body">
-          <div>
-            <div>头像</div>
-            <div>
-              <div>name</div>
-              <div>
-                圈圈
-                1k
+        <table>
+          <tr>
+            <th>BET</th>
+            <th>COMBINATION</th>
+            <th>WINNINGS</th>
+            <th>POT 1</th>
+            <th>POT 1</th>
+            <th>POT 1</th>
+            <th>POT 1</th>
+          </tr>
+          <tr v-for="item in dataSource" :key='item'>
+            <td>
+              <div class="userinfo">
+                <div class="picture">头像</div>
+                <div class="main-info">
+                  <div class="first">
+                    <span style="font-size: 24px;color: #D48940">{{ item.name }}</span>
+                  </div>
+                  <div class="first">
+                    <img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
+                    &nbsp;{{ item.number }}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div>
-            poker映射
-          </div>
-          <div>
-            圈圈1k
-          </div>
-          <div>
-            按钮1k
-          </div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
+            </td>
+            <td>
+              <div>
+                <img class="poker-img"  v-for="item in item.pokerArray " :key='item' :src="require('../../assets/poker/' + item + '.png')" alt="">
+              </div>
+            </td>
+            <td>
+              <div class="first center">
+                <img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
+                &nbsp;{{ item.win }}
+              </div>
+            </td>
+            <td>
+              <div class="button">
+                &nbsp;<img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
+                &nbsp;<span class="text">{{item.pot1}}</span>
+              </div>
+            </td>
+            <td>
+              <div class="button" >
+<!--                v-if="item.pot1"-->
+                &nbsp;<img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
+                &nbsp;<span class="text">{{item.pot2}}</span>
+              </div>
+            </td>
+            <td>
+              <div class="button">
+                &nbsp;<img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
+                &nbsp;<span class="text">{{item.pot3}}</span>
+              </div>
+            </td>
+            <td>
+              <div class="button">
+                &nbsp;<img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
+                &nbsp;<span class="text">{{item.pot4}}</span>
+              </div>
+            </td>
+          </tr>
 
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -47,20 +77,88 @@
  * @description
  * 开发 赵笑寒 10.29
  * */
-import {defineComponent, ref} from 'vue';
+import {defineComponent, onMounted, ref} from 'vue';
+import {pokerMap} from "../Game/resource";
 // import {DownCircleOutlined} from '@ant-design/icons-vue';
 
 
 export default defineComponent({
   components: {},
   setup() {
+    onMounted(()=>{
+      getImgSrc()
+
+    })
+
+
+
     let value = ref('');
     let enterCallback = value => {
       console.log(value);
     }
+
+
+    let dataSource = [
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        win: '1K',
+        pot1: '2K',
+        pot2: '3K',
+        pot3: '4K',
+        pot4: '5K',
+      },
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        win: '1K',
+        pot1: '2K',
+        pot2: '3K',
+        pot3: '4K',
+        pot4: '5K',
+      },
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        win: '1K',
+        pot1: '2K',
+        pot2: '3K',
+        pot3: '4K',
+        pot4: '5K',
+      }, {
+        name: 'lallaboboi',
+        number: '1k',
+        pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        win: '1K',
+        pot1: '2K',
+        pot2: '3K',
+        pot3: '4K',
+        pot4: '5K',
+      }, {
+        name: 'lallaboboi',
+        number: '1k',
+        pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        win: '1K',
+        pot1: '2K',
+        pot2: '3K',
+        pot3: '4K',
+        pot4: '5K',
+      },
+
+
+    ]
+    let getImgSrc= (value) =>{
+      return pokerMap.value
+    }
+
     return {
       value,
-      enterCallback
+      enterCallback,
+      dataSource,
+      getImgSrc
     };
   }
 })
@@ -95,39 +193,90 @@ export default defineComponent({
 }
 
 .table-wrapper {
-  border: 1px solid #8E7C61;
-  border-radius: 5px;
   margin: 6vw 1.5vw 1vw 1.5vw;
+  width: 95%;
+}
+
+table {
+  border: 1px solid red;
+  width: 100%;
+  border-collapse: collapse;
 
 }
 
-.table-header {
-  display: flex;
+th {
   color: #F7CA5F;
+}
+
+th, td {
+  border: 1px solid #3b3f38;
+  height: 70px;
   text-align: center;
-  line-height: 3.229vw;
-  height: 3.229vw
 }
 
-.table-header .header-first .header-second .header-third .header-four {
+th {
   background: #152527;
-  border-right: 1px solid #8E7C61;
-  border-bottom: 1px solid #8E7C61;
+
 }
 
-
-.table-header .header-first {
+.userinfo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
-.table-header .header-second {
+.picture {
+  width: 2.91vw;
+  height: 2.91vw;
+  border: 1px solid black;
+  border-radius: 50%;
 }
 
-.table-header .header-third {
+.first {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  text-align: center;
+  line-height: 22px;
 }
 
-.table-header .header-four {
+.center {
+  display: flex;
+  justify-content: center;
 }
 
-.table-body {
+.first img {
+  width: 15px;
+  height: 15px;
 }
+
+.first span {
+  color: #fff;
+  font-size: 20px;
+}
+
+.button {
+  background: url("../../../src/assets/ntf/userinfo/anniu.png") center center no-repeat;
+  background-size: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button img {
+  width: 15px;
+  height: 15px;
+}
+
+.button .text {
+  line-height: 25px;
+}
+.poker-img{
+  width: 1.97vw;
+  height: 2.65vw;
+  margin-right: 10px;
+}
+
 </style>
