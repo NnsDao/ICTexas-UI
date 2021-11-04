@@ -6,15 +6,17 @@
         <img src="../../../src/assets/ntf/avator/title.png" alt="">
       </div>
       <div class="content">
-        <div class="avator">头像</div>
+        <div class="avator">
+          <img class="v2avatorUrl" :src="avatorUrl" alt="" v-on:error.once="errorUrl(e)">
+        </div>
         <div class="input">
-          <a-input v-model:value="value" @pressEnter="enterCallback"/>
+          <a-input v-model:value="avatorUrl" @pressEnter="enterCallback"/>
 
         </div>
         <div class="footer">
-          <div class="cancel">
+          <div class="cancel" onclick="cancel()">
           </div>
-          <div class="ok">
+          <div class="ok" onclick="handleOk()">
           </div>
         </div>
       </div>
@@ -29,20 +31,61 @@
  * 开发 赵笑寒 10.29
  * */
 import {defineComponent, ref} from 'vue';
+import {message} from "ant-design-vue";
+import GameInfo from "../../utils/game";
+import store from "../../store";
 // import {DownCircleOutlined} from '@ant-design/icons-vue';
 
 
 export default defineComponent({
   components: {},
-  setup() {
-    let value = ref('');
-    let enterCallback = value => {
-      console.log(value);
+  emits:['offAvatorDialog'],
+  setup({emit})   {
+    let avatorUrl = ref('');
+    let errorUrl = (e) =>{
+      e.currentTarget.src = "https://hrrqn-4aaaa-aaaai-aasoq-cai.raw.ic0.app/assets/nnsdao-logo-1024.3009ad19.png"
     }
-    return {
-      value,
-      enterCallback
+    let cancel = () => {
+      emit('offAvatorDialog', false)
+    }
+    let enterCallback = () => {
+      handleOk()
+    }
+
+    const showModal = (url) => {
+
+      if (url.indexOf("http") != -1) {
+        avatorUrl.value = url;
+      }
     };
+
+    const handleOk = async () => {
+      const AntAvatarImage = document.getElementsByClassName("v2avatorUrl")
+      if (!AntAvatarImage.length || !AntAvatarImage[0].children.length) {
+        message.error("Can't find the Image");
+        return;
+      }
+
+      const res = await GameInfo.Instance.setAvatar(avatorUrl.value);
+      if (!res[0]) {
+        message.error(res[1]);
+        return;
+      }
+
+      await store.dispatch("user/setNickname");
+      cancel()
+    };
+
+    return {
+      avatorUrl,
+      errorUrl,
+      enterCallback,
+      cancel,
+
+      showModal,
+      handleOk,
+    };
+
   }
 })
 </script>
@@ -92,6 +135,11 @@ export default defineComponent({
   height: 5vw;
   border: 1px solid black;
   border-radius: 50%;
+  overflow: hidden;
+}
+.content .avator img{
+  width: 100%;
+  height: 100%;
 }
 
 .content .input {

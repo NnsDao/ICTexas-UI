@@ -89,7 +89,8 @@
     <record v-if="isShowRecord" ref="record" />
     <allow ref="allow" />
     <input-alias ref="alias" />
-    <set-avator ref="avator" />
+<!--    <set-avator v-if="isShowAvatorDialog" ref="avator" @offAvatorDialog="offAvatorDialog"/>-->
+    <AvatorDialog v-if="isShowAvatorDialog" ref="avator" @offAvatorDialog="offAvatorDialog"/>
   </div>
 </template>
 
@@ -104,7 +105,8 @@ import Translate from "./Translate.vue";
 import Record from "./Record.vue";
 import Allow from "./Allow.vue";
 import InputAlias from "./InputAlias.vue";
-import SetAvator from "./SetAvator.vue";
+import AvatorDialog from "../NFT/AvatorDialog";
+
 import { mapGetters } from "vuex";
 import { message } from "ant-design-vue";
 import { defineComponent, ref, onMounted } from "vue";
@@ -124,7 +126,8 @@ export default defineComponent({
     Record,
     Allow,
     InputAlias,
-    SetAvator,
+    AvatorDialog,
+    // SetAvator,
   },
   data() {
     return {
@@ -133,6 +136,7 @@ export default defineComponent({
   },
   setup() {
     const mintLoading = ref(false);
+    let isShowAvatorDialog =ref(false)
     const mint = async () => {
       mintLoading.value = true;
       const flag = await TokenInfo.Instance.mint();
@@ -159,7 +163,7 @@ export default defineComponent({
     const isShowMenu = ref(false);
     const showMenu = () => {
       isShowMenu.value = !isShowMenu.value;
-    };
+    }
 
     return {
       isShowMenu,
@@ -167,6 +171,7 @@ export default defineComponent({
 
       mintLoading,
       mint,
+      isShowAvatorDialog
     };
   },
   computed: {
@@ -219,9 +224,12 @@ export default defineComponent({
     },
 
     setAvator() {
-      this.isShowMenu = false;
+      this.isShowMenu = false
       this.$refs.avator.showModal(this.userInfo.avatorUrl);
     },
+    offAvatorDialog(){
+      this.isShowAvatorDialog = false
+    }
   },
 });
 </script>
