@@ -1,22 +1,22 @@
 <!--修改头像弹窗 -->
 <template>
   <div class="dialog-wrapper">
-    <div class="dialog-bg">
+    <div class="dialog-bg" @click.stop>
       <div class="head">
         <img src="../../../src/assets/ntf/avator/title.png" alt="">
       </div>
       <div class="content">
         <div class="avator">
-          <img class="v2avatorUrl" :src="avatorUrl" alt="" v-on:error.once="errorUrl(e)">
+          <img class="v2avatorUrl" :src="avatorUrl" alt="" v-on:error.once="errorUrl($event)">
         </div>
         <div class="input">
           <a-input v-model:value="avatorUrl" @pressEnter="enterCallback"/>
 
         </div>
         <div class="footer">
-          <div class="cancel" onclick="cancel()">
+          <div class="cancel" @click.stop="cancel()">
           </div>
-          <div class="ok" onclick="handleOk()">
+          <div class="ok" @click.stop="handleOk()">
           </div>
         </div>
       </div>
@@ -39,15 +39,12 @@ import store from "../../store";
 
 export default defineComponent({
   components: {},
-  emits:['offAvatorDialog'],
-  setup({emit})   {
+  setup() {
     let avatorUrl = ref('');
-    let errorUrl = (e) =>{
+    let errorUrl = (e) => {
       e.currentTarget.src = "https://hrrqn-4aaaa-aaaai-aasoq-cai.raw.ic0.app/assets/nnsdao-logo-1024.3009ad19.png"
     }
-    let cancel = () => {
-      emit('offAvatorDialog', false)
-    }
+
     let enterCallback = () => {
       handleOk()
     }
@@ -73,20 +70,23 @@ export default defineComponent({
       }
 
       await store.dispatch("user/setNickname");
-      cancel()
+      this.cancel()
     };
 
     return {
       avatorUrl,
       errorUrl,
       enterCallback,
-      cancel,
-
       showModal,
       handleOk,
     };
 
-  }
+  },
+    methods: {
+      cancel() {
+        this.$emit('offAvatorDialog', false)
+      }
+    }
 })
 </script>
 
@@ -137,7 +137,8 @@ export default defineComponent({
   border-radius: 50%;
   overflow: hidden;
 }
-.content .avator img{
+
+.content .avator img {
   width: 100%;
   height: 100%;
 }
@@ -175,14 +176,15 @@ export default defineComponent({
   display: flex;
 }
 
-.content .footer .cancel{
+.content .footer .cancel {
   margin-right: 5vw;
   width: 6.45vw;
   height: 2.75vw;
   background: url("../../../src/assets/ntf/avator/cancel.png") no-repeat;
   background-size: cover;
 }
-.content .footer .ok{
+
+.content .footer .ok {
   width: 6.45vw;
   height: 2.75vw;
   background: url("../../../src/assets/ntf/avator/ok.png") no-repeat;

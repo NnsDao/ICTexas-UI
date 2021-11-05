@@ -18,37 +18,41 @@
 
       <template #extra>
         <a-popover
-          trigger="hover"
-          placement="left"
-          :visible="isShowMenu"
-          @click.stop="showMenu()"
+            trigger="hover"
+            placement="left"
+            :visible="isShowMenu"
+            @click.stop="showMenu()"
         >
           <template #content>
             <a-button block class="menu-item" type="link" @click.stop="goRecord"
-              >Transfer History</a-button
+            >Transfer History
+            </a-button
             >
             <a-button block class="menu-item" type="link" @click.stop="setName"
-              >Set Nickname</a-button
+            >Set Nickname
+            </a-button
             >
             <a-button
-              block
-              class="menu-item"
-              type="link"
-              @click.stop="setAvator"
-              >Set Avator</a-button
+                block
+                class="menu-item"
+                type="link"
+                @click="setAvator"
+            >Set Avator
+            </a-button
             >
             <a-button block class="menu-item" type="link" @click.stop="logout"
-              >Logout</a-button
+            >Logout
+            </a-button
             >
           </template>
-          <ellipsis-outlined />
+          <ellipsis-outlined/>
         </a-popover>
       </template>
 
       <div class="myaccount-content">
         <img
-          class="identicon identicon__image-border"
-          src="../../assets/logo.png"
+            class="identicon identicon__image-border"
+            src="../../assets/logo.png"
         />
         <div class="balance">
           <span>{{ userInfo.balance }}</span>
@@ -58,26 +62,32 @@
         <div class="action-group">
           <div class="action-item">
             <a-button
-              type="primary"
-              shape="circle"
-              @click.stop="mint"
-              :loading="mintLoading"
+                type="primary"
+                shape="circle"
+                @click.stop="mint"
+                :loading="mintLoading"
             >
-              <template #icon><PlusOutlined /></template>
+              <template #icon>
+                <PlusOutlined/>
+              </template>
             </a-button>
             <div class="action-text">Mint</div>
           </div>
 
           <div class="action-item" @click.stop="translateToken">
             <a-button type="primary" shape="circle">
-              <template #icon><SwapOutlined /></template>
+              <template #icon>
+                <SwapOutlined/>
+              </template>
             </a-button>
             <div class="action-text">Transfer</div>
           </div>
 
           <div class="action-item" @click.stop="allow">
             <a-button type="primary" shape="circle">
-              <template #icon><ExpandAltOutlined /></template>
+              <template #icon>
+                <ExpandAltOutlined/>
+              </template>
             </a-button>
             <div class="action-text">Approve</div>
           </div>
@@ -85,12 +95,12 @@
       </div>
     </a-card>
 
-    <translate ref="translate" />
-    <record v-if="isShowRecord" ref="record" />
-    <allow ref="allow" />
-    <input-alias ref="alias" />
-<!--    <set-avator v-if="isShowAvatorDialog" ref="avator" @offAvatorDialog="offAvatorDialog"/>-->
-    <AvatorDialog v-if="isShowAvatorDialog" ref="avator" @offAvatorDialog="offAvatorDialog"/>
+    <translate ref="translate"/>
+    <record v-if="isShowRecord" ref="record"/>
+    <allow ref="allow"/>
+    <input-alias ref="alias"/>
+    <!--    <set-avator v-if="isShowAvatorDialog" ref="avator" @offAvatorDialog="offAvatorDialog"/>-->
+    <avator-dialog v-if="isShowAvatorDialog" ref="avator" @offAvatorDialog="offAvatorDialog"/>
   </div>
 </template>
 
@@ -105,15 +115,15 @@ import Translate from "./Translate.vue";
 import Record from "./Record.vue";
 import Allow from "./Allow.vue";
 import InputAlias from "./InputAlias.vue";
-import AvatorDialog from "../NFT/AvatorDialog";
+import AvatorDialog from "../NFT/AvatorDialog.vue";
 
-import { mapGetters } from "vuex";
-import { message } from "ant-design-vue";
-import { defineComponent, ref, onMounted } from "vue";
+import {mapGetters} from "vuex";
+import {message} from "ant-design-vue";
+import {defineComponent, ref, onMounted} from "vue";
 import TokenInfo from "../../utils/token";
 import GameInfo from "../../utils/game";
 import router from "../../router";
-import { isAgentExpiration } from "../../utils/identity";
+import {isAgentExpiration} from "../../utils/identity";
 import store from "../../store";
 
 export default defineComponent({
@@ -136,7 +146,7 @@ export default defineComponent({
   },
   setup() {
     const mintLoading = ref(false);
-    let isShowAvatorDialog =ref(false)
+    let isShowAvatorDialog = ref(false)
     const mint = async () => {
       mintLoading.value = true;
       const flag = await TokenInfo.Instance.mint();
@@ -214,7 +224,7 @@ export default defineComponent({
 
     showAddess(address) {
       return `${address.substr(0, 10)}...${address.substr(
-        address.length - 10
+          address.length - 10
       )}`;
     },
 
@@ -225,9 +235,13 @@ export default defineComponent({
 
     setAvator() {
       this.isShowMenu = false
-      this.$refs.avator.showModal(this.userInfo.avatorUrl);
+      this.isShowAvatorDialog = true
+      this.$nextTick(() => {
+        this.$refs.avator.showModal(this.userInfo.avatorUrl);
+      });
     },
-    offAvatorDialog(){
+    offAvatorDialog() {
+      console.log(1111111111)
       this.isShowAvatorDialog = false
     }
   },
