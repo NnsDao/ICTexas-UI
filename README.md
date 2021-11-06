@@ -1,4 +1,4 @@
-# ICTexas
+# ICTexas Beta
 
 ![NnsDAO Protocol](https://nnsdao.org/imgs/ec-logo.png)
 
@@ -32,6 +32,8 @@ If you want to start working on your project right away, you might want to try t
 - npm install
 
 - dfx start
+
+- dfx deploy
 
 - dfx build
 
