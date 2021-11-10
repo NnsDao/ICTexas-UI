@@ -179,7 +179,7 @@ export default defineComponent({
 }
 
 .start-img {
-  widows: 30px;
+  width: 30px;
   height: auto;
 }
 

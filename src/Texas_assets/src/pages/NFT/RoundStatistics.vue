@@ -1,4 +1,3 @@
-<!-- 统计战绩弹窗 -->
 <template>
   <div class="dialog-wrapper">
     <div class="dialog-bg">
@@ -30,7 +29,8 @@
             </td>
             <td>
               <div>
-                <img class="poker-img"  v-for="item in item.pokerArray " :key='item' :src="require('../../assets/poker/' + item + '.png')" alt="">
+                <img class="poker-img" v-for="item in item.pokerArray " :key='item'
+                     :src="require('../../assets/poker/' + item + '.png')" alt="">
               </div>
             </td>
             <td>
@@ -42,26 +42,26 @@
             <td>
               <div class="button">
                 &nbsp;<img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
-                &nbsp;<span class="text">{{item.pot1}}</span>
+                &nbsp;<span class="text">{{ item.pot1 }}</span>
               </div>
             </td>
             <td>
-              <div class="button" >
-<!--                v-if="item.pot1"-->
+              <div class="button">
+                <!--                v-if="item.pot1"-->
                 &nbsp;<img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
-                &nbsp;<span class="text">{{item.pot2}}</span>
+                &nbsp;<span class="text">{{ item.pot2 }}</span>
               </div>
             </td>
             <td>
               <div class="button">
                 &nbsp;<img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
-                &nbsp;<span class="text">{{item.pot3}}</span>
+                &nbsp;<span class="text">{{ item.pot3 }}</span>
               </div>
             </td>
             <td>
               <div class="button">
                 &nbsp;<img src="../../../src/assets/ntf/userinfo/yt.png" alt="">
-                &nbsp;<span class="text">{{item.pot4}}</span>
+                &nbsp;<span class="text">{{ item.pot4 }}</span>
               </div>
             </td>
           </tr>
@@ -73,10 +73,6 @@
 </template>
 
 <script>
-/**
- * @description
- * 开发 赵笑寒 10.29
- * */
 import {defineComponent, onMounted, ref} from 'vue';
 import {pokerMap} from "../Game/resource";
 // import {DownCircleOutlined} from '@ant-design/icons-vue';
@@ -85,11 +81,10 @@ import {pokerMap} from "../Game/resource";
 export default defineComponent({
   components: {},
   setup() {
-    onMounted(()=>{
+    onMounted(() => {
       getImgSrc()
 
     })
-
 
 
     let value = ref('');
@@ -99,6 +94,26 @@ export default defineComponent({
 
 
     let dataSource = [
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        win: '1K',
+        pot1: '2K',
+        pot2: '3K',
+        pot3: '4K',
+        pot4: '5K',
+      },
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        win: '1K',
+        pot1: '2K',
+        pot2: '3K',
+        pot3: '4K',
+        pot4: '5K',
+      },
       {
         name: 'lallaboboi',
         number: '1k',
@@ -150,7 +165,7 @@ export default defineComponent({
 
 
     ]
-    let getImgSrc= (value) =>{
+    let getImgSrc = (value) => {
       return pokerMap.value
     }
 
@@ -184,17 +199,17 @@ export default defineComponent({
   position: relative;
   background: #fff;
   width: 55vw;
-  height: 34.2vw;
-  background: url("../../../src/assets/ntf/statistics/roundStatisticsBG.png") no-repeat;
-  background-size: cover;
+  height: auto;
+  background: url("../../../src/assets/ntf/statistics/roundStatisticsBG.png") no-repeat center center;
+  background-size: contain;
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
 }
 
 .table-wrapper {
-  margin: 6vw 1.5vw 1vw 1.5vw;
-  width: 95%;
+  margin: 6vw auto 2vw auto;
+  width: 78%;
 }
 
 table {
@@ -273,7 +288,8 @@ th {
 .button .text {
   line-height: 25px;
 }
-.poker-img{
+
+.poker-img {
   width: 1.97vw;
   height: 2.65vw;
   margin-right: 10px;

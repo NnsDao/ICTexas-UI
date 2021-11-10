@@ -12,6 +12,7 @@ import {isAgentExpiration} from './utils/identity'
 import TokenInfo from "./utils/token";
 import GameInfo from "./utils/game";
 import store from "./store";
+import HandHistory from "./pages/Game/HandHistory.vue";
 
 const routes = [
     {path: '/', component: Login},
@@ -19,6 +20,8 @@ const routes = [
     {path: '/room', component: Room},
     {path: '/nft', component: NFT},
     {path: '/RoundStatistics', component: RoundStatistics},
+    {path: '/HandHistory', component: HandHistory},
+
 //    {path: '/AvatorDialog', component: AvatorDialog},
     {path: '/UserInfoDialog', component: UserInfoDialog},
     {path: '/Novice',component: Novice}
