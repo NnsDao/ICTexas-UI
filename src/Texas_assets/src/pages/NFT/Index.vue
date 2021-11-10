@@ -437,7 +437,7 @@ export default defineComponent({
 
 .images {
   margin: 0 13vw;
-  height: 700px;
+  height: 68vw;
   background-image: url("../../../src/assets/ntf/answer.png");
   background-repeat: no-repeat;
   background-size: cover

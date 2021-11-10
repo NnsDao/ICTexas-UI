@@ -5,7 +5,7 @@ import Game from './pages/Game/index.vue'
 import Room from './pages/Room/index.vue'
 import NFT from './pages/NFT/index.vue'
 import RoundStatistics from "./pages/NFT/RoundStatistics.vue";
-import UserInfoDialog from './pages/NFT/UserInfoDialog.vue'
+import UserInfoDialog from './pages/MyAccount/UserInfoDialog.vue'
 //import AvatorDialog from './pages/NFT/AvatorDialog.vue'
 import Novice from "./pages/NFT/Novice.vue";
 import {isAgentExpiration} from './utils/identity'

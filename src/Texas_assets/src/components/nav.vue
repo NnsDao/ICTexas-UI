@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <div>
-      <img class="logo" src="../assets/v2/nav/logo.png" />
+      <img class="logo" src="../assets/v2/nav/logo.png"/>
     </div>
     <div class="menu selected">
       <span>ROOM</span>
@@ -13,15 +13,52 @@
       <span>Market</span>
     </div>
     <div class="menu">
-      <span>Nickname / login</span>
+      <div>
+        <a-avatar size="large" class="user-btn" @click.stop="showMyaccount()">
+          <template #icon>
+            <img :src="userInfo.avatorUrl"/>
+          </template>
+        </a-avatar>
+        {{ userInfo.nickName ? userInfo.nickName : showAddess(userInfo.address) }}
+      </div>
     </div>
   </div>
+  <user-info-dialog v-if="isShowAccount" @close=" close()"/>
 </template>
 
 <script>
-export default {
-    
-}
+import {mapGetters} from "vuex";
+import {defineComponent, ref} from "vue";
+import UserInfoDialog from "../pages/MyAccount/UserInfoDialog.vue";
+
+export default defineComponent({
+  components: {UserInfoDialog},
+  setup() {
+    const isShowAccount = ref(false);
+    const showMyaccount = () => {
+      isShowAccount.value = !isShowAccount.value;
+    };
+    return {
+      isShowAccount,
+      showMyaccount,
+    }
+  },
+  computed: {
+    ...mapGetters("token", ["tokenInfo"]),
+    ...mapGetters("user", ["userInfo"]),
+  },
+  methods: {
+    showAddess(address) {
+      return `${address.substr(0, 10)}...${address.substr(
+          address.length - 10
+      )}`;
+    },
+    close(){
+      this.isShowAccount = false
+    }
+  }
+
+})
 </script>
 
 <style scoped>
@@ -38,7 +75,7 @@ export default {
   align-items: center;
 }
 
-.nav > div{
+.nav > div {
   cursor: pointer;
 }
 
@@ -56,8 +93,8 @@ export default {
 .selected {
   color: #f7c745;
   background-image: linear-gradient(
-    rgba(87, 47, 12, 0),
-    rgba(87, 47, 12, 0.77)
+      rgba(87, 47, 12, 0),
+      rgba(87, 47, 12, 0.77)
   );
   border-bottom: solid 3px #fbe79f;
 }

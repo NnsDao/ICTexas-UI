@@ -91,6 +91,7 @@ export default defineComponent({
     },
 
     winnerAccount() {
+      console.log(this.gameInfo,'gameInfo')
       const winner = this.gameInfo.lastGameReward[0];
       if (winner) {
         return this.showName(winner.account);

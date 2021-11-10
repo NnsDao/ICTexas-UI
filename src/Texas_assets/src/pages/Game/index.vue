@@ -539,7 +539,7 @@ export default defineComponent({
 
 .user-info {
   position: fixed;
-  top: 20px;
+  top: 200px;
   right: 40px;
 
   display: flex;

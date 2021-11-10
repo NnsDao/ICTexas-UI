@@ -197,7 +197,7 @@ export default defineComponent({
 .user-info {
   position: fixed;
   right: 20px;
-  top: 20px;
+  top: 200px;
   z-index: 100;
 
   display: flex;
