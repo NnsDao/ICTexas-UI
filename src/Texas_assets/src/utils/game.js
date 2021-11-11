@@ -225,7 +225,7 @@ export default class GameInfo {
       const currentRound = Object.keys(table.ingame.currentRound)[0]
       const users = table.ingame.users
 
-      let selfIndex = 0
+      let siteIndex = 1
       // users.some(([user], index) => {
       //   if (user && user.account === this.selfAccount) {
       //     selfIndex = index
@@ -233,10 +233,15 @@ export default class GameInfo {
       //   }
       // })
 
-      this.getSiteMapIndex(selfIndex, users)
+      this.getSiteMapIndex(siteIndex, users)
       users.forEach(([user], index) => {
         if (!user) return
-        user.siteIndex = index + 1
+
+        if (user.account === this.selfAccount) {
+          user.siteIndex = 0
+        }else{
+          user.siteIndex = siteIndex++
+        }
         user.holeCards = user.holeCards.length ? user.holeCards : ['back', 'back']
         user.bet = this.getUserBet(user.roundActions)
         user.actions = this.getUserAction(user.roundActions)

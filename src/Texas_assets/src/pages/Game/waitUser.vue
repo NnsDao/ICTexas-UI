@@ -33,21 +33,25 @@
         <img :src="avatorUrl" alt srcset />
       </div>
     </div>
+
     <div class="info" @click="copyAddress">
-      <span class="nickname">
-        {{
-        gameInfo.userInfos[account]
-        ? gameInfo.userInfos[account].alias
-        : account.substr(0, 5) + "..."
-        }}
-      </span>
+      <div class="action-box" v-if="actionBoxText != ''">
+        <span>{{actionBoxText}}</span>
+      </div>
+      <span class="nickname">{{gameInfo.userInfos[account]? gameInfo.userInfos[account].alias : account.substr(0, 5) + "..."}}</span>
       <div class="score">
         <img src="../../assets/v2/game_board/chip.png" class="chip" />
         <span>${{ balance }}</span>
       </div>
     </div>
 
-    <a-tooltip :title="message" placement="topLeft" color="green" :visible="message !== ''"></a-tooltip>
+    <a-tooltip
+      class="aaaa"
+      :title="message"
+      placement="topLeft"
+      color="green"
+      :visible="message !== ''"
+    ></a-tooltip>
   </div>
 </template>
 
@@ -81,7 +85,7 @@ export default defineComponent({
     },
     message: {
       type: String,
-      default: "",
+      default: "hahahaahh",
     },
   },
   computed: {
@@ -105,33 +109,26 @@ export default defineComponent({
       return url;
     },
 
-    avatarBox() {
-      if (this.isLeft) {
-        return this.playerMap.getItem("avatar_panel_left");
-      } else {
-        return this.playerMap.getItem("avatar_panel_right");
-      }
+    // avatarBox() {
+    //   if (this.isLeft) {
+    //     return this.playerMap.getItem("avatar_panel_left");
+    //   } else {
+    //     return this.playerMap.getItem("avatar_panel_right");
+    //   }
+    // },
+
+    // nameBox() {
+    //   if (this.isLeft) {
+    //     return this.playerMap.getItem("name_panel_left");
+    //   } else {
+    //     return this.playerMap.getItem("name_panel_right");
+    //   }
+    // },
+
+    actionBoxText() {
+      return this.isReady ? "ready" : "wait"
     },
 
-    nameBox() {
-      if (this.isLeft) {
-        return this.playerMap.getItem("name_panel_left");
-      } else {
-        return this.playerMap.getItem("name_panel_right");
-      }
-    },
-
-    actionBox() {
-      if (!this.isReady) {
-        return this.actionMap.getItem(
-          `action_wait_${this.isLeft ? "left" : "right"}`
-        );
-      } else {
-        return this.actionMap.getItem(
-          `action_ready_${this.isLeft ? "left" : "right"}`
-        );
-      }
-    },
     waitingAction() {
       return !this.isReady;
     },
@@ -207,7 +204,19 @@ export default defineComponent({
   height: calc(100% - 10px);
   border-radius: 9999px;
 }
+
+.action-box {
+  position: absolute;
+  right: 0;
+  top: -29px;
+  min-width: 59px;
+  height: 29px;
+  background: #faae4c;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+}
+
 .info {
+  position: relative;
   width: 145px;
   height: 58px;
   cursor: pointer;

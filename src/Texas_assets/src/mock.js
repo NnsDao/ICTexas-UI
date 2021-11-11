@@ -1,5 +1,5 @@
 export class Game {
-    count = 0
+    count = 1
     userStatusT = {
         "notinseat": {
             "notinseat": {},
@@ -43,7 +43,7 @@ export class Game {
                     [
                         {
                             "sitdownAt": "1628774303828578562",
-                            "isReady": false,
+                            "isReady": true,
                             "account": "61f71af426d8153abb367452268c2c54b0ffbc612d44852272646ebe2c234dbe",
                             "needReadyBefore": "1628774483828578562",
                             "message": "aaa"
@@ -244,40 +244,44 @@ export class Game {
                     },
                     "totalBets": "6000000000",
                     "users": [
-                        {
-                            "roundActions": [
-                                [
-                                    {
-                                        "smallblind": "1000000000"
-                                    }
+                        [
+                            {
+                                "roundActions": [
+                                    [
+                                        {
+                                            "smallblind": "1000000000"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "raise": "3000000000"
+                                        }
+                                    ]
                                 ],
-                                [
-                                    {
-                                        "raise": "3000000000"
-                                    }
-                                ]
-                            ],
-                            "holeCards": [],
-                            "isFold": false,
-                            "account": "f842a59aa43f68d24c4b76e792c16edd4f6bca77a356494e7be09c461f5f9332",
-                            "isAllIn": false
-                        },
-                        {
-                            "roundActions": [
-                                [
-                                    {
-                                        "bigblind": "2000000000"
-                                    }
-                                ]
-                            ],
-                            "holeCards": [
-                                "2H",
-                                "AH"
-                            ],
-                            "isFold": false,
-                            "account": "c183a0c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
-                            "isAllIn": false
-                        }
+                                "holeCards": [],
+                                "isFold": false,
+                                "account": "f842a59aa43f68d24c4b76e792c16edd4f6bca77a356494e7be09c461f5f9332",
+                                "isAllIn": false
+                            },
+                        ],
+                        [
+                            {
+                                "roundActions": [
+                                    [
+                                        {
+                                            "bigblind": "2000000000"
+                                        }
+                                    ]
+                                ],
+                                "holeCards": [
+                                    "2H",
+                                    "AH"
+                                ],
+                                "isFold": false,
+                                "account": "c183a0c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
+                                "isAllIn": false
+                            }
+                        ]
                     ],
                     "currentActionStart": "1627207619281742482"
                 }
@@ -305,7 +309,7 @@ export class Game {
                     },
                     "totalBets": "34000000000",
                     "users": [
-                        {
+                        [{
                             "roundActions": [
 
                                 [
@@ -327,8 +331,8 @@ export class Game {
                             "isFold": false,
                             "account": "c183a0c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
-                        {
+                        }],
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -343,9 +347,9 @@ export class Game {
                             "isFold": false,
                             "account": "f842a59aa43f68d24c4b76e792c16edd4f6bca77a356494e7be09c461f5f9332",
                             "isAllIn": false
-                        },
+                        }],
 
-                        {
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -357,8 +361,8 @@ export class Game {
                             "isFold": false,
                             "account": "d7189c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
-                        {
+                        }],
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -370,8 +374,8 @@ export class Game {
                             "isFold": false,
                             "account": "e8348234c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
-                        {
+                        }],
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -383,8 +387,8 @@ export class Game {
                             "isFold": false,
                             "account": "f8238234c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
-                        {
+                        }],
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -401,8 +405,8 @@ export class Game {
                             "isFold": false,
                             "account": "e32238234c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
-                        {
+                        }],
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -419,8 +423,8 @@ export class Game {
                             "isFold": false,
                             "account": "f8234c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
-                        {
+                        }],
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -438,8 +442,8 @@ export class Game {
                             "isFold": false,
                             "account": "e23423234c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
-                        {
+                        }],
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -457,8 +461,8 @@ export class Game {
                             "isFold": false,
                             "account": "e1231234c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
-                        {
+                        }],
+                        [{
                             "roundActions": [
                                 [
                                     {
@@ -475,7 +479,7 @@ export class Game {
                             "isFold": false,
                             "account": "e67867834c1f4533ee6d6d8cfe2891c0a82092ae75f0c2bb11de590d208ce6257bc",
                             "isAllIn": false
-                        },
+                        }],
 
                     ],
                     "currentActionStart": "1627207619281742482"
@@ -579,7 +583,7 @@ export class Game {
         })
     }
 
-    userSpeak(message){
+    userSpeak(message) {
         return new Promise((resolve) => {
             resolve(message)
         })
@@ -587,7 +591,8 @@ export class Game {
 
     tableStatus() {
         return new Promise((resolve) => {
-            resolve([this.tableStatusT['waitinguser'][this.count]])
+            console.log(this.tableStatusT['ingame'][this.count])
+            resolve([this.tableStatusT['ingame'][this.count]])
             // this.count += 1
         })
     }
@@ -620,6 +625,10 @@ export class Game {
         return new Promise(resovle => {
             resovle(this.gameReward)
         })
+    }
+
+    userHeartBeat() {
+
     }
 }
 

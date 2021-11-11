@@ -71,24 +71,42 @@
           class="operation-box"
         />-->
 
-        <user
-          :class="'user-' + user.siteIndex"
-          :id="user.siteIndex"
-          :account="user.account"
-          :holeCards="user.holeCards"
-          :bet="user.bet"
-          :isSmallblind="user.isSmallblind"
-          :isBigblind="user.isBigblind"
-          :currentRoundAction="user.currentRoundAction"
-          :currentRoundAmount="user.currentRoundAmount"
-          v-for="user in userList"
-          :key="user.account"
-          :balance="typeof user.balance === 'undefined' ? '...' : user.balance"
-          :isAllIn="user.isAllin"
-          :isFold="user.isFold"
-          :isOnline="user.isOnline"
-          :message="user.message || ''"
-        />
+        <!-- <user
+            :class="'user-' + user.siteIndex"
+            :id="user.siteIndex"
+            :account="user.account"
+            :holeCards="user.holeCards"
+            :bet="user.bet"
+            :isSmallblind="user.isSmallblind"
+            :isBigblind="user.isBigblind"
+            :currentRoundAction="user.currentRoundAction"
+            :currentRoundAmount="user.currentRoundAmount"
+            v-for="user in userList"
+            :key="user.account"
+            :balance="typeof user.balance === 'undefined' ? '...' : user.balance"
+            :isAllIn="user.isAllin"
+            :isFold="user.isFold"
+            :isOnline="user.isOnline"
+            :message="user.message || 'hahahah'"
+          /> -->
+
+        <div :class="'user-' + user.siteIndex" v-for="user in userList" :key="user.account">
+          <user
+            :id="user.siteIndex"
+            :account="user.account"
+            :holeCards="user.holeCards"
+            :bet="user.bet"
+            :isSmallblind="user.isSmallblind"
+            :isBigblind="user.isBigblind"
+            :currentRoundAction="user.currentRoundAction"
+            :currentRoundAmount="user.currentRoundAmount"
+            :balance="typeof user.balance === 'undefined' ? '...' : user.balance"
+            :isAllIn="user.isAllin"
+            :isFold="user.isFold"
+            :isOnline="user.isOnline"
+            :message="user.message || 'hahahah'"
+          />
+        </div>
       </template>
       <!-- </div> -->
     </div>
@@ -435,7 +453,7 @@ export default defineComponent({
 .user-0 {
   position: absolute;
   top: 401px;
-  right: calc(50% - 145px/2);
+  right: calc(50% - 145px / 2);
 }
 
 .user-1 {

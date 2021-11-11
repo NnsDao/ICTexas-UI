@@ -1,5 +1,5 @@
 <template>
-  <div :id="'user' + id" :class="{ left: isLeft, right: !isLeft }">
+  <!-- <div :id="'user' + id" :class="{ left: isLeft, right: !isLeft }">
     <div class="two-cards">
       <card
         :class="'cards-' + (index + 1)"
@@ -64,6 +64,48 @@
       <div class="blind" v-if="isSmallblind">SB: {{ gameInfo.smallblind }}</div>
       <div class="blind" v-if="isBigblind">BB: {{ gameInfo.bigblind }}</div>
     </div>
+  </div>-->
+
+  <div class="user">
+    <div class="cards">
+      <card
+        :class="'cards-' + (index + 1)"
+        :type="card"
+        v-for="(card, index) in holeCards"
+        :key="index"
+      />
+    </div>
+
+    <div :class="[ !waitingAction  ? '': 'avatar-acting']" style="z-index:99">
+      <div class="avatar">
+        <img :src="avatorUrl" alt srcset />
+      </div>
+    </div>
+
+    <div class="info" @click="copyAddress">
+      <div class="action-box" v-if="actionBoxText != ''">
+        <span>{{actionBoxText}}</span>
+      </div>
+      <span class="nickname">
+        {{
+        gameInfo.userInfos[account]
+        ? gameInfo.userInfos[account].alias
+        : account.substr(0, 5) + "..."
+        }}
+      </span>
+      <div class="score">
+        <img src="../../assets/v2/game_board/chip.png" class="chip" />
+        <span>${{ balance }}</span>
+      </div>
+    </div>
+
+    <a-tooltip
+      class="aaaa"
+      :title="message"
+      placement="topLeft"
+      color="green"
+      :visible="message !== ''"
+    ></a-tooltip>
   </div>
 </template>
 
@@ -155,7 +197,7 @@ export default defineComponent({
       document.execCommand("copy");
       document.body.removeChild(aux);
       message.info("The account address has been copied to the clipboard");
-    }
+    },
   },
   computed: {
     ...mapGetters("game", ["gameInfo"]),
@@ -222,6 +264,54 @@ export default defineComponent({
       }
     },
 
+    actionBoxText() {
+      if (this.isAllIn) {
+        return "all in";
+      }
+
+      if (this.isFold) {
+        return "fold";
+      }
+
+      if (this.isTurn && this.isMe) {
+        return "wait";
+      }
+
+      if (!this.currentRoundAction) {
+        if (this.isTurn && !this.isMe) {
+          return "wait";
+        } else {
+          return "";
+        }
+      } else {
+        switch (this.currentRoundAction) {
+          case "bet":
+          case "call":
+          case "check":
+          case "fold":
+          case "raise":
+            return this.currentRoundAction;
+          case "smallblind":
+            return "SB";
+          case "bigblind":
+            return "BB";
+        }
+        return "";
+      }
+    },
+
+    waitingAction() {
+      if (this.isTurn && this.isMe) {
+        return true;
+      }
+
+      if (!this.currentRoundAction) {
+        if (this.isTurn && !this.isMe) {
+          return true;
+        }
+      }
+    },
+
     actionBox() {
       if (this.isAllIn) {
         return this.actionMap.getItem(
@@ -260,6 +350,84 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.user {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cards{
+  display: flex;
+  position: absolute;
+  top: -50px;
+}
+.avatar-acting {
+  width: 138px;
+  height: 138px;
+  display: flex;
+  z-index: 99;
+  align-items: center;
+  justify-content: center;
+  background-position: left;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("../../assets/v2/game_board/guang.png");
+}
+.avatar {
+  width: 114px;
+  height: 114px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-position: center;
+  background-size: contain;
+  background-image: url("../../assets/v2/game_board/avatar_bg.png");
+}
+.avatar > img {
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: 9999px;
+}
+
+.action-box {
+  position: absolute;
+  right: 0;
+  top: -29px;
+  min-width: 59px;
+  height: 29px;
+  background: #faae4c;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+}
+
+.info {
+  position: relative;
+  width: 145px;
+  height: 58px;
+  cursor: pointer;
+  display: flex;
+  z-index: 99;
+  flex-direction: column;
+  background-image: url("../../assets/v2/game_board/user_info.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-top: -4px;
+}
+.nickname {
+  font-size: 20px;
+  font-weight: 400;
+  color: #d48940;
+}
+.chip {
+  width: 24px;
+  height: 24px;
+}
+.score {
+  font-size: 18px;
+  font-weight: 400;
+  color: #c5ecf1;
+}
+/* 
 .two-cards {
   position: relative;
   width: 200px;
@@ -468,5 +636,5 @@ export default defineComponent({
 .right .blind {
   top: 135px;
   right: 0px;
-}
+} */
 </style>

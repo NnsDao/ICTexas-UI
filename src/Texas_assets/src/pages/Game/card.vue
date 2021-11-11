@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img class="card" :src="pokerMap.getItem(type)" alt="" srcset="" :style="{ 'width': width + 'px' }" />
+    <img class="card" :src="pokerMap.getItem(type)" alt="" srcset="" :style="{ 'width': width + 'px', 'height': height }" />
   </div>
 </template>
 
@@ -15,6 +15,10 @@ export default defineComponent({
     width: {
       type: Number,
       default: 70
+    },
+    height: {
+      type: String,
+      default: 'auto'
     }
   },
   setup() {
