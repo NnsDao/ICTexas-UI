@@ -13,7 +13,7 @@ shared(msg) actor class TexasGameEvent() {
 
     private stable let _createTime = Time.now();
     private stable var _owner : Principal = msg.caller;
-    private var _texasGameCanisterId : Principal = Principal.fromText("ey3vx-fiaaa-aaaah-aaera-cai");
+    private var _texasGameCanisterId : Principal = Principal.fromText("dmzyn-fqaaa-aaaaj-aadfa-cai");
     private var _gameEndEvents : [TexasGameEventRecord.TexasGameEndEventRecord] = [];
     private var _gameEndEventsMap = HashMap.HashMap<AID.Address, [Nat]>(1, AID.equal, AID.hash);
 

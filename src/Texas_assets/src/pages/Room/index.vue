@@ -2,12 +2,12 @@
   <i-nav></i-nav>
 
   <div class="content" @click.stop="colseMyaccount()">
-    <div class="user-info">
-      <div class="balance">Balance: {{ userInfo.balance }}</div>
-      <a-avatar size="large" @click.stop="showMyaccount()">
-        <template #icon><img :src="userInfo.avatorUrl" /></template>
-      </a-avatar>
-    </div>
+<!--    <div class="user-info">-->
+<!--      <div class="balance">Balance: {{ userInfo.balance }}</div>-->
+<!--      <a-avatar size="large" @click.stop="showMyaccount()">-->
+<!--        <template #icon><img :src="userInfo.avatorUrl" /></template>-->
+<!--      </a-avatar>-->
+<!--    </div>-->
 
     <a-spin :spinning="spinning">
       <div class="level-select">
@@ -197,7 +197,7 @@ export default defineComponent({
 .user-info {
   position: fixed;
   right: 20px;
-  top: 20px;
+  top: 200px;
   z-index: 100;
 
   display: flex;

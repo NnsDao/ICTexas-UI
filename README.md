@@ -39,6 +39,14 @@ If you want to start working on your project right away, you might want to try t
 
 - npm run serve
 
+### deploy IC Network
+
+- sudo dfx identity get-principal
+
+- Authorize the local controller to each canister through II.
+
+- sudo dfx deploy --no-wallet --network ic
+
 ## About NnsDAO Protocol
 
 Nnsdao is simply a boundaryless autonomous organization. that provides some basic modular programmable services for building the world of DAOn.

@@ -28,8 +28,8 @@ shared(msg) actor class Token() {
     private stable var _tokenEventHandlers : [TokenEvent.TokenEventHandler] = [];
     private stable let _createTime : Time.Time = Time.now();
     private stable var _owner : Principal = msg.caller;
-    private stable var _name : Text = "Game Farm Token";
-    private stable var _symbol : Text = "GFT";
+    private stable var _name : Text = "GameFi Token Test";
+    private stable var _symbol : Text = "GFTT";
     private stable var _decimals : Nat64 = 8;
     private stable var _totalSupply : Nat64 = 30_000_000_000 * Nat64.pow(10, _decimals);
     private stable var _feePercent : Float = 0;

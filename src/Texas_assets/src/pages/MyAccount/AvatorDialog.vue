@@ -1,9 +1,8 @@
-<!--修改头像弹窗 -->
 <template>
   <div class="dialog-wrapper">
     <div class="dialog-bg" @click.stop>
       <div class="head">
-        <img src="../../../src/assets/ntf/avator/title.png" alt="">
+        <img src="../../assets/ntf/avator/title.png" alt="">
       </div>
       <div class="content">
         <div class="avator">
@@ -11,7 +10,6 @@
         </div>
         <div class="input">
           <a-input v-model:value="avatorUrl" @pressEnter="enterCallback"/>
-
         </div>
         <div class="footer">
           <div class="cancel" @click.stop="cancel()">
@@ -26,10 +24,7 @@
 </template>
 
 <script>
-/**
- * @description
- * 开发 赵笑寒 10.29
- * */
+
 import {defineComponent, ref} from 'vue';
 import {message} from "ant-design-vue";
 import GameInfo from "../../utils/game";
@@ -100,7 +95,7 @@ export default defineComponent({
   overflow: auto;
   margin: 0;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 11;
+  z-index: 15;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +106,7 @@ export default defineComponent({
   background: #fff;
   width: 50vw;
   height: 22.62vw;
-  background: url("../../../src/assets/ntf/avator/bg.png") no-repeat;
+  background: url("../../assets/ntf/avator/bg.png") no-repeat;
   background-size: cover;
   color: #FFFFFF;
   display: flex;
@@ -145,7 +140,7 @@ export default defineComponent({
 
 .content .input {
   margin: 2% 0;
-  background: url("../../../src/assets/ntf/avator/bg2.png") no-repeat;
+  background: url("../../assets/ntf/avator/bg2.png") no-repeat;
   background-size: cover;
   width: 40vw;
   height: 3.12vw;
@@ -180,14 +175,14 @@ export default defineComponent({
   margin-right: 5vw;
   width: 6.45vw;
   height: 2.75vw;
-  background: url("../../../src/assets/ntf/avator/cancel.png") no-repeat;
+  background: url("../../assets/ntf/avator/cancel.png") no-repeat;
   background-size: cover;
 }
 
 .content .footer .ok {
   width: 6.45vw;
   height: 2.75vw;
-  background: url("../../../src/assets/ntf/avator/ok.png") no-repeat;
+  background: url("../../assets/ntf/avator/ok.png") no-repeat;
   background-size: cover;
 
 }

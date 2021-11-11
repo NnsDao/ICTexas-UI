@@ -51,9 +51,9 @@ shared(msg) actor class Texas() {
     private let _siteCount = 3;
     private let _tablePerSiteCount = [100, 200, 200];
     private let _longTimeGameTime = 30 * 60 * 1_000_000_000;
-    private let _gameEventLoggerCanisterId = "ll4dt-naaaa-aaaah-aafuq-cai";
-    private let _tokenCanisterId = "ery6l-taaaa-aaaah-aaeqq-cai";
-    private var _selfTokenAddress : AID.Address = "8ca93b50b3d080e0a18d1999c21596cf30b6823d0feb840107192aca972d7fe4";
+    private let _gameEventLoggerCanisterId = "akuni-eyaaa-aaaag-qaacq-cai";
+    private let _tokenCanisterId = "yioai-dqaaa-aaaal-aaaiq-cai";
+    private var _selfTokenAddress : AID.Address = "d7067a22f203d92a4649e81ccd305a6a84bb4803ccdd168837102d47119b171a";
     private let _tokenActor : TokenActor = actor(_tokenCanisterId);
     private let _gameEventLoggerActor : GameEvent.GameEventHandler = actor(_gameEventLoggerCanisterId);
     private var _playground : [[var ?Table.Table]]= Array.tabulate(_siteCount, func (i:Nat) : [var ?Table.Table] {

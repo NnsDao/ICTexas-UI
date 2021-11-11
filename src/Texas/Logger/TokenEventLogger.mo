@@ -15,7 +15,7 @@ shared(msg) actor class TokenEvent() {
 
     private stable let _createTime = Time.now();
     private stable var _owner : Principal = msg.caller;
-    private stable var _tokenCanisterId : ?Principal = ?Principal.fromText("ery6l-taaaa-aaaah-aaeqq-cai");
+    private stable var _tokenCanisterId : ?Principal = ?Principal.fromText("yioai-dqaaa-aaaal-aaaiq-cai");
     private stable var _addresses : [AID.Address] = [];
     private stable var _tokenEvents : [TokenEventRecord.TokenEventRecord] = [];
     private stable var _tokenEventsMapEntries : [(AID.Address, (Int, [Nat]))] = [];

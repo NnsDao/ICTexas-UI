@@ -129,7 +129,14 @@
           :loading="getOutLoading"
           @click="userGetOut"
         >Get Out</a-button>
+        <a-button
+            size="large"
+            type="primary"
+            class="getout-btn"
+            @click="showReward()"
+        >Last Game</a-button>
       </template>
+
     </div>
 
     <div class="time-left">
@@ -143,24 +150,24 @@
       >Time Left: {{ timeLeft }}</div>
     </div>
 
-    <div class="user-info">
-      <a-button type="primary" class="history-btn" @click="showReward()">
-        <template #icon>
-          <HistoryOutlined />
-        </template>
-        Last Game
-      </a-button>
+<!--    <div class="user-info">-->
+<!--      <a-button type="primary" class="history-btn" @click="showReward()">-->
+<!--        <template #icon>-->
+<!--          <HistoryOutlined />-->
+<!--        </template>-->
+<!--        Last Game-->
+<!--      </a-button>-->
 
-      <a-avatar size="large" class="user-btn" @click.stop="showMyaccount()">
-        <template #icon>
-          <img :src="userInfo.avatorUrl" />
-        </template>
-      </a-avatar>
-    </div>
+<!--      <a-avatar size="large" class="user-btn" @click.stop="showMyaccount()">-->
+<!--        <template #icon>-->
+<!--          <img :src="userInfo.avatorUrl" />-->
+<!--        </template>-->
+<!--      </a-avatar>-->
+<!--    </div>-->
 
     <my-account class="my-account" v-if="isShowAccount" />
-    <Reward v-if="isShowReward" @close="closeReward" />
-
+<!--    <Reward v-if="isShowReward" @close="closeReward" />-->
+    <hand-history v-if="isShowReward" @close="closeReward"/>
     <!-- <a-input-search
       class="input-message"
       v-model:value="message"
@@ -203,9 +210,11 @@ import MyAccount from "../MyAccount/index.vue";
 import { isAgentExpiration } from "../../utils/identity";
 import INav from "../../components/nav.vue";
 import IBottom from "../../components/bottom.vue";
+import HandHistory from "./HandHistory.vue";
 
 export default defineComponent({
   components: {
+    HandHistory,
     Card,
     User,
     Operation,
@@ -557,7 +566,7 @@ export default defineComponent({
 
 .user-info {
   position: fixed;
-  top: 20px;
+  top: 200px;
   right: 40px;
 
   display: flex;

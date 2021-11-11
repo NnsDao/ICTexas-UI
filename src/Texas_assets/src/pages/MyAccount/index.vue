@@ -115,7 +115,7 @@ import Translate from "./Translate.vue";
 import Record from "./Record.vue";
 import Allow from "./Allow.vue";
 import InputAlias from "./InputAlias.vue";
-import AvatorDialog from "../NFT/AvatorDialog.vue";
+import AvatorDialog from "./AvatorDialog.vue";
 
 import {mapGetters} from "vuex";
 import {message} from "ant-design-vue";
@@ -146,7 +146,6 @@ export default defineComponent({
   },
   setup() {
     const mintLoading = ref(false);
-    let isShowAvatorDialog = ref(false)
     const mint = async () => {
       mintLoading.value = true;
       const flag = await TokenInfo.Instance.mint();
@@ -160,6 +159,8 @@ export default defineComponent({
     };
 
     onMounted(async () => {
+      console.log(TokenInfo,'tokeninfo')
+      console.log(userInfo,'userInfo')
       if (!TokenInfo.Instance.isLogin) {
         if (await isAgentExpiration()) {
           router.push("/");
@@ -169,6 +170,7 @@ export default defineComponent({
         }
       }
     });
+    let isShowAvatorDialog = ref(false)
 
     const isShowMenu = ref(false);
     const showMenu = () => {
