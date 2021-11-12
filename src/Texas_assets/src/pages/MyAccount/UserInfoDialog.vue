@@ -1,109 +1,121 @@
 <template>
   <div class="dialog-wrapper" @click.self="close()">
     <div class="dialog">
-      <div class="dialog-top">
-        <div class="picture">
-          <a-avatar :size="75" class="user-btn">
-            <template #icon>
-              <img :src="userInfo.avatorUrl" @click="setAvator"/>
-            </template>
-          </a-avatar>
-        </div>
-        <div class="main-info">
-          <div class="first">
-            <a-input v-if="isShowEdit" ref="nickName" @blur="submitNickName" v-model:value="newName"
-                     placeholder="input nickname"/>
-            <span v-if="!isShowEdit"
-                  style="font-size: 24px;color: #D48940">{{ userInfo.nickName ? userInfo.nickName : 'set name' }}</span>
-            &nbsp;<img src="../../assets/ntf/userinfo/bianji.png" alt="" @click="changeShowEdit">
-          </div>
-          <div class="first">
-            <img src="../../assets/ntf/userinfo/yt.png" alt="">
-            &nbsp;<span>{{ userInfo.balance + 'GFT' }}</span>
-          </div>
-          <div class="first">
-            <img src="../../assets/ntf/userinfo/g.png" alt="">
-            &nbsp;{{ 'nnsdao' }}
-          </div>
-          <div class="first">
-            {{ 'id' }}&nbsp;&nbsp;
-            <a-tooltip placement="bottom">
-              <template #title>click to copy</template>
-              <div class="user-address" @click.stop="copyAddress">
-                {{ showAddess(userInfo.address) }}
+      <img class="dialog-close" src="../../assets/close.png" alt="" @click.stop="close()">
+
+      <div class="dialog-content">
+
+        <div class="dialog-top">
+          <div class="user-info">
+            <div class="picture">
+              <a-avatar :size="75" class="user-btn">
+                <template #icon>
+                  <img :src="userInfo.avatorUrl" @click="setAvator"/>
+                </template>
+              </a-avatar>
+            </div>
+            <div class="main-info">
+              <div class="first">
+                <a-input v-if="isShowEdit" ref="nickName" @blur="submitNickName" v-model:value="newName"
+                         placeholder="input nickname"/>
+                <span v-if="!isShowEdit"
+                      style="font-size: 24px;color: #D48940">{{
+                    userInfo.nickName ? userInfo.nickName : 'set name'
+                  }}</span>
+                &nbsp;<img src="../../assets/ntf/userinfo/bianji.png" alt="" @click="changeShowEdit">
               </div>
-            </a-tooltip>
-          </div>
+              <div class="first">
+                <img src="../../assets/ntf/userinfo/yt.png" alt="">
+                &nbsp;<span>{{ userInfo.balance + 'GFT' }}</span>
+              </div>
+              <div class="first">
+                <img src="../../assets/ntf/userinfo/g.png" alt="">
+                &nbsp;{{ 'nnsdao' }}
+              </div>
+              <div class="first">
+                {{ 'id' }}&nbsp;&nbsp;
+                <a-tooltip placement="bottom">
+                  <template #title>click to copy</template>
+                  <div class="user-address" @click.stop="copyAddress">
+                    {{ showAddess(userInfo.address) }}
+                  </div>
+                </a-tooltip>
+              </div>
 
-        </div>
-        <div class="mid">
-          <div class="action-group">
-            <div class="action-item">
-              <a-button
-                  type="primary"
-                  shape="circle"
-                  @click.stop="mint"
-                  :loading="mintLoading"
-              >
-                <template #icon>
-                  <PlusOutlined/>
-                </template>
-              </a-button>
-              <div class="action-text">Mint</div>
             </div>
+          </div>
+          <div class="mid">
+            <div class="action-group">
+              <div class="action-item">
+                <a-button
+                    type="primary"
+                    shape="circle"
+                    @click.stop="mint"
+                    :loading="mintLoading"
+                >
+                  <template #icon>
+                    <PlusOutlined/>
+                  </template>
+                </a-button>
+                <div class="action-text">Mint</div>
+              </div>
 
-            <div class="action-item" @click.stop="translateToken">
-              <a-button type="primary" shape="circle">
-                <template #icon>
-                  <SwapOutlined/>
-                </template>
-              </a-button>
-              <div class="action-text">Transfer</div>
-            </div>
+              <div class="action-item" @click.stop="translateToken">
+                <a-button type="primary" shape="circle">
+                  <template #icon>
+                    <SwapOutlined/>
+                  </template>
+                </a-button>
+                <div class="action-text">Transfer</div>
+              </div>
 
-            <div class="action-item" @click.stop="allow">
-              <a-button type="primary" shape="circle">
-                <template #icon>
-                  <ExpandAltOutlined/>
-                </template>
-              </a-button>
-              <div class="action-text">Approve</div>
+              <div class="action-item" @click.stop="allow">
+                <a-button type="primary" shape="circle">
+                  <template #icon>
+                    <ExpandAltOutlined/>
+                  </template>
+                </a-button>
+                <div class="action-text">Approve</div>
+              </div>
+            </div>
+          </div>
+          <div class="text-content">
+            <div class="text-wrapper margin-right">
+              <div class="text-left">
+                <div class="gameInfo-text">GAMES PLAYED:</div>
+                <div class="gameInfo-text">BIGGEST WIN:</div>
+                <div class="gameInfo-text">STARTED PLAYING:</div>
+                <div class="gameInfo-text">LOCATION:</div>
+              </div>
+            </div>
+            <div class="text-wrapper">
+              <div class="text-right">
+                <div class="gameInfo-text">nnsdao</div>
+                <div>
+                  <img src="../../assets/ntf/userinfo/yt.png" alt="">
+                  <span class="gameInfo-text">nnsdao</span>
+                </div>
+                <div class="gameInfo-text">nnsdao</div>
+                <div class="gameInfo-text">nnsdao</div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="text-wrapper">
-          <div class="text-left">
-            <div>GAMES PLAYED:</div>
-            <div>BIGGEST WIN:</div>
-            <div>STARTED PLAYING:</div>
-            <div>LOCATION:</div>
+        <div class="dialog-bottom">
+          <div class="item" v-for="item in dataSource " :key="item.id">
+            <div class="text-green">{{ item.top }}</div>
+            <img :src="item.url" alt="">
+            <div>{{ item.bottom }}</div>
           </div>
-        </div>
-        <div class="text-wrapper">
-          <div class="text-right">
-            <div>nnsdao</div>
-            <div>
-              <img src="../../assets/ntf/userinfo/yt.png" alt="">
-              <span>nnsdao</span>
-            </div>
-            <div>nnsdao</div>
-            <div>nnsdao</div>
-          </div>
-        </div>
-      </div>
-      <div class="dialog-bottom">
-        <div class="item" v-for="item in dataSource " :key="item.id">
-          <div class="text-green">{{ item.top }}</div>
-          <img :src="item.url" alt="">
-          <div>{{ item.bottom }}</div>
         </div>
       </div>
     </div>
-    <translate ref="translate"/>
-    <allow ref="allow"/>
-    <avator-dialog v-if="isShowAvatorDialog" ref="avator" @offAvatorDialog="offAvatorDialog"/>
 
   </div>
+  <translate ref="translate"/>
+  <allow ref="allow"/>
+  <avator-dialog v-if="isShowAvatorDialog" ref="avator" @offAvatorDialog="offAvatorDialog"/>
+
 </template>
 
 <script>
@@ -281,28 +293,54 @@ export default defineComponent({
   align-items: center;
 }
 
+.dialog-close{
+  position: absolute;
+  top: -3px;
+  right: -25px;
+  width: 50px;
+  height: 50px;
+}
 .dialog {
   position: relative;
   background: #fff;
-  width: 50vw;
+  width: 45vw;
+  min-width: 620px;
+  height: 26.4606vw;
+  min-height: 350px;
   background: url("../../assets/ntf/userinfo/dk_a.png") no-repeat;
-  background-size: contain;
+  background-size: cover;
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
 }
 
+.dialog-content {
+  width: 90%;
+  height: auto;
+  margin-top: 5%;
+}
+
+
 .dialog-top {
-  margin-top: 14.5%;
+  /*margin: 14.5% 5% 3% 5%;;*/
+  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4% 0 6% 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
 }
 
 .picture {
-  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .main-info {
@@ -310,6 +348,7 @@ export default defineComponent({
 }
 
 .first {
+  margin-bottom: 3px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -317,6 +356,7 @@ export default defineComponent({
   flex-wrap: nowrap;
   text-align: center;
   line-height: 22px;
+  white-space: nowrap;
 }
 
 .first img {
@@ -336,21 +376,25 @@ export default defineComponent({
 
 }
 
-.mid .button {
-  background: url("../../assets/ntf/userinfo/anniu.png") no-repeat;
-  background-size: contain;
-  display: flex;
-  align-items: center;
-  width: 70px;
-}
+/*.mid .button {*/
+/*  background: url("../../assets/ntf/userinfo/anniu.png") no-repeat;*/
+/*  background-size: contain;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  width: 70px;*/
+/*}*/
 
 .mid .button img {
   width: 15px;
   height: 15px;
 }
 
-.mid .button .text {
-  line-height: 25px;
+/*.mid .button .text {*/
+/*  line-height: 25px;*/
+/*}*/
+
+.text-content {
+  display: flex;
 }
 
 .text-wrapper {
@@ -358,18 +402,21 @@ export default defineComponent({
   text-align: left;
 }
 
+.margin-right {
+  margin-right: 10px;
+}
+
 .text-wrapper img {
   width: 15px;
   height: 15px;
 }
 
-.text-right {
-  margin-right: 30px
-
+.text-left {
+  padding-left: 15px;
 }
 
 .dialog-bottom {
-  margin: 8% 4% 13% 4%;
+  /*margin: 0% 5% 5% 5%;*/
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -377,6 +424,11 @@ export default defineComponent({
 
 .text-green {
   color: #64cd56;
+}
+
+.gameInfo-text {
+  margin-bottom: 5px;
+  white-space: nowrap;
 }
 
 .dialog-bottom .item img {

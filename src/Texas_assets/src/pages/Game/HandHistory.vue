@@ -1,61 +1,78 @@
 <template>
   <div class="dialog-wrapper" @click.self="close()">
+
     <div class="dialog-bg">
+      <img class="dialog-close" src="../../assets/close.png" alt="" @click.stop="close()">
+
       <div class="table-wrapper">
-        <table>
-          <tr>
-            <th>HAND</th>
-            <th>NICKNAME</th>
-            <th>CARDS</th>
-            <th>POT</th>
-          </tr>
-          <tr v-for="item in gameInfo.lastGameReward"
-              :key="item.index">
-            <td>
-              {{ item.rank + 1 }}
-            </td>
-            <td>
-              <div class="nick">
-                <div class="picture">
-                </div>
-                <div class="main-info">
-                  <div class="first">
+        <div class="thead">
+          <table>
+            <tr>
+              <th>HAND</th>
+              <th>NICKNAME</th>
+              <th>CARDS</th>
+              <th>POT</th>
+            </tr>
+          </table>
+        </div>
+        <div class="tbody">
+          <table>
+            <tr v-for="item in gameInfo.lastGameReward"
+                :key="item.index">
+
+              <!--            <tr v-for="(item,index) in dataSource"-->
+              <!--                :key="index">-->
+              <td>
+                {{ item.rank + 1 || 0 }}
+              </td>
+              <td>
+                <div class="nick">
+                  <div class="picture">
+                    <a-avatar size="large" class="user-btn">
+                      <template #icon>
+                        <img :src="userInfo.avatorUrl"/>
+                      </template>
+                    </a-avatar>
+                  </div>
+                  <div class="main-info">
+                    <div class="first">
                     <span style="font-size: 1rem;color: #D48940">
                       {{ showName(item.account) }}
                     </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </td>
-            <td>
-              <div class="cards">
-                <card
-                    :class="'cards-' + (index + 1)"
-                    :type="card"
-                    v-for="(card, index) in item.cards"
-                    :key="index"
-                    :width="50"
-                />
+              </td>
+              <td>
+                <div class="cards">
+                  <card
+                      :class="'cards-' + (index + 1)"
+                      :type="card"
+                      v-for="(card, index) in item.cards"
+                      :key="index"
+                      :width="30"
+                  />
 
-                <card
-                    :class="'cards-' + (index + 6)"
-                    :type="card"
-                    v-for="(card, index) in item.resetCards"
-                    :key="index"
-                    :width="50"
-                />
-              </div>
-            </td>
-            <td>
-              <div class="button">
-                &nbsp;<img src="../../assets/ntf/userinfo/yt.png" alt="">
-                &nbsp;<span class="text">{{ item.reward }}</span>
-              </div>
-            </td>
+                  <card
+                      :class="'cards-' + (index + 6)"
+                      :type="card"
+                      v-for="(card, index) in item.resetCards"
+                      :key="index"
+                      :width="30"
+                  />
+                </div>
+              </td>
+              <td>
+                <div class="button">
+                  &nbsp;<img src="../../assets/ntf/userinfo/yt.png" alt="">
+                  &nbsp;<span class="text">{{ item.reward || '0' }}</span>
+                </div>
+              </td>
 
-          </tr>
+            </tr>
+          </table>
 
-        </table>
+        </div>
       </div>
     </div>
   </div>
@@ -73,6 +90,7 @@ export default defineComponent({
   components: {Card},
   computed: {
     ...mapGetters("game", ["gameInfo"]),
+    ...mapGetters("user", ["userInfo"]),
   },
   setup() {
     // onMounted(() => {
@@ -87,63 +105,63 @@ export default defineComponent({
     }
 
 
-    // let dataSource = [
-    //   {
-    //     name: 'lallaboboi',
-    //     number: '1k',
-    //     pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
-    //     pot1: '2K',
-    //   },
-    //   {
-    //     name: 'lallaboboi',
-    //     number: '1k',
-    //     pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
-    //     pot1: '2K',
-    //
-    //   },
-    //   {
-    //     name: 'lallaboboi',
-    //     number: '1k',
-    //     pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
-    //     pot1: '2K',
-    //
-    //   },
-    //   {
-    //     name: 'lallaboboi',
-    //     number: '1k',
-    //     pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
-    //     pot1: '2K',
-    //
-    //   },
-    //   {
-    //     name: 'lallaboboi',
-    //     number: '1k',
-    //     pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
-    //     pot1: '2K',
-    //
-    //   }, {
-    //     name: 'lallaboboi',
-    //     number: '1k',
-    //     pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
-    //     pot1: '2K',
-    //
-    //   }, {
-    //     name: 'lallaboboi',
-    //     number: '1k',
-    //     pokerArray: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
-    //     pot1: '2K',
-    //
-    //   },
-    //
-    //
-    // ]
+    let dataSource = [
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        cards: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        pot1: '2K',
+      },
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        cards: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        pot1: '2K',
+
+      },
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        cards: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        pot1: '2K',
+
+      },
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        cards: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        pot1: '2K',
+
+      },
+      {
+        name: 'lallaboboi',
+        number: '1k',
+        cards: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        pot1: '2K',
+
+      }, {
+        name: 'lallaboboi',
+        number: '1k',
+        cards: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        pot1: '2K',
+
+      }, {
+        name: 'lallaboboi',
+        number: '1k',
+        cards: ['AH', 'KH', 'QH', 'JH', 'TH', '9H'],
+        pot1: '2K',
+
+      },
+
+
+    ]
     let getImgSrc = (value) => {
     }
 
     return {
       value,
       enterCallback,
-      // dataSource,
+      dataSource,
       getImgSrc
     };
   },
@@ -188,8 +206,10 @@ export default defineComponent({
 .dialog-bg {
   position: relative;
   background: #fff;
-  width: 55vw;
-  height: 40vw;
+  width: 45vw;
+  min-width: 700px;
+  min-height: 420px;
+  height: 28vw;
   background: url("../../assets/ntf/statistics/HandHistoryBg.png") no-repeat center center;
   background-size: contain;
   color: #FFFFFF;
@@ -198,8 +218,67 @@ export default defineComponent({
 }
 
 .table-wrapper {
-  margin: 9vw auto 1vw auto;
-  width: 85%;
+  margin: 0 auto;
+  padding: 11% 0 1.5vw 0;
+  width: 95%;
+  height: 95%;
+}
+
+.thead {
+  position: relative;
+  table-layout: fixed;
+}
+
+.tbody {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 89%;
+
+}
+
+table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+
+}
+
+tr {
+  height: 50px;
+  position: relative;
+  /*table-layout: fixed;*/
+}
+
+th, td {
+  border: 1px solid #3b3f38;
+  height: 70px;
+  text-align: center;
+}
+
+th {
+  color: #F7CA5F;
+  background: #152527;
+
+}
+
+table thead {
+  width: calc(100% - 1em)
+}
+
+.thead table tr :nth-child(1), .tbody table tr :nth-child(1) {
+}
+
+.thead table tr :nth-child(2), .tbody table tr :nth-child(2) {
+  width: 25%;
+  white-space: nowrap;
+}
+
+.thead table tr :nth-child(3), .tbody table tr :nth-child(3) {
+  width: 47%;
+}
+
+.thead table tr :nth-child(4), .tbody table tr :nth-child(4) {
+  width: 13%;
 }
 
 .nick {
@@ -210,9 +289,10 @@ export default defineComponent({
 
 .cards {
   position: relative;
-  height: 70px;
-  width: 133px;
-  margin: 10px 10px;
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .cards-1,
@@ -222,56 +302,36 @@ export default defineComponent({
 .cards-5,
 .cards-6,
 .cards-7 {
-  width: 50px;
+  width: 12% !important;
   height: auto;
-  position: absolute;
+  /*height: auto;*/
+  /*position: absolute;*/
 }
 
-.cards-2 {
-  left: 35px;
-}
+/*.cards-2 {*/
+/*  left: 35px;*/
+/*}*/
 
-.cards-3 {
-  left: 70px;
-}
+/*.cards-3 {*/
+/*  left: 70px;*/
+/*}*/
 
-.cards-4 {
-  left: 105px;
-}
+/*.cards-4 {*/
+/*  left: 105px;*/
+/*}*/
 
-.cards-5 {
-  left: 140px;
-}
+/*.cards-5 {*/
+/*  left: 140px;*/
+/*}*/
 
-.cards-6 {
-  left: 200px;
-}
+/*.cards-6 {*/
+/*  left: 200px;*/
+/*}*/
 
-.cards-7 {
-  left: 235px;
-}
+/*.cards-7 {*/
+/*  left: 235px;*/
+/*}*/
 
-table {
-  border: 1px solid red;
-  width: 100%;
-  border-collapse: collapse;
-
-}
-
-th {
-  color: #F7CA5F;
-}
-
-th, td {
-  border: 1px solid #3b3f38;
-  height: 70px;
-  text-align: center;
-}
-
-th {
-  background: #152527;
-
-}
 
 .userinfo {
   display: flex;
@@ -280,10 +340,11 @@ th {
 }
 
 .picture {
-  width: 2.91vw;
-  height: 2.91vw;
-  border: 1px solid black;
-  border-radius: 50%;
+  /*width: 56px;*/
+  /*height: 56px;*/
+  /*border: 1px solid black;*/
+  /*border-radius: 50%;*/
+  padding: 0 10px;
 }
 
 .first {
@@ -326,6 +387,13 @@ th {
 
 .button .text {
   line-height: 25px;
+}
+.dialog-close{
+  position: absolute;
+  top: -3px;
+  right: -23px;
+  width: 50px;
+  height: 50px;
 }
 
 .poker-img {

@@ -3,13 +3,13 @@
     <div>
       <img class="logo" src="../assets/v2/nav/logo.png"/>
     </div>
-    <div class="menu selected">
+    <div class="menu " :class="{selected: currentSeclect === 'room' || currentSeclect === 'game'}" @click="changeSeclect('room')">
       <span>ROOM</span>
     </div>
-    <div class="menu">
+    <div class="menu" :class="{selected: currentSeclect === 'market'}" @click="changeSeclect('market')">
       <span>NFT</span>
     </div>
-    <div class="menu">
+    <div class="menu" :class="{selected: currentSeclect === 'kft'}" @click="changeSeclect('kft')">
       <span>Market</span>
     </div>
     <div class="menu">
@@ -28,8 +28,9 @@
 
 <script>
 import {mapGetters} from "vuex";
-import {defineComponent, ref} from "vue";
+import {defineComponent, onMounted, ref, getCurrentInstance} from "vue";
 import UserInfoDialog from "../pages/MyAccount/UserInfoDialog.vue";
+import {useRoute} from 'vue-router'
 
 export default defineComponent({
   components: {UserInfoDialog},
@@ -38,9 +39,12 @@ export default defineComponent({
     const showMyaccount = () => {
       isShowAccount.value = !isShowAccount.value;
     };
+    const route = useRoute()
+    let currentSeclect = ref((route.path + '').substring(1))
     return {
       isShowAccount,
       showMyaccount,
+      currentSeclect
     }
   },
   computed: {
@@ -48,12 +52,22 @@ export default defineComponent({
     ...mapGetters("user", ["userInfo"]),
   },
   methods: {
+    changeSeclect(name) {
+      if (this.currentSeclect === name) {
+        return this.currentSeclect
+      } else {
+        this.currentSeclect = name
+        this.$router.push({
+          path: `${'/' + name}`
+        })
+      }
+    },
     showAddess(address) {
       return `${address.substr(0, 10)}...${address.substr(
           address.length - 10
       )}`;
     },
-    close(){
+    close() {
       this.isShowAccount = false
     }
   }

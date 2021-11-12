@@ -1,5 +1,7 @@
 <!--FAQ-->
 <template>
+  <i-nav></i-nav>
+
   <a-carousel autoplay>
     <div class="item">
       <p>1</p>
@@ -44,7 +46,7 @@
             <span> what is nnsdao ?</span>
           </div>
           <div @click="changeShowFaq1">
-            <img src="../../assets/ntf/novice/xiala_s.png"  alt="">
+            <img src="../../assets/ntf/novice/xiala_s.png" alt="">
           </div>
         </div>
         <div class="tbody" v-if="isShowFaq1">
@@ -55,21 +57,24 @@
       </div>
     </div>
   </div>
+  <i-bottom></i-bottom>
 
 
 </template>
 
 <script>
-/**
- * @description
- * 开发 赵笑寒 10.29
- * */
+
 import {defineComponent, onMounted, ref} from 'vue';
-// import {DownCircleOutlined} from '@ant-design/icons-vue';
+
+import INav from "../../components/nav.vue";
+import IBottom from "../../components/bottom.vue";
 
 
 export default defineComponent({
-  components: {},
+  components: {
+    INav,
+    IBottom,
+  },
   setup() {
     onMounted(() => {
 
@@ -103,9 +108,9 @@ export default defineComponent({
 
 
     let isShowFaq1 = ref(true)
-    let changeShowFaq1 = () =>{
+    let changeShowFaq1 = () => {
       isShowFaq1.value = !isShowFaq1.value
-      console.log(isShowFaq1,'改变之后的')
+      console.log(isShowFaq1, '改变之后的')
     }
     return {
       imageList,
@@ -162,16 +167,18 @@ export default defineComponent({
 .hands img, .bets img, .actions img, .faq img {
   width: 75%;
 }
-.faq{
+
+.faq {
   padding-bottom: 200px;
 }
 
-.faq-content{
+.faq-content {
   width: 75vw;
   margin-top: 100px;
 
 }
-.theader{
+
+.theader {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -184,23 +191,28 @@ export default defineComponent({
   background-size: cover;
 
 }
-.theader img{
+
+.theader img {
   width: 1.5rem;
   height: 1.5rem;
   cursor: pointer;
 }
-.tbody{
+
+.tbody {
   display: flex;
 
 }
-.tbody span{
+
+.tbody span {
   color: #FFFFFF;
   padding: 1.6rem 0.8rem 1.8rem 0.8rem;
   text-align: left;
 }
-.texasFentures-img, .faq-img{
+
+.texasFentures-img, .faq-img {
   width: 75%;
 }
+
 /*>>> .nt-collapse{*/
 /*  background-color: transparent !important;*/
 /*  border: none !important;*/

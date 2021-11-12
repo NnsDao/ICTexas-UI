@@ -1,6 +1,7 @@
 <template>
   <div class="dialog-wrapper">
-    <div class="dialog-bg" @click.stop>
+    <div class="dialog-bg"  @click.self="cancel()">
+      <img class="dialog-close" src="../../assets/close.png" alt="" @click.stop="cancel()">
       <div class="head">
         <img src="../../assets/ntf/avator/title.png" alt="">
       </div>
@@ -105,12 +106,19 @@ export default defineComponent({
   position: relative;
   background: #fff;
   width: 50vw;
-  height: 22.62vw;
+  height: 22.5917vw;
   background: url("../../assets/ntf/avator/bg.png") no-repeat;
   background-size: cover;
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
+}
+.dialog-close{
+  position: absolute;
+  top: 5px;
+  right: -25px;
+  width: 50px;
+  height: 50px;
 }
 
 .dialog-bg .head {
@@ -128,7 +136,6 @@ export default defineComponent({
   margin: 2% 0;
   width: 5vw;
   height: 5vw;
-  border: 1px solid black;
   border-radius: 50%;
   overflow: hidden;
 }

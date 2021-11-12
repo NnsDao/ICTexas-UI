@@ -1,5 +1,5 @@
-<!-- NFT页面 -->
 <template>
+  <i-nav></i-nav>
   <div class="ntf-wrapper">
     <div class="ntf-tittle">
       <p class="text">Browse Collection：</p>
@@ -85,26 +85,27 @@
       <img src="" alt="">
     </div>
   </div>
+  <i-bottom></i-bottom>
+
 </template>
 
 
-/**
-* @description
-* 开发者 赵笑寒 10.28
-*
-* */
+
 <script>
 //import router from "../../router";
 import {defineComponent, ref} from 'vue';
 import {DownCircleOutlined} from '@ant-design/icons-vue';
+import INav from "../../components/nav.vue";
+import IBottom from "../../components/bottom.vue";
 
 
 export default defineComponent({
   components: {
-    DownCircleOutlined
+    DownCircleOutlined,
+    INav,
+    IBottom,
   },
   setup() {
-    // Collection下拉框
     const collectionOptions = ref([
       {
         value: '100',
@@ -115,12 +116,10 @@ export default defineComponent({
         label: 'Lucy (101)',
       },
     ]);
-    // Collection下拉框回调
     const collectionChange = value => {
       console.log(value); // { key: "lucy", label: "Lucy (101)" }
     };
 
-    // Showing 下拉框
     const showingOptions = ref([
       {
         value: '100',
@@ -131,12 +130,10 @@ export default defineComponent({
         label: 'pop',
       },
     ]);
-    // Showing 下拉框回调
     const showingChange = value => {
       console.log(value); // { key: "lucy", label: "Lucy (101)" }
     };
 
-    // Sort 下拉框
     const sortOptions = ref([
       {
         value: '100',
@@ -147,17 +144,14 @@ export default defineComponent({
         label: 'low',
       },
     ]);
-    // Collection下拉框回调
     const sortChange = value => {
       console.log(value);
     };
 
-    // 分页器页码改变
     const pageChange = value => {
       console.log(value);
     }
 
-    // 整体数据
     let dataSource = [
       {
         id: '1',
@@ -250,8 +244,7 @@ export default defineComponent({
       },
     ]
     return {
-      // DownCircleOutlined,
-      // 下拉数据
+
       collectionValue: ref({
         value: 'Starverse',
       }),
@@ -270,11 +263,9 @@ export default defineComponent({
       sortOptions,
       sortChange,
 
-      // 分页器数据
       currentPage: ref(1),
       pageChange,
 
-      // 数据源
       dataSource
     }
   },
