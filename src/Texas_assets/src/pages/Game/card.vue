@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img class="card" :src="pokerMap.getItem(type)" alt="" srcset="" :style="{ 'width': width + 'px', 'height': height }" />
+    <img class="card" :src="pokerMap.getItem(type)" alt="" srcset="" />
   </div>
 </template>
 
@@ -12,14 +12,14 @@ export default defineComponent({
       type: String,
       default: "back",
     },
-    width: {
-      type: Number,
-      default: 70
-    },
-    height: {
-      type: String,
-      default: 'auto'
-    }
+    // width: {
+    //   type: String,
+    //   default: '70px',
+    // },
+    // height: {
+    //   type: String,
+    //   default: 'auto'
+    // }
   },
   setup() {
       return {
@@ -31,6 +31,7 @@ export default defineComponent({
 
 <style scoped>
 .card {
-  height: auto;
+  height: 100%;
+  width: 100%;
 }
 </style>

@@ -2,14 +2,14 @@
   <i-nav></i-nav>
 
   <div class="content" @click.stop="colseMyaccount()">
-<!--    <div class="user-info">-->
-<!--      <div class="balance">Balance: {{ userInfo.balance }}</div>-->
-<!--      <a-avatar size="large" @click.stop="showMyaccount()">-->
-<!--        <template #icon><img :src="userInfo.avatorUrl" /></template>-->
-<!--      </a-avatar>-->
-<!--    </div>-->
+    <!--    <div class="user-info">-->
+    <!--      <div class="balance">Balance: {{ userInfo.balance }}</div>-->
+    <!--      <a-avatar size="large" @click.stop="showMyaccount()">-->
+    <!--        <template #icon><img :src="userInfo.avatorUrl" /></template>-->
+    <!--      </a-avatar>-->
+    <!--    </div>-->
 
-    <a-spin :spinning="spinning">
+    <!-- <a-spin :spinning="spinning">
       <div class="level-select">
         <div
           v-for="site in siteInfo"
@@ -21,13 +21,25 @@
           <div class="limit">{{ site.limit }}</div>
         </div>
       </div>
-    </a-spin>
+    </a-spin>-->
 
-    <transition name="fade">
+    <!-- <transition name="fade">
       <my-account class="my-account" v-if="isShowAccount" />
-    </transition>
+    </transition>-->
 
-    <input-alias ref="alias" />
+    <!-- <input-alias ref="alias" /> -->
+
+    <div class="level-select">
+      <div
+        v-for="site in siteInfo"
+        :key="site.index"
+        class="select-btn"
+        @click="siteDown(site.level)"
+      >
+        <div class="level">{{ showLevelName(site.level) }}</div>
+        <div class="limit">{{ site.limit }}</div>
+      </div>
+    </div>
   </div>
 
   <i-bottom></i-bottom>
@@ -127,9 +139,9 @@ export default defineComponent({
       store.dispatch("user/setNickname"),
     ]);
 
-    if (!this.userInfo.nickName) {
-      this.$refs.alias.showModal();
-    }
+    // if (!this.userInfo.nickName) {
+    //   this.$refs.alias.showModal();
+    // }
     this.spinning = false;
     await store.dispatch("game/setUserStatus");
   },
@@ -138,12 +150,16 @@ export default defineComponent({
 
 
 <style scoped>
-.content{
+.content {
   background-image: url("../../assets/v2/room/bg.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 824px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .level-select {

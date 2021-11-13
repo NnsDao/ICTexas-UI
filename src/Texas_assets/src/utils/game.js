@@ -6,7 +6,7 @@ import { idlFactory as texas_idl, canisterId as texas_id } from 'dfx-generated/t
 import { getHttpAgent } from "./identity";
 import { divisionBigInt, multipBigInt, diffArray } from './index'
 import { message } from 'ant-design-vue';
-import {Game} from '../mock'
+import { Game } from '../mock'
 
 export default class GameInfo {
   static RoundMap = {
@@ -86,15 +86,15 @@ export default class GameInfo {
       return await this.game.userSitdown(siteParam)
     } catch (e) {
       return [false, e]
-    } 
-  }  
-  
+    }
+  }
+
   async userReadyPlay() {
     try {
       return await this.game.userReadyPlay()
     } catch (e) {
       return [false, e]
-    } 
+    }
   }
 
   async userGetUp() {
@@ -152,7 +152,7 @@ export default class GameInfo {
 
   getMessage(account, userSpeak) {
     if (!userSpeak || !account) return ""
-    
+
     const speakIndex = Number(userSpeak.lastSpeakIndex)
     if (GameInfo.ChatHistory[account] !== speakIndex) {
       GameInfo.ChatHistory[account] = speakIndex
@@ -168,7 +168,7 @@ export default class GameInfo {
     typeParam[type] = null
     let table = await this.game.tableStatus(typeParam, tableNo)
 
-    if (!table || !table.length ) {
+    if (!table || !table.length) {
       return tableResult
     }
 
@@ -196,25 +196,14 @@ export default class GameInfo {
       // this.getSiteMapIndex(selfIndex, users)
       users.forEach(([user], index) => {
         if (user) {
-          if (user && user.account === this.selfAccount) {
-            waitinguser.push({
-              siteIndex: 0,
-              account: user.account,
-              isReady: user.isReady,
-              needReadyBefore: divisionBigInt(user.needReadyBefore, 1000000),
-              sitdownAt: divisionBigInt(user.sitdownAt, 1000000),
-              message: this.getMessage(user.account, user.userSpeak)
-            })
-          }else{
-            waitinguser.push({
-              siteIndex: siteIndex++,
-              account: user.account,
-              isReady: user.isReady,
-              needReadyBefore: divisionBigInt(user.needReadyBefore, 1000000),
-              sitdownAt: divisionBigInt(user.sitdownAt, 1000000),
-              message: this.getMessage(user.account, user.userSpeak)
-            })
-          }
+          waitinguser.push({
+            siteIndex: index + 1,
+            account: user.account,
+            isReady: user.isReady,
+            needReadyBefore: divisionBigInt(user.needReadyBefore, 1000000),
+            sitdownAt: divisionBigInt(user.sitdownAt, 1000000),
+            message: this.getMessage(user.account, user.userSpeak)
+          })
         }
       })
       tableResult.data = {
@@ -237,16 +226,12 @@ export default class GameInfo {
       users.forEach(([user], index) => {
         if (!user) return
 
-        if (user.account === this.selfAccount) {
-          user.siteIndex = 0
-        }else{
-          user.siteIndex = siteIndex++
-        }
+        user.siteIndex = index + 1
         user.holeCards = user.holeCards.length ? user.holeCards : ['back', 'back']
         user.bet = this.getUserBet(user.roundActions)
         user.actions = this.getUserAction(user.roundActions)
         user.isSmallblind = user.actions[0] && user.actions[0][0] && user.actions[0][0].action === "smallblind"
-        user.isBigblind = user.actions[0]  && user.actions[0][0] && user.actions[0][0].action === "bigblind"
+        user.isBigblind = user.actions[0] && user.actions[0][0] && user.actions[0][0].action === "bigblind"
         user.message = this.getMessage(user.account, user.userSpeak)
 
         const currentRoundActions = user.actions[GameInfo.RoundMap[currentRound]]
@@ -301,7 +286,7 @@ export default class GameInfo {
       const tableParam = {}
       tableParam[tableType] = null
       const users = await this.game.lastGameRewardsOfTable(tableParam, tableNo)
-    
+
       if (users.length > 0 && users[0].length > 0) {
         users[0].sort((users1, users2) => {
           if (Number(users2.score) === Number(users1.score)) {
@@ -318,11 +303,11 @@ export default class GameInfo {
             rank: index,
             cards: [...user.cards, ...Array(5 - user.cards.length).fill("back")],
             resetCards: diffArray(totalCards, user.cards),
-            type: cardType === "nonetype" ? "": cardType,
+            type: cardType === "nonetype" ? "" : cardType,
             isFold: user.actions.some((action) => {
               return action.indexOf("fold") !== -1
             }),
-            isAllIn : user.actions.some((action) => {
+            isAllIn: user.actions.some((action) => {
               return action.join().indexOf("allin") !== -1
             })
           })
@@ -333,7 +318,7 @@ export default class GameInfo {
     } catch (e) {
       console.log(e)
       return rewards
-    } 
+    }
   }
 
   async setAlias(name) {
@@ -369,7 +354,7 @@ export default class GameInfo {
         result[info['address']] = info
       })
     }
-  
+
     return result
   }
 

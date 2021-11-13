@@ -26,33 +26,28 @@
       </a-tooltip>
     </div>
   </div>-->
-  <div class="user">
-    <!-- <img class="avatar-box" :src="avatarBox" alt="" srcset="" /> -->
-    <div :class="[ !waitingAction  ? '': 'avatar-acting']">
-      <div class="avatar">
-        <img :src="avatorUrl" alt srcset />
+  <a-tooltip :title="message" placement="topLeft" color="green" :visible="message !== ''">
+    <div class="user">
+      <div :class="[ !waitingAction  ? '': 'avatar-acting']">
+        <div class="avatar">
+          <img :src="avatorUrl" alt srcset />
+        </div>
+      </div>
+
+      <div class="info" @click="copyAddress">
+        <div class="action-box" v-if="actionBoxText != ''">
+          <span>{{actionBoxText}}</span>
+        </div>
+        <span
+          class="nickname"
+        >{{gameInfo.userInfos[account]? gameInfo.userInfos[account].alias : account.substr(0, 5) + "..."}}</span>
+        <div class="score">
+          <img src="../../assets/v2/game_board/chip.png" class="chip" />
+          <span>${{ balance }}</span>
+        </div>
       </div>
     </div>
-
-    <div class="info" @click="copyAddress">
-      <div class="action-box" v-if="actionBoxText != ''">
-        <span>{{actionBoxText}}</span>
-      </div>
-      <span class="nickname">{{gameInfo.userInfos[account]? gameInfo.userInfos[account].alias : account.substr(0, 5) + "..."}}</span>
-      <div class="score">
-        <img src="../../assets/v2/game_board/chip.png" class="chip" />
-        <span>${{ balance }}</span>
-      </div>
-    </div>
-
-    <a-tooltip
-      class="aaaa"
-      :title="message"
-      placement="topLeft"
-      color="green"
-      :visible="message !== ''"
-    ></a-tooltip>
-  </div>
+  </a-tooltip>
 </template>
 
 <script>
@@ -126,7 +121,7 @@ export default defineComponent({
     // },
 
     actionBoxText() {
-      return this.isReady ? "ready" : "wait"
+      return this.isReady ? "ready" : "wait";
     },
 
     waitingAction() {

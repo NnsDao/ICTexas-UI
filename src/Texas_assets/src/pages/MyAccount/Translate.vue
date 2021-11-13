@@ -5,6 +5,7 @@
       v-model:visible="visible"
       :confirm-loading="confirmLoading"
       @ok="handleOk"
+      zIndex="9999"
     >
       <div>
         <a-input placeholder="Address" size="large" v-model:value="userAddress">

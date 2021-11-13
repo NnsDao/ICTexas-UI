@@ -83,7 +83,7 @@
       </div>
     </div>
 
-    <div class="operation-group">
+    <!-- <div class="operation-group">
       <img
         :src="operationMap.getItem('fold_button')"
         class="operation-btn fold"
@@ -96,7 +96,7 @@
         v-if="allowAction.indexOf('check') !== -1"
         @click="doAction('check')"
       />
-    </div>
+    </div> -->
   </a-spin>
 </template>
 

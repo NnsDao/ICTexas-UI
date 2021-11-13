@@ -65,48 +65,43 @@
       <div class="blind" v-if="isBigblind">BB: {{ gameInfo.bigblind }}</div>
     </div>
   </div>-->
+  
+  <a-tooltip :title="message" placement="topLeft" color="green" :visible="message !== ''">
+    <div class="user">
+      <div :class="[ isMe  ? 'my-cards': 'other-cards']" :id="'cards-' + id" style="z-index:99">
+        <div
+          :class="['card-' + (index + 1), 'card']"
+          v-for="(card, index) in holeCards"
+          :key="index"
+        >
+          <card :type="card" />
+        </div>
+      </div>
 
-  <div class="user">
-    <div class="cards">
-      <card
-        :class="'cards-' + (index + 1)"
-        :type="card"
-        v-for="(card, index) in holeCards"
-        :key="index"
-      />
-    </div>
+      <div :class="[ !waitingAction  ? '': 'avatar-acting']" style="z-index:99">
+        <div class="avatar">
+          <img :src="avatorUrl" alt srcset />
+        </div>
+      </div>
 
-    <div :class="[ !waitingAction  ? '': 'avatar-acting']" style="z-index:99">
-      <div class="avatar">
-        <img :src="avatorUrl" alt srcset />
+      <div class="info" @click="copyAddress">
+        <div class="action-box" v-if="actionBoxText != ''">
+          <span>{{actionBoxText}}</span>
+        </div>
+        <span class="nickname">
+          {{
+          gameInfo.userInfos[account]
+          ? gameInfo.userInfos[account].alias
+          : account.substr(0, 5) + "..."
+          }}
+        </span>
+        <div class="score">
+          <img src="../../assets/v2/game_board/chip.png" class="chip" />
+          <span>${{ balance }}</span>
+        </div>
       </div>
     </div>
-
-    <div class="info" @click="copyAddress">
-      <div class="action-box" v-if="actionBoxText != ''">
-        <span>{{actionBoxText}}</span>
-      </div>
-      <span class="nickname">
-        {{
-        gameInfo.userInfos[account]
-        ? gameInfo.userInfos[account].alias
-        : account.substr(0, 5) + "..."
-        }}
-      </span>
-      <div class="score">
-        <img src="../../assets/v2/game_board/chip.png" class="chip" />
-        <span>${{ balance }}</span>
-      </div>
-    </div>
-
-    <a-tooltip
-      class="aaaa"
-      :title="message"
-      placement="topLeft"
-      color="green"
-      :visible="message !== ''"
-    ></a-tooltip>
-  </div>
+  </a-tooltip>
 </template>
 
 <script>
@@ -356,11 +351,98 @@ export default defineComponent({
   align-items: center;
 }
 
-.cards{
+.my-cards {
   display: flex;
   position: absolute;
-  top: -50px;
+  top: -60px;
 }
+
+.my-cards .card {
+  width: 90px;
+  height: 123px;
+}
+
+.my-cards .card-1 {
+  width: 90px;
+  height: 123px;
+  transform: rotate(-10deg);
+  position: relative;
+  left: 23px;
+}
+.my-cards .card-2 {
+  width: 90px;
+  height: 123px;
+  transform: rotate(10deg);
+  position: relative;
+  right: 23px;
+}
+
+.other-cards {
+  display: flex;
+  position: absolute;
+  z-index: 99;
+}
+
+.other-cards#cards-1 {
+  left: 30px;
+  bottom: -77px;
+}
+
+.other-cards#cards-2 {
+  left: -99px;
+  bottom: -49px;
+}
+
+.other-cards#cards-3 {
+  left: -71px;
+  bottom: 84px;
+}
+
+.other-cards#cards-4 {
+  top: -88px;
+  left: 28px;
+}
+
+.other-cards#cards-5 {
+  top: -88px;
+  left: 34px;
+}
+
+.other-cards#cards-6 {
+  top: -88px;
+  right: 28px;
+}
+
+.other-cards#cards-7 {
+  right: -71px;
+  bottom: 84px;
+}
+
+.other-cards#cards-8 {
+  right: -99px;
+  bottom: -49px;
+}
+
+.other-cards#cards-9 {
+  right: 30px;
+  bottom: -77px;
+}
+
+.other-cards .card-1 {
+  width: 49px;
+  height: 65px;
+  transform: rotate(-5deg);
+  position: relative;
+  left: 23px;
+}
+.other-cards .card-2 {
+  width: 49px;
+  height: 65px;
+  transform: rotate(10deg);
+  position: relative;
+  right: 23px;
+}
+
 .avatar-acting {
   width: 138px;
   height: 138px;

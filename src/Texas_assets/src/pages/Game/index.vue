@@ -62,7 +62,9 @@
           <div class="pot">POT {{ gameInfo.totalBets }}</div>
           <div class="flop"></div>
           <div class="public-cards">
-            <card :type="type" v-for="type in gameInfo.boardCards" :key="type.index" />
+            <div class="card" v-for="type in gameInfo.boardCards" :key="type.index">
+              <card :type="type" />
+            </div>
           </div>
         </div>
 
@@ -88,7 +90,7 @@
             :isFold="user.isFold"
             :isOnline="user.isOnline"
             :message="user.message || 'hahahah'"
-          /> -->
+        />-->
 
         <div :class="'user-' + user.siteIndex" v-for="user in userList" :key="user.account">
           <user
@@ -104,7 +106,7 @@
             :isAllIn="user.isAllin"
             :isFold="user.isFold"
             :isOnline="user.isOnline"
-            :message="user.message || 'hahahah'"
+            :message="user.message || ''"
           />
         </div>
       </template>
@@ -129,17 +131,11 @@
           :loading="getOutLoading"
           @click="userGetOut"
         >Get Out</a-button>
-        <a-button
-            size="large"
-            type="primary"
-            class="getout-btn"
-            @click="showReward()"
-        >Last Game</a-button>
       </template>
-
+      <a-button size="large" type="primary" class="getout-btn" @click="showReward()">Last Game</a-button>
     </div>
 
-    <div class="time-left">
+    <!-- <div class="time-left">
       <div
         style="color: lightgreen"
         v-if="gameInfo.tableNo !== -1"
@@ -148,26 +144,26 @@
         :class="{ warn: timeLeft < 10 }"
         v-if="tableStatus !== 'waitinguser' && timeLeft !== 0"
       >Time Left: {{ timeLeft }}</div>
-    </div>
+    </div>-->
 
-<!--    <div class="user-info">-->
-<!--      <a-button type="primary" class="history-btn" @click="showReward()">-->
-<!--        <template #icon>-->
-<!--          <HistoryOutlined />-->
-<!--        </template>-->
-<!--        Last Game-->
-<!--      </a-button>-->
+    <!--    <div class="user-info">-->
+    <!--      <a-button type="primary" class="history-btn" @click="showReward()">-->
+    <!--        <template #icon>-->
+    <!--          <HistoryOutlined />-->
+    <!--        </template>-->
+    <!--        Last Game-->
+    <!--      </a-button>-->
 
-<!--      <a-avatar size="large" class="user-btn" @click.stop="showMyaccount()">-->
-<!--        <template #icon>-->
-<!--          <img :src="userInfo.avatorUrl" />-->
-<!--        </template>-->
-<!--      </a-avatar>-->
-<!--    </div>-->
+    <!--      <a-avatar size="large" class="user-btn" @click.stop="showMyaccount()">-->
+    <!--        <template #icon>-->
+    <!--          <img :src="userInfo.avatorUrl" />-->
+    <!--        </template>-->
+    <!--      </a-avatar>-->
+    <!--    </div>-->
 
     <my-account class="my-account" v-if="isShowAccount" />
-<!--    <Reward v-if="isShowReward" @close="closeReward" />-->
-    <hand-history v-if="isShowReward" @close="closeReward"/>
+    <!--    <Reward v-if="isShowReward" @close="closeReward" />-->
+    <hand-history v-if="isShowReward" @close="closeReward" />
     <!-- <a-input-search
       class="input-message"
       v-model:value="message"
@@ -436,19 +432,16 @@ export default defineComponent({
 .round {
   font-size: 48px;
   line-height: 48px;
-  margin-bottom: 10px;
 }
 
 .pot {
   font-size: 28px;
   line-height: 36px;
-  margin-bottom: 20px;
 }
 
 .flop {
   font-size: 24px;
   line-height: 48px;
-  margin-top: 10px;
 }
 
 .public-cards {
@@ -459,10 +452,9 @@ export default defineComponent({
   justify-content: space-between;
 }
 
-.user-0 {
-  position: absolute;
-  top: 401px;
-  right: calc(50% - 145px / 2);
+.card {
+  width: 134px;
+  height: 184px;
 }
 
 .user-1 {
@@ -492,22 +484,28 @@ export default defineComponent({
 .user-5 {
   position: absolute;
   top: 401px;
-  left: 148px;
+  right: calc(50% - 145px / 2);
 }
 
 .user-6 {
+  position: absolute;
+  top: 401px;
+  left: 148px;
+}
+
+.user-7 {
   position: absolute;
   top: 244px;
   left: -46px;
 }
 
-.user-7 {
+.user-8 {
   position: absolute;
   top: -14px;
   left: -33px;
 }
 
-.user-8 {
+.user-9 {
   position: absolute;
   top: -100px;
   left: 200px;
