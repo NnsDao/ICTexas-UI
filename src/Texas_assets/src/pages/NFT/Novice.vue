@@ -17,45 +17,55 @@
     </div>
   </a-carousel>
   <div class="content-wrapper">
-    <div class="texasFentures">
+    <div class="wrapper">
       <div class="texasFentures">
-        <img class="texasFentures-img" src="../../assets/ntf/novice/title_texasFentures.png" alt="">
-      </div>
-      <div class="texasFentures-image">
-        <img v-for="item in imageList" :key="item" :src="item.img" alt="">
-      </div>
-    </div>
-    <div class="hands">
-      <img src="../../assets/ntf/novice/tittle_hands.png" alt="">
-
-    </div>
-    <div class="bets">
-      <img src="../../assets/ntf/novice/title_bets.png" alt="">
-
-    </div>
-    <div class="actions">
-      <img src="../../assets/ntf/novice/title_actions.png" alt="">
-
-    </div>
-    <div class="faq">
-      <img class="faq-img" src="../../assets/ntf/novice/title_faq.png" alt="">
-      <div class="faq-content">
-        <div class="theader">
-          <div>
-            <img src="../../assets/ntf/novice/lingx.png" alt="">
-            <span> what is nnsdao ?</span>
-          </div>
-          <div @click="changeShowFaq1">
-            <img src="../../assets/ntf/novice/xiala_s.png" alt="">
-          </div>
+        <div class="texasFentures">
+          <img class="texasFentures-img" src="../../assets/ntf/novice/title_texasFentures.png" alt="">
         </div>
-        <div class="tbody" v-if="isShowFaq1">
+        <div class="texasFentures-image">
+          <div class="texasFentures-item" v-for="item in imageList" :key="item.text">
+            <img :src="item.img" alt="">
+            <div class="texasFentures-info">
+              <p>{{ item.title || 0 }}</p>
+              <span>{{ item.text || 0 }}</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="hands">
+        <img src="../../assets/ntf/novice/tittle_hands.png" alt="">
+
+      </div>
+      <div class="bets">
+        <img src="../../assets/ntf/novice/title_bets.png" alt="">
+
+      </div>
+      <div class="actions">
+        <img src="../../assets/ntf/novice/title_actions.png" alt="">
+
+      </div>
+      <div class="faq">
+        <img class="faq-img" src="../../assets/ntf/novice/title_faq.png" alt="">
+        <div class="faq-content">
+          <div class="theader">
+            <div>
+              <img src="../../assets/ntf/novice/lingx.png" alt="">
+              <span> what is nnsdao ?</span>
+            </div>
+            <div @click="changeShowFaq1">
+              <img src="../../assets/ntf/novice/xiala_s.png" alt="">
+            </div>
+          </div>
+          <div class="tbody" v-if="isShowFaq1">
             <span>
               NnsDAO11111asjdoajsdojasoidjaoijdoajsodiaoisdjoaisjdojaoidjaosjdoaidojasodajhfksdjfiusdfasdfskajnkjn vlnhuioi is a boundaryless autonomous organization, which provides some basic modular programmable services for building the world of DAOn.
             </span>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
   <i-bottom></i-bottom>
 
@@ -81,28 +91,84 @@ export default defineComponent({
     })
     let imageList = [
       {
-        img: require('../../assets/ntf/novice/kuang_1.png')
+        img: require('../../assets/ntf/novice/kuang_1.png'),
+        title: 'Only one account',
+        text: 'All our games can share one\n' +
+            'Account. In this way, your re\n' +
+            '-maining chipsUm, friends li\n' +
+            '-st and achievements can be\n' +
+            'Used in all games. Very conv\n' +
+            '-enient'
       },
       {
-        img: require('../../assets/ntf/novice/kuang_2.png')
+        img: require('../../assets/ntf/novice/kuang_2.png'),
+        title: 'Only one account',
+        text: 'All our games can share one\n' +
+            'Account. In this way, your re\n' +
+            '-maining chipsUm, friends li\n' +
+            '-st and achievements can be\n' +
+            'Used in all games. Very conv\n' +
+            '-enient'
       },
       {
-        img: require('../../assets/ntf/novice/kuang_3.png')
+        img: require('../../assets/ntf/novice/kuang_3.png'),
+        title: 'Only one account',
+        text: 'All our games can share one\n' +
+            'Account. In this way, your re\n' +
+            '-maining chipsUm, friends li\n' +
+            '-st and achievements can be\n' +
+            'Used in all games. Very conv\n' +
+            '-enient'
       },
       {
-        img: require('../../assets/ntf/novice/kuang_4.png')
+        img: require('../../assets/ntf/novice/kuang_4.png'),
+        title: 'Only one account',
+        text: 'All our games can share one\n' +
+            'Account. In this way, your re\n' +
+            '-maining chipsUm, friends li\n' +
+            '-st and achievements can be\n' +
+            'Used in all games. Very conv\n' +
+            '-enient'
       },
       {
-        img: require('../../assets/ntf/novice/kuang_5.png')
+        img: require('../../assets/ntf/novice/kuang_5.png'),
+        title: 'Only one account',
+        text: 'All our games can share one\n' +
+            'Account. In this way, your re\n' +
+            '-maining chipsUm, friends li\n' +
+            '-st and achievements can be\n' +
+            'Used in all games. Very conv\n' +
+            '-enient'
       },
       {
-        img: require('../../assets/ntf/novice/kuang_6.png')
+        img: require('../../assets/ntf/novice/kuang_6.png'),
+        title: 'Only one account',
+        text: 'All our games can share one\n' +
+            'Account. In this way, your re\n' +
+            '-maining chipsUm, friends li\n' +
+            '-st and achievements can be\n' +
+            'Used in all games. Very conv\n' +
+            '-enient'
       },
       {
-        img: require('../../assets/ntf/novice/kuang_7.png')
+        img: require('../../assets/ntf/novice/kuang_7.png'),
+        title: 'Only one account',
+        text: 'All our games can share one\n' +
+            'Account. In this way, your re\n' +
+            '-maining chipsUm, friends li\n' +
+            '-st and achievements can be\n' +
+            'Used in all games. Very conv\n' +
+            '-enient'
       },
       {
-        img: require('../../assets/ntf/novice/kuang_8.png')
+        img: require('../../assets/ntf/novice/kuang_8.png'),
+        title: 'Only one account',
+        text: 'All our games can share one\n' +
+            'Account. In this way, your re\n' +
+            '-maining chipsUm, friends li\n' +
+            '-st and achievements can be\n' +
+            'Used in all games. Very conv\n' +
+            '-enient'
       },
     ]
 
@@ -123,12 +189,20 @@ export default defineComponent({
 </script>
 <style scoped>
 .content-wrapper {
+
+  background: url("../../assets/ntf/novice/back.png") no-repeat;
+
+}
+
+.wrapper {
+  width: 66.66vw;
+  min-width: 1200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url("../../assets/ntf/novice/back.png") no-repeat;
-
+  margin: 0 auto 0 auto;
+  padding: 120px 0;
 }
 
 .texasFentures {
@@ -136,36 +210,56 @@ export default defineComponent({
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 120px;
-
+  width: 66vw;
 }
 
-.texasFentures-tittle img {
-  width: 500px;
-}
 
 .texasFentures-image {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   margin-top: 100px;
-  padding: 50px 30px 10px 35px;
+  padding: 0px 30px 0px 35px;
   background: url("../../assets/ntf/novice/xiexian.png") no-repeat center center;
-  width: 1300px;
+  background-size: cover;
 }
 
-.texasFentures-image img {
-  width: 240px;
-  margin: 0px 30px 50px 0;
 
+.texasFentures-item {
+  width: 21%;
+  position: relative;
+  padding: 50px 0;
+}
+
+.texasFentures-item img {
+  width: 100%;
+}
+
+.texasFentures-info {
+  position: absolute;
+  width: 88%;
+  height: 27%;
+  overflow: hidden;
+  top: 59%;
+  left: 6%;
+}
+
+.texasFentures-info p {
+  color: #F9C950;
+  text-align: center;
+}
+
+.texasFentures-info span {
+  color: #EFF8F6;
+  text-align: center;
 }
 
 .hands, .bets, .actions, .faq {
   margin-top: 150px;
 }
 
-.hands img, .bets img, .actions img, .faq img {
-  width: 75%;
+.hands img, .bets img, .actions img {
+  width: 100%;
 }
 
 .faq {
@@ -209,8 +303,8 @@ export default defineComponent({
   text-align: left;
 }
 
-.texasFentures-img, .faq-img {
-  width: 75%;
+.texasFentures-img, .faq-img img {
+  width: 36.5vw;
 }
 
 /*>>> .nt-collapse{*/

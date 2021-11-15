@@ -12,6 +12,8 @@ import store from "./store";
 
 const routes = [
     {path: '/', component: Login},
+    // {path: '/', component: Novice},
+
     {path: '/game', component: Game},
     {path: '/room', component: Room},
     {path: '/kft', component: NFT},

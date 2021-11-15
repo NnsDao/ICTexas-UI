@@ -404,7 +404,7 @@ export default defineComponent({
 
 .item-wrapper {
   width: 20%;
-  height: 240px;
+  height: 23.5vw;
   margin: 20px 0;
   display: flex;
   flex-direction: column;
@@ -412,7 +412,7 @@ export default defineComponent({
 
 .item-wrapper > .info {
   padding: 14px 17px;
-  margin-bottom: 100px;
+  margin-bottom: 13vw;
   color: #a7a191;
   display: flex;
   justify-content: space-between;
