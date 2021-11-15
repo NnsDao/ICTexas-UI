@@ -5,7 +5,7 @@ import { getHttpAgent, tokenLogout } from "./identity";
 import store from '../store'
 import { Modal } from "ant-design-vue";
 import { divisionBigInt, multipBigInt } from './index'
-import {Token, TokenEvent} from '../mock'
+// import {Token, TokenEvent} from '../mock'
 
 const ErrorHandle = () => {
     return
@@ -22,7 +22,7 @@ const ErrorHandle = () => {
 
 export default class TokenInfo {
     static Instance = new TokenInfo();
-    static TEXAL_TOKEN = "8ca93b50b3d080e0a18d1999c21596cf30b6823d0feb840107192aca972d7fe4"
+    static TEXAL_TOKEN = "d7067a22f203d92a4649e81ccd305a6a84bb4803ccdd168837102d47119b171a"
 
     constructor() {
         this.isLogin = false
@@ -30,15 +30,16 @@ export default class TokenInfo {
 
     async login() {
         if (!this.isLogin) {
-            // this.agent = await getHttpAgent()
-            // this.token = Actor.createActor(texas_token_idl, { agent: this.agent, canisterId: texas_token_id });
-            // this.tokenEvent = Actor.createActor(texas_event_idl, { agent: this.agent, canisterId: texas_event_id });
-            this.token = new Token()
-            this.tokenEvent = new TokenEvent()
+            this.agent = await getHttpAgent()
+            this.token = Actor.createActor(texas_token_idl, { agent: this.agent, canisterId: texas_token_id });
+            this.tokenEvent = Actor.createActor(texas_event_idl, { agent: this.agent, canisterId: texas_event_id });
+            // mock data
+            // this.token = new Token()
+            // this.tokenEvent = new TokenEvent()
             this.token.approve(TokenInfo.TEXAL_TOKEN, BigInt(10000000000000000000))
             this.isLogin = true
         }
-      }
+    }
 
     async setTokenInfo() {
         const [name, symbol, decimals, totalMint, createTime, feePercent] = 
@@ -50,7 +51,6 @@ export default class TokenInfo {
             this.token.createTime(),
             this.token.getFeePercent()
         ])
-
         this.name = name
         this.symbol = symbol
         this.decimals = 10 ** Number(decimals)

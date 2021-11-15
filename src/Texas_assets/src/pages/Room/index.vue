@@ -28,18 +28,19 @@
     </transition>-->
 
     <!-- <input-alias ref="alias" /> -->
-
-    <div class="level-select">
-      <div
-        v-for="site in siteInfo"
-        :key="site.index"
-        class="select-btn"
-        @click="siteDown(site.level)"
-      >
-        <div class="level">{{ showLevelName(site.level) }}</div>
-        <div class="limit">{{ site.limit }}</div>
+    <a-spin :spinning="spinning">
+      <div class="level-select">
+        <div
+          v-for="site in siteInfo"
+          :key="site.index"
+          class="select-btn"
+          @click="siteDown(site.level)"
+        >
+          <div class="level">{{ showLevelName(site.level) }}</div>
+          <div class="limit">{{ site.limit }}</div>
+        </div>
       </div>
-    </div>
+    </a-spin>
   </div>
 
   <i-bottom></i-bottom>
